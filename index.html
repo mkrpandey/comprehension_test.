@@ -1,187 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprehension Test - Multiple Passages</title>
+<title>Comprehension Reading Test</title>
 <style>
-  body { margin:0; font-family:Arial,sans-serif; background-color:#000; color:#f5f5f5; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-  .container { max-width:800px; width:90%; background:rgba(30,30,30,0.9); padding:20px; border-radius:10px; }
-  input[type="text"], input[type="email"] { width:100%; padding:10px; margin:8px 0; border:none; border-radius:5px; }
-  button { padding:10px 20px; margin-top:10px; font-size:16px; border:none; border-radius:5px; background:#00b894; color:#fff; cursor:pointer; }
-  button:disabled { background:grey; cursor:not-allowed; }
-  .question { margin-bottom:15px; }
-  #resultText { font-size:22px; text-align:center; margin-top:20px; }
+body { margin:0; background:#000; color:#f5f5f5; font-family:Arial,sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+.container { width:90%; max-width:800px; background:#111; padding:20px; border-radius:10px; }
+h2 { text-align:center; }
+input[type="text"], input[type="email"] { width:100%; padding:10px; margin:8px 0; border:none; border-radius:5px; }
+button { padding:10px 20px; margin-top:10px; font-size:16px; border:none; border-radius:5px; background:#00b894; color:#fff; cursor:pointer; }
+button:disabled { background:grey; cursor:not-allowed; }
+.question { margin-bottom:10px; }
 </style>
 </head>
 <body>
-
 <div class="container">
-  <!-- Sign-in page -->
-  <div id="signInPage">
-    <h2 style="text-align:center;">Sign In</h2>
-    <input type="text" id="name" placeholder="Enter your name"><br/>
-    <input type="text" id="dept" placeholder="Enter your department"><br/>
-    <input type="email" id="email" placeholder="Enter your email"><br/>
-    <button onclick="startTest()">Start Test</button>
-  </div>
+<!-- Sign in -->
+<div id="signInPage">
+  <h2>Sign In</h2>
+  <input type="text" id="name" placeholder="Enter your name">
+  <input type="text" id="dept" placeholder="Enter your department">
+  <input type="email" id="email" placeholder="Enter your email">
+  <button onclick="startTest()">Start Test</button>
+</div>
 
-  <!-- Passage page -->
-  <div id="passagePage" style="display:none;">
-    <h2>Read the Passage</h2>
-    <p id="passageText" style="text-align:justify;"></p>
-    <button onclick="goToQuestions()">I have read, Next</button>
-  </div>
+<!-- Passage -->
+<div id="passagePage" style="display:none;">
+  <h2>Read the Passage</h2>
+  <p id="passageText" style="text-align:justify;"></p>
+  <button onclick="goToQuestions()">I have read, Next</button>
+</div>
 
-  <!-- Questions page -->
-  <div id="questionsPage" style="display:none;">
-    <h2>Answer the Questions</h2>
-    <form id="quizForm"></form>
-    <button id="submitBtn" type="button" onclick="submitQuiz()" disabled>Submit Answers</button>
-  </div>
+<!-- Questions -->
+<div id="questionsPage" style="display:none;">
+  <h2>Answer the Questions</h2>
+  <form id="quizForm"></form>
+  <button id="submitBtn" onclick="submitQuiz()" disabled>Submit Answers</button>
+</div>
 
-  <!-- Result page -->
-  <div id="resultPage" style="display:none;">
-    <h2>Your Result</h2>
-    <div id="resultText"></div>
-    <button onclick="submitTest()">Submit Test</button>
-  </div>
+<!-- Result -->
+<div id="resultPage" style="display:none;">
+  <h2>Your Result</h2>
+  <div id="resultText" style="text-align:center;font-size:20px;margin-top:10px;"></div>
+  <button onclick="submitTest()">Submit Test</button>
+</div>
 </div>
 
 <script>
+// All passages & MCQs
 const passages = [
-  {
-    text: "Pollution harms air, water and soil. Vehicles and industries are major reasons. Planting trees helps reduce pollution.",
-    questions:[
-      {q:"Main cause of pollution?",options:["Vehicles","Industries","Both"],correct:"Both"},
-      {q:"How to reduce pollution?",options:["Cut trees","Plant trees","Use more plastic"],correct:"Plant trees"}
-    ]
-  },
-  {
-    text: "Healthy food like fruits keeps us fit. Junk food has too much fat and sugar. Drink water to stay strong.",
-    questions:[
-      {q:"Which is healthy?",options:["Chips","Fruits","Cold drinks"],correct:"Fruits"},
-      {q:"Junk food is bad because?",options:["It has vitamins","Too much fat","Fresh"],correct:"Too much fat"}
-    ]
-  },
-  {
-    text: "Internet helps to learn and connect. But overuse causes health issues. Take breaks and play outside too.",
-    questions:[
-      {q:"Why use Internet?",options:["Eat food","Get info","Outdoor games"],correct:"Get info"},
-      {q:"Overuse causes?",options:["Better health","Health issues","Better eyes"],correct:"Health issues"}
-    ]
-  },
-  {
-    text: "Trees give oxygen and shade. Forests house animals. Cutting trees brings less rain and global warming.",
-    questions:[
-      {q:"Why are forests needed?",options:["Make deserts","Home to animals","Cause pollution"],correct:"Home to animals"},
-      {q:"Cutting trees leads to?",options:["More rain","Less rain","More animals"],correct:"Less rain"}
-    ]
-  },
-  {
-    text: "Water is precious. Many places face shortage due to wastage. Fix leaks and store rainwater to save water.",
-    questions:[
-      {q:"How to save water?",options:["Keep taps open","Fix leaks","Waste water"],correct:"Fix leaks"},
-      {q:"Rainwater harvesting means?",options:["Wasting rain","Collect rain","Pollute rivers"],correct:"Collect rain"}
-    ]
-  },
-  {
-    text: "Exercise daily keeps body fit. Running and sports help. Laziness leads to obesity and health issues.",
-    questions:[
-      {q:"How to stay fit?",options:["Sleep more","Eat junk","Do exercise"],correct:"Do exercise"},
-      {q:"Laziness causes?",options:["Fitness","Obesity","Strong body"],correct:"Obesity"}
-    ]
-  },
-  {
-    text: "Reading books improves knowledge and language. Storybooks and newspapers help brain stay active.",
-    questions:[
-      {q:"Reading improves?",options:["Health","Knowledge","Laziness"],correct:"Knowledge"},
-      {q:"What is good to read?",options:["Closed eyes","Storybooks","Sleeping"],correct:"Storybooks"}
-    ]
-  },
-  {
-    text: "Cleanliness keeps diseases away. Wash hands, keep area clean and use dustbins to stay healthy.",
-    questions:[
-      {q:"Cleanliness helps by?",options:["Spreading diseases","Keeping diseases away","Making dirty"],correct:"Keeping diseases away"},
-      {q:"Where to throw waste?",options:["Road","River","Dustbin"],correct:"Dustbin"}
-    ]
-  }
+{ text:`Importance of Education
+Education helps us learn new things...`, questions:[
+{q:"What helps us learn new things?",o:["Education","Sleeping","Eating","Playing"],c:"Education"},
+{q:"What do we learn to do through education?",o:["Only play games","Read and write","Sing songs","Dance"],c:"Read and write"},
+{q:"Why do people study?",o:["To get good jobs","To sleep more","To waste time","To fight"],c:"To get good jobs"},
+{q:"What does education make us?",o:["Bad citizens","Good citizens","Angry people","None"],c:"Good citizens"},
+{q:"Without education, it is hard to:",o:["Sleep","Eat","Understand the world","Travel"],c:"Understand the world"},
+{q:"Where do we get knowledge?",o:["Schools and colleges","Beaches","Parks","Shops"],c:"Schools and colleges"},
+{q:"Education helps us meet:",o:["Only family","Only old people","Different people","No one"],c:"Different people"},
+{q:"Subjects like science and arts help us see:",o:["What we like","What others like","Only facts","Only games"],c:"What we like"},
+{q:"Education is a key to:",o:["Anger","Success and happiness","Laziness","Fighting"],c:"Success and happiness"},
+{q:"Without education, it is:",o:["Easy to know everything","Hard to understand the world","Fun","Useless"],c:"Hard to understand the world"}
+]},
+{ text:`Importance of Trees
+Trees are very important...`, questions:[
+{q:"What do trees give us to breathe?",o:["Oxygen","Smoke","Water","Stones"],c:"Oxygen"},
+{q:"Trees make the air:",o:["Fresh","Dirty","Hot","Dry"],c:"Fresh"},
+{q:"What do we get from trees?",o:["Gold","Fruits and wood","Plastic","Iron"],c:"Fruits and wood"},
+{q:"Who lives on trees?",o:["Fish","Birds and animals","Cars","Computers"],c:"Birds and animals"},
+{q:"Trees stop soil from:",o:["Going away in rain","Becoming gold","Melting","Flying"],c:"Going away in rain"},
+{q:"Trees keep the weather:",o:["Cool","Hot","Wet only","Dry only"],c:"Cool"},
+{q:"Cutting too many trees can cause:",o:["Floods and heat","Snow","More rainbows","None"],c:"Floods and heat"},
+{q:"We should plant:",o:["More trees","More stones","More plastic","Less trees"],c:"More trees"},
+{q:"Saving trees is equal to saving:",o:["Life","Cars","Buildings","Phones"],c:"Life"},
+{q:"Trees make our earth:",o:["Green and healthy","Yellow","Dry","Weak"],c:"Green and healthy"}
+]},
+// Add other passages similarly...
 ];
 
-let currentPassage=0, score=0;
+// Choose random passage index
+let randomIndex = Math.floor(Math.random() * passages.length);
+let currentPassage = passages[randomIndex];
+let score=0;
 
-// start
+// Start test
 function startTest(){
-  const name=document.getElementById('name').value;
-  const dept=document.getElementById('dept').value;
-  const email=document.getElementById('email').value;
-  if(name&&dept&&email){
-    localStorage.setItem('userName',name);
-    localStorage.setItem('userDept',dept);
-    localStorage.setItem('userEmail',email);
-    loadPassage();
-    document.getElementById('signInPage').style.display='none';
-    document.getElementById('passagePage').style.display='block';
-  } else alert('Fill all fields');
+const n=document.getElementById('name').value;
+const d=document.getElementById('dept').value;
+const e=document.getElementById('email').value;
+if(n&&d&&e){
+localStorage.setItem('name',n);
+document.getElementById('signInPage').style.display='none';
+document.getElementById('passagePage').style.display='block';
+loadPassage();
+}else alert("Fill all fields");
 }
 
-// load passage
+// Load passage
 function loadPassage(){
-  document.getElementById('passageText').innerText=passages[currentPassage].text;
+document.getElementById('passageText').innerText=currentPassage.text;
 }
 
-// to questions
+// Go to questions
 function goToQuestions(){
-  document.getElementById('passagePage').style.display='none';
-  document.getElementById('questionsPage').style.display='block';
-  loadQuestions();
+document.getElementById('passagePage').style.display='none';
+document.getElementById('questionsPage').style.display='block';
+loadQuestions();
 }
 
-// load MCQs
+// Load MCQs
 function loadQuestions(){
-  document.getElementById('submitBtn').disabled=true;
-  const quizForm=document.getElementById('quizForm'); quizForm.innerHTML='';
-  passages[currentPassage].questions.forEach((item,idx)=>{
-    let div=document.createElement('div');
-    div.className='question';
-    div.innerHTML=`<p>${idx+1}. ${item.q}</p>`+
-      item.options.map(opt=>
-        `<label><input type="radio" name="q${idx}" value="${opt}" onchange="checkAllAnswered()"> ${opt}</label><br/>`
-      ).join('');
-    quizForm.appendChild(div);
-  });
+document.getElementById('submitBtn').disabled=true;
+const f=document.getElementById('quizForm'); f.innerHTML='';
+currentPassage.questions.forEach((q,i)=>{
+let div=document.createElement('div');
+div.className='question';
+div.innerHTML=`<p>${i+1}. ${q.q}</p>`+q.o.map(opt=>
+`<label><input type="radio" name="q${i}" value="${opt}" onchange="checkAnswered()"> ${opt}</label><br>`).join('');
+f.appendChild(div);
+});
 }
 
-// check all answered
-function checkAllAnswered(){
-  const total=passages[currentPassage].questions.length;
-  const answered=[...document.querySelectorAll('#quizForm input[type=radio]:checked')].map(i=>i.name);
-  document.getElementById('submitBtn').disabled=[...new Set(answered)].length!==total;
+// Check if all answered
+function checkAnswered(){
+let total=currentPassage.questions.length;
+let selected=document.querySelectorAll('#quizForm input[type=radio]:checked').length;
+document.getElementById('submitBtn').disabled=selected!==total;
 }
 
-// submit answers
+// Submit quiz
 function submitQuiz(){
-  passages[currentPassage].questions.forEach((item,idx)=>{
-    let sel=document.querySelector(`input[name="q${idx}"]:checked`);
-    if(sel&&sel.value===item.correct) score++;
-  });
-  currentPassage++;
-  if(currentPassage<passages.length){
-    loadPassage();
-    document.getElementById('questionsPage').style.display='none';
-    document.getElementById('passagePage').style.display='block';
-  } else{
-    document.getElementById('questionsPage').style.display='none';
-    document.getElementById('resultPage').style.display='block';
-    document.getElementById('resultText').innerText=`You scored ${score} out of ${passages.length*2}`;
-  }
+currentPassage.questions.forEach((q,i)=>{
+let ans=document.querySelector(`input[name="q${i}"]:checked`);
+if(ans&&ans.value===q.c)score++;
+});
+document.getElementById('questionsPage').style.display='none';
+document.getElementById('resultPage').style.display='block';
+document.getElementById('resultText').innerText=`${localStorage.getItem('name')}, you scored ${score} out of ${currentPassage.questions.length}`;
 }
 
-// final
-function submitTest(){
-  alert('Submitted! Thank you, '+localStorage.getItem('userName'));
-  location.reload();
-}
+// Submit test
+function submitTest(){ alert('Submitted! Thank you '+localStorage.getItem('name')); location.reload(); }
 </script>
 </body>
 </html>
