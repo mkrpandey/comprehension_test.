@@ -2,57 +2,182 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comprehension Reading Test</title>
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
-  .container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; }
-  h2 { text-align: center; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #f5f5f5;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(30,30,30,0.9);
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  input[type="text"], input[type="email"] {
+    width: 100%; padding: 10px; margin: 8px 0;
+    border: none; border-radius: 5px;
+  }
+  button {
+    padding: 10px 20px; margin-top: 10px;
+    font-size: 16px; border: none; border-radius: 5px;
+    background: #00b894; color: #fff; cursor: pointer;
+  }
+  button:hover { background: #019170; }
   .question { margin-bottom: 15px; }
-  button { padding: 8px 16px; font-size: 16px; cursor: pointer; }
-  .result { text-align: center; font-size: 20px; margin-top: 20px; }
+  #resultText { font-size: 22px; text-align: center; margin-top: 20px; }
 </style>
 </head>
 <body>
+
 <div class="container">
-  <h2>Comprehension Reading Test</h2>
-  <p id="passage">
-    The environment is everything around us. It includes trees, animals, air, water and humans.
-    We must protect the environment to live a healthy life.
-  </p>
+  <!-- Sign-in page -->
+  <div id="signInPage">
+    <h2>Sign In</h2>
+    <input type="text" id="name" placeholder="Enter your name"><br/>
+    <input type="email" id="email" placeholder="Enter your email"><br/>
+    <button onclick="startTest()">Start Test</button>
+  </div>
 
-  <form id="quizForm">
-    <div class="question">
-      <p>1. What is the passage about?</p>
-      <label><input type="radio" name="q1" value="Sports"> Sports</label><br/>
-      <label><input type="radio" name="q1" value="Environment"> Environment</label><br/>
-      <label><input type="radio" name="q1" value="History"> History</label><br/>
-    </div>
-    <div class="question">
-      <p>2. Why should we protect the environment?</p>
-      <label><input type="radio" name="q2" value="For fun"> For fun</label><br/>
-      <label><input type="radio" name="q2" value="For a healthy life"> For a healthy life</label><br/>
-      <label><input type="radio" name="q2" value="For history"> For history</label><br/>
-    </div>
-    <button type="button" onclick="checkAnswers()">Submit</button>
-  </form>
+  <!-- Passage page -->
+  <div id="passagePage" style="display:none;">
+    <h2>Read the Passage</h2>
+    <p id="passageText" style="text-align:justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+      <!-- repeat text to simulate ~1000 words -->
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel...
+      (Add your real 1000 words passage here)
+    </p>
+    <button onclick="goToQuestions()">I have read, Next</button>
+  </div>
 
-  <div class="result" id="result"></div>
+  <!-- Questions page -->
+  <div id="questionsPage" style="display:none;">
+    <h2>Answer the Questions</h2>
+    <form id="quizForm">
+      <div class="question">
+        <p>1. What is the passage about?</p>
+        <label><input type="radio" name="q1" value="Option1"> Option1</label><br/>
+        <label><input type="radio" name="q1" value="Option2"> Option2</label><br/>
+        <label><input type="radio" name="q1" value="Option3"> Option3</label><br/>
+      </div>
+      <!-- Add similar blocks for q2 to q10 -->
+      <div class="question">
+        <p>2. Question 2?</p>
+        <label><input type="radio" name="q2" value="A"> A</label><br/>
+        <label><input type="radio" name="q2" value="B"> B</label><br/>
+        <label><input type="radio" name="q2" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>3. Question 3?</p>
+        <label><input type="radio" name="q3" value="A"> A</label><br/>
+        <label><input type="radio" name="q3" value="B"> B</label><br/>
+        <label><input type="radio" name="q3" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>4. Question 4?</p>
+        <label><input type="radio" name="q4" value="A"> A</label><br/>
+        <label><input type="radio" name="q4" value="B"> B</label><br/>
+        <label><input type="radio" name="q4" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>5. Question 5?</p>
+        <label><input type="radio" name="q5" value="A"> A</label><br/>
+        <label><input type="radio" name="q5" value="B"> B</label><br/>
+        <label><input type="radio" name="q5" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>6. Question 6?</p>
+        <label><input type="radio" name="q6" value="A"> A</label><br/>
+        <label><input type="radio" name="q6" value="B"> B</label><br/>
+        <label><input type="radio" name="q6" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>7. Question 7?</p>
+        <label><input type="radio" name="q7" value="A"> A</label><br/>
+        <label><input type="radio" name="q7" value="B"> B</label><br/>
+        <label><input type="radio" name="q7" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>8. Question 8?</p>
+        <label><input type="radio" name="q8" value="A"> A</label><br/>
+        <label><input type="radio" name="q8" value="B"> B</label><br/>
+        <label><input type="radio" name="q8" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>9. Question 9?</p>
+        <label><input type="radio" name="q9" value="A"> A</label><br/>
+        <label><input type="radio" name="q9" value="B"> B</label><br/>
+        <label><input type="radio" name="q9" value="C"> C</label><br/>
+      </div>
+      <div class="question">
+        <p>10. Question 10?</p>
+        <label><input type="radio" name="q10" value="A"> A</label><br/>
+        <label><input type="radio" name="q10" value="B"> B</label><br/>
+        <label><input type="radio" name="q10" value="C"> C</label><br/>
+      </div>
+      <button type="button" onclick="submitQuiz()">Submit Answers</button>
+    </form>
+  </div>
+
+  <!-- Result page -->
+  <div id="resultPage" style="display:none;">
+    <h2>Your Result</h2>
+    <div id="resultText"></div>
+    <button onclick="submitTest()">Submit Test</button>
+  </div>
 </div>
 
 <script>
-function checkAnswers() {
-  let score = 0;
-  const answers = { q1: "Environment", q2: "For a healthy life" };
+  // Save user data and move to passage
+  function startTest() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    if(name && email){
+      localStorage.setItem('userName', name);
+      localStorage.setItem('userEmail', email);
+      document.getElementById('signInPage').style.display = 'none';
+      document.getElementById('passagePage').style.display = 'block';
+    } else {
+      alert('Please enter name and email');
+    }
+  }
 
-  const q1 = document.querySelector('input[name="q1"]:checked');
-  const q2 = document.querySelector('input[name="q2"]:checked');
+  // Move to questions
+  function goToQuestions() {
+    document.getElementById('passagePage').style.display = 'none';
+    document.getElementById('questionsPage').style.display = 'block';
+  }
 
-  if (q1 && q1.value === answers.q1) score++;
-  if (q2 && q2.value === answers.q2) score++;
+  // Correct answers sample
+  const answers = {
+    q1: "Option2", q2: "A", q3: "B", q4: "A", q5: "B",
+    q6: "C", q7: "A", q8: "B", q9: "C", q10: "A"
+  };
 
-  document.getElementById('result').textContent = "Your Score: " + score + "/2";
-}
+  // Submit quiz and show result
+  function submitQuiz(){
+    let score = 0;
+    for(let i=1;i<=10;i++){
+      let q = document.querySelector('input[name="q'+i+'"]:checked');
+      if(q && q.value === answers['q'+i]) score++;
+    }
+    document.getElementById('questionsPage').style.display = 'none';
+    document.getElementById('resultPage').style.display = 'block';
+    document.getElementById('resultText').innerText = "You scored "+score+" out of 10";
+  }
+
+  // Final submit action
+  function submitTest(){
+    alert('Test submitted! Thank you, ' + localStorage.getItem('userName'));
+    location.reload(); // restart
+  }
 </script>
+
 </body>
 </html>
