@@ -4,68 +4,86 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reading Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
+* { box-sizing: border-box; margin:0; padding:0; }
 body {
-    margin: 0;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    font-family: 'Segoe UI', sans-serif;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, #89f7fe, #66a6ff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container {
-    background: rgba(0,0,0,0.85);
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  background: rgba(255,255,255,0.95);
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
-h2 { text-align:center; margin-bottom:15px; }
+.left {
+  flex: 1;
+  background: url('https://i.ibb.co/2y2yBGK/anime-study.jpg') center/cover no-repeat;
+}
+.right {
+  flex: 1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h2 { text-align:center; margin-bottom:20px; color:#333; }
 input[type="text"], input[type="email"] {
-    width:100%; padding:12px; margin:8px 0; border:none; border-radius:6px; font-size:15px;
+  width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:6px; font-size:15px;
 }
 button {
-    width:100%; padding:12px; font-size:16px; border:none; border-radius:6px;
-    background:#00b894; color:#fff; cursor:pointer; margin-top:10px;
+  width:100%; padding:12px; font-size:16px; border:none; border-radius:6px;
+  background:#66a6ff; color:#fff; cursor:pointer; margin-top:10px;
+  transition: background 0.3s;
 }
+button:hover { background:#558fd4; }
 button:disabled { background:grey; cursor:not-allowed; }
+#passagePage, #questionsPage, #resultPage { display:none; text-align:left; padding:20px; }
+#passageText { margin:15px 0; font-size:15px; color:#333; }
 .question { margin-bottom:10px; }
-#timer { text-align:center; font-size:18px; margin:10px 0; }
+#timer { text-align:center; font-size:18px; margin:10px 0; color:#444; }
+form label { display:block; margin-bottom:5px; }
 </style>
 </head>
 <body>
 <div class="container">
 
 <!-- Login page -->
-<div id="signInPage">
-  <h2>Welcome to Reading Test</h2>
+<div id="signInPage" class="right">
+  <h2>🌸 Welcome to Reading Test 🌸</h2>
   <input type="text" id="name" placeholder="Your name">
   <input type="text" id="dept" placeholder="Your department">
   <input type="email" id="email" placeholder="Your email">
   <button onclick="startTest()">Start Test</button>
 </div>
+<div class="left"></div>
 
 <!-- Reading page -->
-<div id="passagePage" style="display:none;">
-  <h2>Read Carefully</h2>
-  <p id="passageText" style="text-align:justify; font-size:15px;"></p>
+<div id="passagePage">
+  <h2>📖 Read Carefully</h2>
+  <p id="passageText"></p>
   <div id="timer">Please read carefully: 01:00</div>
   <button id="nextBtn" onclick="goToQuestions()" disabled>Next</button>
 </div>
 
 <!-- Questions page -->
-<div id="questionsPage" style="display:none;">
-  <h2>Answer the Questions</h2>
+<div id="questionsPage">
+  <h2>📝 Answer the Questions</h2>
   <form id="quizForm"></form>
   <button id="submitBtn" onclick="submitQuiz()" disabled>Submit Answers</button>
 </div>
 
 <!-- Result page -->
-<div id="resultPage" style="display:none;">
-  <h2>Your Result</h2>
+<div id="resultPage">
+  <h2>✅ Your Result</h2>
   <div id="resultText" style="text-align:center; font-size:18px; margin-top:10px;"></div>
   <button onclick="submitTest()">Submit Test</button>
 </div>
@@ -217,20 +235,24 @@ function startTest(){
  let d=document.getElementById('dept').value.trim();
  let e=document.getElementById('email').value.trim();
  if(n&&d&&e){
+  localStorage.setItem('name',n);
   selectedPassage=passages[Math.floor(Math.random()*passages.length)];
-  document.getElementById('signInPage').style.display='none';
-  document.getElementById('passagePage').style.display='block';
-  loadPassage();
+  document.querySelector('.container').innerHTML = `
+  <div id="passagePage">
+  <h2>📖 Read Carefully</h2>
+  <p id="passageText">${selectedPassage.text}</p>
+  <div id="timer">Please read carefully: 01:00</div>
+  <button id="nextBtn" onclick="goToQuestions()" disabled>Next</button>
+  </div>`;
+  startTimer();
  }else alert("Please fill all fields!");
 }
 
-function loadPassage(){
- document.getElementById('passageText').innerText=selectedPassage.text;
+function startTimer(){
  let time=60;
  let nextBtn=document.getElementById('nextBtn');
  let timerDiv=document.getElementById('timer');
  nextBtn.disabled=true;
- timerDiv.innerText="Please read carefully: 01:00";
  let countdown=setInterval(()=>{
   time--;
   let m=String(Math.floor(time/60)).padStart(2,'0');
@@ -245,19 +267,22 @@ function loadPassage(){
 }
 
 function goToQuestions(){
- document.getElementById('passagePage').style.display='none';
- document.getElementById('questionsPage').style.display='block';
+ document.querySelector('.container').innerHTML=`
+ <div id="questionsPage">
+  <h2>📝 Answer the Questions</h2>
+  <form id="quizForm"></form>
+  <button id="submitBtn" onclick="submitQuiz()" disabled>Submit Answers</button>
+ </div>`;
  loadQuestions();
 }
 
 function loadQuestions(){
- document.getElementById('submitBtn').disabled=true;
  let f=document.getElementById('quizForm'); f.innerHTML='';
  selectedPassage.questions.forEach((q,i)=>{
   let div=document.createElement('div');
   div.className='question';
   div.innerHTML=`<p>${i+1}. ${q.q}</p>`+q.o.map(opt=>
-  `<label><input type="radio" name="q${i}" value="${opt}" onchange="checkAnswered()"> ${opt}</label><br>`).join('');
+  `<label><input type="radio" name="q${i}" value="${opt}" onchange="checkAnswered()"> ${opt}</label>`).join('');
   f.appendChild(div);
  });
 }
@@ -273,9 +298,12 @@ function submitQuiz(){
   let ans=document.querySelector(`input[name="q${i}"]:checked`);
   if(ans && ans.value===q.c) score++;
  });
- document.getElementById('questionsPage').style.display='none';
- document.getElementById('resultPage').style.display='block';
- document.getElementById('resultText').innerText=`You scored ${score} out of ${selectedPassage.questions.length}`;
+ document.querySelector('.container').innerHTML=`
+ <div id="resultPage">
+  <h2>✅ Your Result</h2>
+  <div id="resultText" style="text-align:center; font-size:18px; margin-top:10px;">${localStorage.getItem('name')}, you scored ${score} out of ${selectedPassage.questions.length}</div>
+  <button onclick="submitTest()">Submit Test</button>
+ </div>`;
 }
 
 function submitTest(){
