@@ -207,12 +207,12 @@ let passages = [
       ]}
       ];
 
-let selectedPassage, score=0;
+let selectedPassages, score=0;
 function startTest() {
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('testPage').style.display = 'block';
-  const index = Math.floor(Math.random() * passage.length);
-  document.getElementById('passage').innerText = passage[index];
+  const index = Math.floor(Math.random() * passages.length);
+  document.getElementById('passages').innerText = passages[index];
   document.getElementById('mcqs').innerHTML = mcqSets[index];
   let timeLeft = 60;
   document.getElementById('time').innerText = timeLeft;
