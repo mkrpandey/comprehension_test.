@@ -16,19 +16,23 @@ body { font-family: 'Poppins', sans-serif; background: #f8fafd; color: #333; }
 }
 .left {
   flex: 1;
-  background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
-  min-height: 700px; border-radius: 18px;
+  background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/contain no-repeat;
+  min-height: 400px; max-width: 400px;
+  border-radius: 15px;
 }
 .right {
   flex: 1;
+  display: flex; justify-content: center; align-items: center;
+}
+.login-box {
   background: #fff;
-  max-width: 350px;
-  margin: auto;
+  max-width: 320px;
+  width: 100%;
   padding: 40px 30px;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
-.right h3 { text-align: center; margin-bottom: 20px; font-weight: 600; }
+.login-box h3 { text-align: center; margin-bottom: 20px; font-weight: 600; }
 input[type="text"], input[type="email"] {
   width: 100%; padding: 12px 15px; margin: 10px 0;
   border: 1px solid #ddd; border-radius: 25px; outline: none;
@@ -57,10 +61,12 @@ button:hover { opacity: 0.9; }
 <div class="container" id="loginPage">
   <div class="left"></div>
   <div class="right">
-    <h3>Login</h3>
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
-    <button onclick="startTest()">Submit</button>
+    <div class="login-box">
+      <h3>Login</h3>
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <button onclick="startTest()">Submit</button>
+    </div>
   </div>
 </div>
 
@@ -79,7 +85,6 @@ const paragraphs = [
   `Healthy food keeps our body strong and mind fresh. It includes fruits, vegetables, milk, and grains.`,
   `The Indian national flag is called Tiranga. It has three colors: saffron, white, and green.`
 ];
-
 const mcqSets = [
   '<h3>What helps us learn new things?</h3><label><input type="radio"> a) Education</label>',
   '<h3>What do trees give us?</h3><label><input type="radio"> a) Oxygen</label>',
@@ -87,7 +92,6 @@ const mcqSets = [
   '<h3>Healthy food keeps us?</h3><label><input type="radio"> a) Strong</label>',
   '<h3>What is the flag called?</h3><label><input type="radio"> a) Tiranga</label>'
 ];
-
 let countdown;
 function startTest() {
   document.getElementById('loginPage').style.display = 'none';
