@@ -3,83 +3,63 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stylish Test Website</title>
+<title>Air Flow Pvt. Ltd.</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #fbd6d2;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.container {
-  background: linear-gradient(135deg, #0f9b8e, #6c3fc7);
-  width: 90%;
-  max-width: 900px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  display: flex;
-  overflow: hidden;
-}
+body { font-family: 'Poppins', sans-serif; background: #f8fafd; color: #333; }
+.header { padding: 20px 40px; display: flex; align-items: center; }
+.header h2 { color: #2acfcf; font-weight: 600; }
+.container { display: flex; justify-content: center; align-items: center; padding: 40px; }
 .left {
   flex: 1;
-  background: url('https://i.ibb.co/2y2yBGK/anime-study.jpg') center/cover no-repeat;
+  background: url('https://i.ibb.co/2y2yBGK/anime-study.jpg') center/contain no-repeat;
+  min-height: 400px;
 }
 .right {
   flex: 1;
-  background: rgba(255,255,255,0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
+  background: #fff;
+  max-width: 350px;
+  margin: auto;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
-h2 {
-  color: #fff;
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
+.right h3 { text-align: center; margin-bottom: 20px; color: #333; font-weight: 600; }
 input[type="text"], input[type="email"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 25px;
-  font-size: 15px;
-  outline: none;
+  width: 100%; padding: 12px 15px; margin: 10px 0;
+  border: 1px solid #ddd; border-radius: 25px; outline: none;
 }
 button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 25px;
-  background: #3cb5f9;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: background 0.3s;
+  width: 100%; padding: 12px; border: none; border-radius: 25px;
+  background: linear-gradient(to right, #36d1dc, #5b86e5); color: white;
+  font-size: 16px; cursor: pointer; margin-top: 15px; transition: opacity 0.3s;
 }
-button:hover { background: #2498d4; }
-#testPage { display: none; max-width: 800px; margin: auto; text-align: left; }
-#testPage p { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px; }
+button:hover { opacity: 0.9; }
+#testPage {
+  display: none; max-width: 800px; margin: 30px auto;
+  text-align: left; padding: 20px;
+}
+#testPage p {
+  background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px;
+}
 #testPage h3 { margin: 15px 0 5px; color: #333; }
 #timer { font-weight: bold; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
+<div class="header">
+  <h2>Air Flow Pvt. Ltd.</h2>
+</div>
+
 <div class="container" id="loginPage">
   <div class="left"></div>
   <div class="right">
-    <h2>Login</h2>
-    <input type="text" id="name" placeholder="Your Name">
-    <input type="text" id="dept" placeholder="Your Department">
-    <input type="email" id="email" placeholder="Your Email">
-    <button onclick="startTest()">Login</button>
+    <h3>Login</h3>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <button onclick="startTest()">Submit</button>
   </div>
 </div>
 
@@ -250,22 +230,30 @@ function loadParagraph(){
    document.getElementById('mcqs').innerHTML = mcqSets[random];
 }
 
-let countdown = 60;
-function startTimer(){
-  let timer = setInterval(()=>{
-    countdown--;
-    document.getElementById('time').innerText = countdown;
-    if(countdown<=0){
-      clearInterval(timer);
+let countdown;
+function startTest() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('testPage').style.display = 'block';
+  const index = Math.floor(Math.random() * paragraphs.length);
+  document.getElementById('paragraph').innerText = paragraphs[index];
+  document.getElementById('mcqs').innerHTML = mcqSets[index];
+  let timeLeft = 60;
+  document.getElementById('time').innerText = timeLeft;
+  document.getElementById('nextBtn').disabled = true;
+  countdown = setInterval(() => {
+    timeLeft--;
+    document.getElementById('time').innerText = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
       document.getElementById('nextBtn').disabled = false;
     }
-  },1000);
+  }, 1000);
 }
-
-function submitTest(){
-   alert("Your test has been submitted successfully!");
-   location.reload(); // reload to go back to login
+function submitTest() {
+  alert("✅ Your test has been submitted successfully!");
+  location.reload();
 }
 </script>
+
 </body>
 </html>
