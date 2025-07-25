@@ -1,147 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprehension Reading Test</title>
+<title>Reading Test</title>
 <style>
-body { margin:0; background:#000; color:#f5f5f5; font-family:Arial,sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-.container { width:90%; max-width:800px; background:#111; padding:20px; border-radius:10px; }
-h2 { text-align:center; }
-input[type="text"], input[type="email"] { width:100%; padding:10px; margin:8px 0; border:none; border-radius:5px; }
-button { padding:10px 20px; margin-top:10px; font-size:16px; border:none; border-radius:5px; background:#00b894; color:#fff; cursor:pointer; }
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container {
+    background: rgba(0,0,0,0.85);
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+h2 { text-align:center; margin-bottom:15px; }
+input[type="text"], input[type="email"] {
+    width:100%; padding:12px; margin:8px 0; border:none; border-radius:6px; font-size:15px;
+}
+button {
+    width:100%; padding:12px; font-size:16px; border:none; border-radius:6px;
+    background:#00b894; color:#fff; cursor:pointer; margin-top:10px;
+}
 button:disabled { background:grey; cursor:not-allowed; }
 .question { margin-bottom:10px; }
+#timer { text-align:center; font-size:18px; margin:10px 0; }
 </style>
 </head>
 <body>
 <div class="container">
-<!-- Sign in -->
+
+<!-- Login page -->
 <div id="signInPage">
-  <h2>Sign In</h2>
-  <input type="text" id="name" placeholder="Enter your name">
-  <input type="text" id="dept" placeholder="Enter your department">
-  <input type="email" id="email" placeholder="Enter your email">
+  <h2>Welcome to Reading Test</h2>
+  <input type="text" id="name" placeholder="Your name">
+  <input type="text" id="dept" placeholder="Your department">
+  <input type="email" id="email" placeholder="Your email">
   <button onclick="startTest()">Start Test</button>
 </div>
 
-<!-- Passage -->
+<!-- Reading page -->
 <div id="passagePage" style="display:none;">
-  <h2>Read the Passage</h2>
-  <p id="passageText" style="text-align:justify;"></p>
-  <button onclick="goToQuestions()">I have read, Next</button>
+  <h2>Read Carefully</h2>
+  <p id="passageText" style="text-align:justify; font-size:15px;"></p>
+  <div id="timer">Please read carefully: 01:00</div>
+  <button id="nextBtn" onclick="goToQuestions()" disabled>Next</button>
 </div>
 
-<!-- Questions -->
+<!-- Questions page -->
 <div id="questionsPage" style="display:none;">
   <h2>Answer the Questions</h2>
   <form id="quizForm"></form>
   <button id="submitBtn" onclick="submitQuiz()" disabled>Submit Answers</button>
 </div>
 
-<!-- Result -->
+<!-- Result page -->
 <div id="resultPage" style="display:none;">
   <h2>Your Result</h2>
-  <div id="resultText" style="text-align:center;font-size:20px;margin-top:10px;"></div>
+  <div id="resultText" style="text-align:center; font-size:18px; margin-top:10px;"></div>
   <button onclick="submitTest()">Submit Test</button>
 </div>
+
 </div>
 
 <script>
-// All passages & MCQs
-const passages = [
-{ text:`Importance of Education
-Education helps us learn new things...`, questions:[
-{q:"What helps us learn new things?",o:["Education","Sleeping","Eating","Playing"],c:"Education"},
-{q:"What do we learn to do through education?",o:["Only play games","Read and write","Sing songs","Dance"],c:"Read and write"},
-{q:"Why do people study?",o:["To get good jobs","To sleep more","To waste time","To fight"],c:"To get good jobs"},
-{q:"What does education make us?",o:["Bad citizens","Good citizens","Angry people","None"],c:"Good citizens"},
-{q:"Without education, it is hard to:",o:["Sleep","Eat","Understand the world","Travel"],c:"Understand the world"},
-{q:"Where do we get knowledge?",o:["Schools and colleges","Beaches","Parks","Shops"],c:"Schools and colleges"},
-{q:"Education helps us meet:",o:["Only family","Only old people","Different people","No one"],c:"Different people"},
-{q:"Subjects like science and arts help us see:",o:["What we like","What others like","Only facts","Only games"],c:"What we like"},
-{q:"Education is a key to:",o:["Anger","Success and happiness","Laziness","Fighting"],c:"Success and happiness"},
-{q:"Without education, it is:",o:["Easy to know everything","Hard to understand the world","Fun","Useless"],c:"Hard to understand the world"}
-]},
-{ text:`Importance of Trees
-Trees are very important...`, questions:[
-{q:"What do trees give us to breathe?",o:["Oxygen","Smoke","Water","Stones"],c:"Oxygen"},
-{q:"Trees make the air:",o:["Fresh","Dirty","Hot","Dry"],c:"Fresh"},
-{q:"What do we get from trees?",o:["Gold","Fruits and wood","Plastic","Iron"],c:"Fruits and wood"},
-{q:"Who lives on trees?",o:["Fish","Birds and animals","Cars","Computers"],c:"Birds and animals"},
-{q:"Trees stop soil from:",o:["Going away in rain","Becoming gold","Melting","Flying"],c:"Going away in rain"},
-{q:"Trees keep the weather:",o:["Cool","Hot","Wet only","Dry only"],c:"Cool"},
-{q:"Cutting too many trees can cause:",o:["Floods and heat","Snow","More rainbows","None"],c:"Floods and heat"},
-{q:"We should plant:",o:["More trees","More stones","More plastic","Less trees"],c:"More trees"},
-{q:"Saving trees is equal to saving:",o:["Life","Cars","Buildings","Phones"],c:"Life"},
-{q:"Trees make our earth:",o:["Green and healthy","Yellow","Dry","Weak"],c:"Green and healthy"}
-]},
-// Add other passages similarly...
+let passages = [
+{
+  "topics": [
+    {
+      "title": "Artificial Intelligence (AI)",
+      "text": "Artificial Intelligence, also called AI, is a smart technology that helps machines think and act like humans. AI can learn from data and improve over time. For example, when you use your phone, AI helps in face unlock, voice assistants like Siri or Google Assistant, and even in typing suggestions. AI is not magic, but a way to teach computers to do tasks that need human intelligence.\nToday, AI is used almost everywhere. On social media, AI suggests posts and friends you may like. In shopping apps, AI shows products based on your interest. AI helps doctors find diseases faster by looking at medical images. It is also used in self-driving cars that can sense traffic and decide where to go. Many chatbots on websites are powered by AI to answer our questions quickly.\nAI saves time and makes life easy. It can do boring and repeated work quickly. AI can read large data and give useful results which humans may miss. In factories, AI robots help in making products faster and safer. AI also helps farmers to know when to water crops and protect them from pests. AI is becoming part of our daily life slowly but strongly.\nIn the future, AI will bring even more changes. Some people worry AI may take away some jobs, but it can also create new jobs. It is important to learn how AI works so we can use it properly. AI is a tool, and humans must use it wisely to help society.",
+      "questions": [
+        {"q":"What does AI help machines do?", "o":["Think and act like humans","Sleep","Eat","Fly"], "c":"Think and act like humans"},
+        {"q":"AI is used in:", "o":["Face unlock","Making food only","Digging","Building roads only"], "c":"Face unlock"},
+        {"q":"AI learns from:", "o":["Data","Stones","Wood","Flowers"], "c":"Data"},
+        {"q":"AI helps doctors by:", "o":["Finding diseases faster","Cooking food","Cutting trees","Cleaning roads"], "c":"Finding diseases faster"},
+        {"q":"Self-driving cars use AI to:", "o":["Sense traffic","Drink water","Sleep","Dance"], "c":"Sense traffic"},
+        {"q":"AI chatbots answer:", "o":["Questions","Poems","Songs","Videos"], "c":"Questions"},
+        {"q":"AI makes work:", "o":["Fast and easy","Slow and hard","Impossible","Expensive only"], "c":"Fast and easy"},
+        {"q":"Farmers use AI to:", "o":["Know about crops","Play games","Build houses","Paint"], "c":"Know about crops"},
+        {"q":"In the future, AI may also:", "o":["Create new jobs","Sleep","Swim","Shout"], "c":"Create new jobs"},
+        {"q":"AI is a tool, so humans must:", "o":["Use it wisely","Break it","Sell it","Hide it"], "c":"Use it wisely"}
+      ]},
+    
+    {"title": "Cloud Computing",
+      "text": "Cloud Computing is a technology where we can store and use data and software on the internet instead of our computer’s hard disk. It is called “cloud” because we can access it from anywhere, just like seeing clouds in the sky. For example, when you save photos on Google Drive or watch movies on Netflix, you are using cloud computing.\nCloud computing saves space on our phones and computers. It also keeps data safe even if your device breaks. People can share documents easily using cloud apps like Google Docs. Big companies use cloud to keep their data and to run websites faster. The cloud can also give more storage and power when needed, which saves money.\nStudents use the cloud to do projects together, store notes, and submit homework online. Teachers use it to share study materials with students anytime. Apps like YouTube, Gmail, Facebook, and Instagram all run on cloud. Even banks use cloud to store customer details safely.\nIn the future, more people and companies will use the cloud because it is fast, cheap, and flexible. But it is important to protect cloud data from hackers. Learning about cloud computing is useful for students because it is part of almost every business today.",
+      "questions": [
+        {"q":"Cloud Computing helps us:", "o":["Store data on the internet","Fly in the sky","Plant trees","Swim"], "c":"Store data on the internet"},
+        {"q":"When we save photos on Google Drive, we use:", "o":["Cloud computing","Washing machine","Oven","Bicycle"], "c":"Cloud computing"},
+        {"q":"Cloud keeps data safe if:", "o":["Device breaks","Sun shines","We shout","It rains"], "c":"Device breaks"},
+        {"q":"Students use cloud to:", "o":["Do projects","Cook food","Wash clothes","Drive"], "c":"Do projects"},
+        {"q":"Big companies use cloud to:", "o":["Run websites faster","Make toys","Sleep","Dance"], "c":"Run websites faster"},
+        {"q":"Cloud saves:", "o":["Space and money","Trees","Rivers","Stones"], "c":"Space and money"},
+        {"q":"Apps like Gmail run on:", "o":["Cloud","Tree","Mountain","Ocean"], "c":"Cloud"},
+        {"q":"Cloud helps teachers:", "o":["Share study materials","Fight","Sing","Draw"], "c":"Share study materials"},
+        {"q":"Future of cloud computing is:", "o":["Bright","Dark","Slow","Useless"], "c":"Bright"},
+        {"q":"We must protect cloud data from:", "o":["Hackers","Farmers","Doctors","Animals"], "c":"Hackers"}
+      ]},
+    
+    {"title": "Internet of Things (IoT)",
+      "text": "The Internet of Things (IoT) is a new technology where normal things like lights, fans, watches, and cars can connect to the internet. This helps them work smarter. For example, a smartwatch counts your steps and shows health tips on your phone. A smart bulb can be turned on or off by your phone even if you are not at home.\nIoT saves time and makes life easy. Smart fridges can tell when milk is over. Smart cars show traffic on screen so you can avoid busy roads. In cities, IoT helps control street lights and traffic signals automatically. Farmers use IoT to check soil and water plants only when needed. IoT helps in hospitals to watch patient’s health all the time.\nMany people use fitness bands to check heart rate. Homes have smart door locks that can be opened with phones. In offices, smart ACs turn off when no one is inside to save power. Even schools can use IoT to send messages to parents when students enter or leave school.\nIn the future, IoT will connect even more devices. It will help save energy, water, and time. But it is important to keep data safe. Learning IoT basics will help students get good jobs in the future.",
+      "questions": [
+        {"q":"IoT connects things to:", "o":["Internet","Trees","Water","Mountains"], "c":"Internet"},
+        {"q":"Smartwatches count:", "o":["Steps","Songs","Words","Money"], "c":"Steps"},
+        {"q":"Smart bulbs can be turned on by:", "o":["Phones","Books","Tables","Fans"], "c":"Phones"},
+        {"q":"Smart fridges tell us when:", "o":["Milk is over","Sun rises","Phone rings","Water boils"], "c":"Milk is over"},
+        {"q":"Smart cars show:", "o":["Traffic","Music only","Movies only","Games only"], "c":"Traffic"},
+        {"q":"IoT helps farmers to:", "o":["Water plants properly","Fly","Swim","Build houses"], "c":"Water plants properly"},
+        {"q":"Smart door locks open with:", "o":["Phones","Keys only","Hammers","Pens"], "c":"Phones"},
+        {"q":"In offices, smart ACs save:", "o":["Power","Money only","Water only","Books"], "c":"Power"},
+        {"q":"IoT will help save:", "o":["Energy and water","Mountains","Stones","Rivers only"], "c":"Energy and water"},
+        {"q":"Learning IoT helps in:", "o":["Getting jobs","Sleeping","Singing","Jumping"], "c":"Getting jobs"}
+      ]},
+
+    {"title": "Cybersecurity",
+      "text": "Cybersecurity is the way to protect computers, phones, and data on the internet from attacks by hackers. Just like we lock our homes to keep them safe, cybersecurity keeps our online life safe. Hackers try to steal passwords, money, or personal information. Cybersecurity uses tools and rules to stop them.\nToday, we use the internet for banking, shopping, studying, and even talking with friends. Without cybersecurity, hackers could steal money from bank accounts or share private photos. It is very important to keep data safe, especially for students and young people who use phones and social media daily.\nSimple steps help a lot: like using strong passwords, not sharing passwords with anyone, and not clicking unknown links. Keeping phones and computers updated is also important because updates fix old security problems. Using antivirus software keeps harmful files away.\nIn the future, as technology grows, hackers may also get smarter. More jobs will need cybersecurity experts to protect data. Learning about cybersecurity helps everyone stay safe and helps students get jobs too.",
+      "questions": [
+        {"q":"Cybersecurity protects:", "o":["Computers and data","Trees","Food","Roads"], "c":"Computers and data"},
+        {"q":"Hackers try to steal:", "o":["Passwords","Books","Water","Air"], "c":"Passwords"},
+        {"q":"We lock homes to keep them:", "o":["Safe","Cold","Hot","Empty"], "c":"Safe"},
+        {"q":"Without cybersecurity, hackers may steal:", "o":["Money","Rain","Flowers","Stones"], "c":"Money"},
+        {"q":"Strong passwords help us:", "o":["Stay safe online","Sleep","Eat","Walk"], "c":"Stay safe online"},
+        {"q":"Sharing passwords is:", "o":["Bad","Good","Funny","Healthy"], "c":"Bad"},
+        {"q":"Updates on phones are:", "o":["Important","Useless","Harmful","Slow only"], "c":"Important"},
+        {"q":"Antivirus keeps away:", "o":["Harmful files","Food","Toys","Air"], "c":"Harmful files"},
+        {"q":"Future will need:", "o":["Cybersecurity experts","Only singers","Only painters","Only farmers"], "c":"Cybersecurity experts"},
+        {"q":"Learning cybersecurity helps us:", "o":["Stay safe","Sleep longer","Spend money","Jump higher"], "c":"Stay safe"}
+      ]},
+    
+    {"title": "Robotics",
+      "text": "Robotics is the study and making of robots. Robots are smart machines that help humans do different tasks. Some robots look like humans, but many look like arms, wheels, or even small boxes. Robotics combines engineering, computer science, and electronics to build robots.\nRobots work in factories to build cars, pack food, or paint walls. In hospitals, robots help doctors do surgeries more safely. At home, we have small robots that clean floors. Robots are also used in space to explore planets where humans cannot go.\nRobots can do boring, dangerous, or heavy work. They work 24 hours without getting tired. Robots also help disabled people by making special hands or legs that move using signals from the brain. In shops and airports, robots give information and help people find places.\nIn the future, robots may teach in schools, help old people, and even cook food. Students who learn robotics today can create new robots tomorrow. Robotics is growing fast and brings exciting new jobs.",
+      "questions": [
+        {"q":"Robotics is about making:", "o":["Robots","Cars only","Trees","Roads"], "c":"Robots"},
+        {"q":"Robots are:", "o":["Smart machines","Animals","Stones","Birds"], "c":"Smart machines"},
+        {"q":"Robots can look like:", "o":["Arms or wheels","Clouds","Trees only","Lakes"], "c":"Arms or wheels"},
+        {"q":"In factories, robots:", "o":["Build cars","Dance","Paint pictures only","Fly kites"], "c":"Build cars"},
+        {"q":"At home, small robots:", "o":["Clean floors","Read books","Write stories","Sing songs"], "c":"Clean floors"},
+        {"q":"Robots explore:", "o":["Space","Oceans only","Hills only","Rivers only"], "c":"Space"},
+        {"q":"Robots can do work that is:", "o":["Dangerous","Funny","Slow only","Lazy"], "c":"Dangerous"},
+        {"q":"Special robots help:", "o":["Disabled people","Plants grow","Fish swim","Trees talk"], "c":"Disabled people"},
+        {"q":"In shops, robots:", "o":["Give information","Jump","Sleep","Eat"], "c":"Give information"},
+        {"q":"Learning robotics can help students:", "o":["Make new robots","Fly","Swim faster","Become taller"], "c":"Make new robots"}
+      ]},
+    
+    {"title": "Virtual Reality (VR)",
+      "text": "Virtual Reality (VR) is a special technology that creates a computer-made world where we can feel we are inside. We use VR headsets that cover our eyes and show 3D images. When we move our head, the view changes like in real life. It feels like visiting a new place while staying at home.\nVR is used in games where players feel they are inside the game world. In schools, VR helps students see historical places, science labs, or planets closely. Doctors use VR to practice surgeries safely. In the army, VR helps soldiers train without danger.\nWith VR, students can watch the inside of the human body, walk on the moon, or visit famous monuments. It makes lessons interesting and easy to remember. People can also travel virtually to places they cannot visit in real life.\nIn the future, VR may be used in online shopping to try clothes, in meetings to feel everyone is together, or to watch sports as if sitting in the stadium. Learning VR today will help students work in new fields tomorrow.",
+      "questions": [
+        {"q":"VR creates:", "o":["Computer-made world","Real trees","Real water","Real animals"], "c":"Computer-made world"},
+        {"q":"We use ______ to see VR.", "o":["Headsets","Pens","Phones only","Books"], "c":"Headsets"},
+        {"q":"VR makes us feel:", "o":["Inside a new place","Taller","Faster","Stronger"], "c":"Inside a new place"},
+        {"q":"VR is used in:", "o":["Games","Cooking only","Running only","Sleeping"], "c":"Games"},
+        {"q":"In schools, VR helps see:", "o":["Historical places","Food","New cars","Toys"], "c":"Historical places"},
+        {"q":"Doctors use VR to:", "o":["Practice surgeries","Eat","Write","Jump"], "c":"Practice surgeries"},
+        {"q":"VR makes learning:", "o":["Fun","Boring","Slow","Useless"], "c":"Fun"},
+        {"q":"People can travel:", "o":["Virtually","By running","By swimming","By flying"], "c":"Virtually"},
+        {"q":"VR may help in shopping to:", "o":["Try clothes","Make clothes","Wash clothes","Sell clothes only"], "c":"Try clothes"},
+        {"q":"Learning VR helps students:", "o":["Work in new fields","Climb trees","Sleep","Read faster only"], "c":"Work in new fields"}
+      ]},
+ 
+    {"topics": [
+    
+      {"title": "Blockchain",
+      "text": "Blockchain is a new way to store data safely. It keeps data in small blocks, and these blocks are linked like a chain. Once data is saved in a block, it cannot be changed easily. This makes blockchain very secure. Blockchain does not need one central place; many computers keep the same copy of data. This is why it is called 'decentralized.'\nBlockchain is famous because of cryptocurrencies like Bitcoin, which use it to keep records of buying and selling safely. But blockchain can do more. It can be used in banks to keep safe records of money. Hospitals can use it to save patient data. Even supply chains use blockchain to track where goods come from.\nBlockchain makes data safe, transparent, and quick to check. Because data is shared on many computers, hackers cannot easily change it. This helps stop fraud and makes business trusted. It also removes middlemen, so work becomes faster and cheaper.\nIn the future, blockchain may be used for voting, ID cards, online education certificates, and even in music and movies to protect creators. Students who learn blockchain can get jobs in IT, banking, health, and many more fields.",
+      "questions": [
+        {"q":"Blockchain keeps data in:", "o":["Blocks","Boxes only","Bags","Trees"], "c":"Blocks"},
+        {"q":"Blocks are linked like a:", "o":["Chain","Rope","Cloth","Paper"], "c":"Chain"},
+        {"q":"Blockchain is very:", "o":["Secure","Funny","Soft","Lazy"], "c":"Secure"},
+        {"q":"Blockchain is called decentralized because:", "o":["Many computers keep data","Only one computer keeps data","No computer keeps data","Data is in books"], "c":"Many computers keep data"},
+        {"q":"Bitcoin uses:", "o":["Blockchain","Cloud only","Trees","Water"], "c":"Blockchain"},
+        {"q":"Banks use blockchain to keep:", "o":["Money records","Plants","Toys","Songs"], "c":"Money records"},
+        {"q":"Blockchain helps stop:", "o":["Fraud","Traffic","Weather","Noise"], "c":"Fraud"},
+        {"q":"Blockchain removes:", "o":["Middlemen","Cars","Books","Phones"], "c":"Middlemen"},
+        {"q":"Future use of blockchain may include:", "o":["Voting","Cooking","Painting","Sleeping"], "c":"Voting"},
+        {"q":"Learning blockchain can help get jobs in:", "o":["IT and banking","Singing only","Driving only","Jumping only"], "c":"IT and banking"}
+      ]},
+    
+
+      {"title": "Augmented Reality (AR)",
+      "text": "Augmented Reality (AR) is a technology that adds computer images or data to the real world. Unlike Virtual Reality (VR), which fully covers what we see, AR shows real things with extra information or pictures. For example, when you play Pokémon Go on your phone, the game shows Pokémon in real places using AR.\nAR is used in education to show 3D models of science diagrams or historical places. In shopping, AR lets you see how furniture looks in your room before buying. Doctors use AR to see bones or organs on the body while treating patients. AR is also used in sports to show scores on TV during live matches.\nAR makes learning fun and easy. It helps people see things that are hard to imagine. In shopping, AR saves time and money by letting you try products virtually. In factories, AR guides workers to fix machines by showing step-by-step help.\nIn the future, AR may be in glasses we wear every day to show maps, messages, or health data. Students who learn AR can work in gaming, design, education, and health sectors.",
+      "questions": [
+        {"q":"AR adds computer images to:", "o":["Real world","Dreams only","Sky only","Books only"], "c":"Real world"},
+        {"q":"Pokémon Go is an example of:", "o":["AR","Cooking game","Running game","Sleeping app"], "c":"AR"},
+        {"q":"AR shows real things with:", "o":["Extra data","Extra water","Extra sand","Extra food"], "c":"Extra data"},
+        {"q":"In schools, AR helps students see:", "o":["3D models","Food only","New bags","Money only"], "c":"3D models"},
+        {"q":"AR in shopping helps to see:", "o":["Furniture at home","Roads","Rivers","Birds"], "c":"Furniture at home"},
+        {"q":"Doctors use AR to see:", "o":["Bones and organs","Songs","Videos only","Games only"], "c":"Bones and organs"},
+        {"q":"AR makes learning:", "o":["Fun and easy","Hard","Slow","Useless"], "c":"Fun and easy"},
+        {"q":"AR in sports shows:", "o":["Scores","Songs","Movies","News"], "c":"Scores"},
+        {"q":"In future, AR may come in:", "o":["Glasses","Shoes","Books only","Pens only"], "c":"Glasses"},
+        {"q":"Learning AR helps get jobs in:", "o":["Gaming and design","Cooking only","Farming only","Sleeping only"], "c":"Gaming and design"}
+      ]},
+    
+{"title": "5G Technology",
+      "text": "5G means the fifth generation of mobile networks. It is much faster than 4G. With 5G, we can download movies in seconds and enjoy video calls without breaks. 5G uses new technology and more towers to send data quickly.\n5G is not only for phones. Self-driving cars use 5G to talk to each other and avoid accidents. In hospitals, doctors can do surgeries from far away with robots using 5G. In smart cities, 5G helps control traffic and save energy.\n5G makes internet speed super fast and connects many devices at once. It helps students watch live classes without buffering. Factories use 5G to run smart machines. Gamers enjoy online games with no delay.\nIn the future, 5G will help in virtual reality, smart homes, and even flying taxis. Students who learn about 5G today can work in telecom, robotics, and smart city projects.",
+      "questions": [
+        {"q":"5G is the _____ generation of mobile networks.", "o":["Fifth","Second","Third","First"], "c":"Fifth"},
+        {"q":"5G is faster than:", "o":["4G","Wi-Fi","Water","Stones"], "c":"4G"},
+        {"q":"With 5G, we can download movies in:", "o":["Seconds","Hours","Days","Months"], "c":"Seconds"},
+        {"q":"Self-driving cars use 5G to:", "o":["Talk to each other","Fly","Cook food","Dance"], "c":"Talk to each other"},
+        {"q":"In hospitals, 5G helps doctors do:", "o":["Remote surgeries","Singing","Painting","Shopping"], "c":"Remote surgeries"},
+        {"q":"5G helps students watch:", "o":["Live classes","Cooking shows only","Comedy only","Sleeping videos"], "c":"Live classes"},
+        {"q":"Factories use 5G to run:", "o":["Smart machines","Horses","Rivers","Books"], "c":"Smart machines"},
+        {"q":"Gamers enjoy games with:", "o":["No delay","Extra food","Big trees","Slow speed"], "c":"No delay"},
+        {"q":"In future, 5G may help in:", "o":["Flying taxis","Swimming pools","Rain","Sand"], "c":"Flying taxis"},
+        {"q":"Learning 5G helps work in:", "o":["Telecom and robotics","Painting only","Cooking only","Singing only"], "c":"Telecom and robotics"}
+      ]},
 ];
 
-// Choose random passage index
-let randomIndex = Math.floor(Math.random() * passages.length);
-let currentPassage = passages[randomIndex];
-let score=0;
+let selectedPassage, score=0;
 
-// Start test
 function startTest(){
-const n=document.getElementById('name').value;
-const d=document.getElementById('dept').value;
-const e=document.getElementById('email').value;
-if(n&&d&&e){
-localStorage.setItem('name',n);
-document.getElementById('signInPage').style.display='none';
-document.getElementById('passagePage').style.display='block';
-loadPassage();
-}else alert("Fill all fields");
+ let n=document.getElementById('name').value.trim();
+ let d=document.getElementById('dept').value.trim();
+ let e=document.getElementById('email').value.trim();
+ if(n&&d&&e){
+  localStorage.setItem('name',n);
+  selectedPassage=passages[Math.floor(Math.random()*passages.length)];
+  document.getElementById('signInPage').style.display='none';
+  document.getElementById('passagePage').style.display='block';
+  loadPassage();
+ }else alert("Please fill all fields!");
 }
 
-// Load passage
 function loadPassage(){
-document.getElementById('passageText').innerText=currentPassage.text;
+ document.getElementById('passageText').innerText=selectedPassage.text;
+ let time=60;
+ let nextBtn=document.getElementById('nextBtn');
+ let timerDiv=document.getElementById('timer');
+ nextBtn.disabled=true;
+ timerDiv.innerText="Please read carefully: 01:00";
+ let countdown=setInterval(()=>{
+  time--;
+  let m=String(Math.floor(time/60)).padStart(2,'0');
+  let s=String(time%60).padStart(2,'0');
+  timerDiv.innerText=`Please read carefully: ${m}:${s}`;
+  if(time<=0){
+   clearInterval(countdown);
+   nextBtn.disabled=false;
+   timerDiv.innerText="You can proceed now.";
+  }
+ },1000);
 }
 
-// Go to questions
 function goToQuestions(){
-document.getElementById('passagePage').style.display='none';
-document.getElementById('questionsPage').style.display='block';
-loadQuestions();
+ document.getElementById('passagePage').style.display='none';
+ document.getElementById('questionsPage').style.display='block';
+ loadQuestions();
 }
 
-// Load MCQs
 function loadQuestions(){
-document.getElementById('submitBtn').disabled=true;
-const f=document.getElementById('quizForm'); f.innerHTML='';
-currentPassage.questions.forEach((q,i)=>{
-let div=document.createElement('div');
-div.className='question';
-div.innerHTML=`<p>${i+1}. ${q.q}</p>`+q.o.map(opt=>
-`<label><input type="radio" name="q${i}" value="${opt}" onchange="checkAnswered()"> ${opt}</label><br>`).join('');
-f.appendChild(div);
-});
+ document.getElementById('submitBtn').disabled=true;
+ let f=document.getElementById('quizForm'); f.innerHTML='';
+ selectedPassage.questions.forEach((q,i)=>{
+  let div=document.createElement('div');
+  div.className='question';
+  div.innerHTML=`<p>${i+1}. ${q.q}</p>`+q.o.map(opt=>
+  `<label><input type="radio" name="q${i}" value="${opt}" onchange="checkAnswered()"> ${opt}</label><br>`).join('');
+  f.appendChild(div);
+ });
 }
 
-// Check if all answered
 function checkAnswered(){
-let total=currentPassage.questions.length;
-let selected=document.querySelectorAll('#quizForm input[type=radio]:checked').length;
-document.getElementById('submitBtn').disabled=selected!==total;
+ let total=selectedPassage.questions.length;
+ let selected=document.querySelectorAll('#quizForm input[type=radio]:checked').length;
+ document.getElementById('submitBtn').disabled=selected!==total;
 }
 
-// Submit quiz
 function submitQuiz(){
-currentPassage.questions.forEach((q,i)=>{
-let ans=document.querySelector(`input[name="q${i}"]:checked`);
-if(ans&&ans.value===q.c)score++;
-});
-document.getElementById('questionsPage').style.display='none';
-document.getElementById('resultPage').style.display='block';
-document.getElementById('resultText').innerText=`${localStorage.getItem('name')}, you scored ${score} out of ${currentPassage.questions.length}`;
+ selectedPassage.questions.forEach((q,i)=>{
+  let ans=document.querySelector(`input[name="q${i}"]:checked`);
+  if(ans && ans.value===q.c) score++;
+ });
+ document.getElementById('questionsPage').style.display='none';
+ document.getElementById('resultPage').style.display='block';
+ document.getElementById('resultText').innerText=`${localStorage.getItem('name')}, you scored ${score} out of ${selectedPassage.questions.length}`;
 }
 
-// Submit test
-function submitTest(){ alert('Submitted! Thank you '+localStorage.getItem('name')); location.reload(); }
+function submitTest(){
+ alert('Your test has been submitted successfully!');
+ location.reload();
+}
 </script>
 </body>
 </html>
