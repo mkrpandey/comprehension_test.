@@ -211,8 +211,8 @@ let selectedPassage, score=0;
 function startTest() {
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('testPage').style.display = 'block';
-  const index = Math.floor(Math.random() * paragraphs.length);
-  document.getElementById('paragraph').innerText = paragraphs[index];
+  const index = Math.floor(Math.random() * passage.length);
+  document.getElementById('passage').innerText = passage[index];
   document.getElementById('mcqs').innerHTML = mcqSets[index];
   let timeLeft = 60;
   document.getElementById('time').innerText = timeLeft;
