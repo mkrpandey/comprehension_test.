@@ -72,11 +72,9 @@ button:disabled { background:grey; cursor:not-allowed; }
 
 </div>
 
-
 <script>
-const passages = [
-{
-  "topics": [
+let passages = [
+{"topics": [
     {
       "title": "Artificial Intelligence (AI)",
       "text": "Artificial Intelligence, also called AI, is a smart technology that helps machines think and act like humans. AI can learn from data and improve over time. For example, when you use your phone, AI helps in face unlock, voice assistants like Siri or Google Assistant, and even in typing suggestions. AI is not magic, but a way to teach computers to do tasks that need human intelligence.\nToday, AI is used almost everywhere. On social media, AI suggests posts and friends you may like. In shopping apps, AI shows products based on your interest. AI helps doctors find diseases faster by looking at medical images. It is also used in self-driving cars that can sense traffic and decide where to go. Many chatbots on websites are powered by AI to answer our questions quickly.\nAI saves time and makes life easy. It can do boring and repeated work quickly. AI can read large data and give useful results which humans may miss. In factories, AI robots help in making products faster and safer. AI also helps farmers to know when to water crops and protect them from pests. AI is becoming part of our daily life slowly but strongly.\nIn the future, AI will bring even more changes. Some people worry AI may take away some jobs, but it can also create new jobs. It is important to learn how AI works so we can use it properly. AI is a tool, and humans must use it wisely to help society.",
@@ -214,9 +212,8 @@ const passages = [
         {"q":"Gamers enjoy games with:", "o":["No delay","Extra food","Big trees","Slow speed"], "c":"No delay"},
         {"q":"In future, 5G may help in:", "o":["Flying taxis","Swimming pools","Rain","Sand"], "c":"Flying taxis"},
         {"q":"Learning 5G helps work in:", "o":["Telecom and robotics","Painting only","Cooking only","Singing only"], "c":"Telecom and robotics"}
-      ]
-    }
-];
+      ]}
+      ];
 
 let selectedPassage, score=0;
 
@@ -225,7 +222,6 @@ function startTest(){
  let d=document.getElementById('dept').value.trim();
  let e=document.getElementById('email').value.trim();
  if(n&&d&&e){
-  localStorage.setItem('name',n);
   selectedPassage=passages[Math.floor(Math.random()*passages.length)];
   document.getElementById('signInPage').style.display='none';
   document.getElementById('passagePage').style.display='block';
@@ -284,7 +280,7 @@ function submitQuiz(){
  });
  document.getElementById('questionsPage').style.display='none';
  document.getElementById('resultPage').style.display='block';
- document.getElementById('resultText').innerText=`${localStorage.getItem('name')}, you scored ${score} out of ${selectedPassage.questions.length}`;
+ document.getElementById('resultText').innerText=`You scored ${score} out of ${selectedPassage.questions.length}`;
 }
 
 function submitTest(){
