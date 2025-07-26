@@ -36,11 +36,11 @@ button {
   background: linear-gradient(to right, #36d1dc, #5b86e5);
   color: white; font-size: 16px; cursor: pointer; margin-top: 10px; transition: opacity 0.3s;
 }
-button:hover { opacity: 0.9; }
-#testPage {
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+#testPage, #resultPage {
   display: none; max-width: 800px; margin: 30px auto; text-align: left; padding: 20px;
 }
-#testPage p {
+#testPage p, #resultPage p {
   background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px;
 }
 #testPage h3 { margin: 15px 0 5px; }
@@ -67,6 +67,11 @@ button:hover { opacity: 0.9; }
   <p id="paragraph"></p>
   <div id="mcqs"></div>
   <button id="nextBtn" onclick="submitTest()" disabled>Submit Test</button>
+</div>
+
+<div id="resultPage">
+  <h3>Test Result</h3>
+  <p id="resultText"></p>
 </div>
 
 <script>
