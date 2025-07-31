@@ -1,81 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Air Flow Pvt. Ltd.</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Poppins', sans-serif; background: #f8fafd; color: #333; }
-.header { padding: 20px 40px; }
-.header h2 { color: #2acfcf; font-weight: 600; }
-.container {
-  display: flex; justify-content: center; align-items: center;
-  padding: 30px; min-height: 80vh;
-}
-.left {
-  flex: 0 0 40%;
-  background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/contain no-repeat;
-  height: 400px; border-radius: 15px;
-}
-.right {
-  flex: 0 0 300px;
-  background: #fff; margin-left: 30px;
-  padding: 30px 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-.right h3 { text-align: center; margin-bottom: 15px; font-weight: 600; }
-input[type="text"], input[type="email"] {
-  width: 100%; padding: 12px 15px; margin: 8px 0;
-  border: 1px solid #ddd; border-radius: 25px; outline: none;
-}
-button {
-  width: 100%; padding: 12px; border: none; border-radius: 25px;
-  background: linear-gradient(to right, #36d1dc, #5b86e5);
-  color: white; font-size: 16px; cursor: pointer; margin-top: 10px; transition: opacity 0.3s;
-}
-button:disabled { opacity: 0.5; cursor: not-allowed; }
-#testPage, #resultPage {
-  display: none; max-width: 800px; margin: 30px auto; text-align: left; padding: 20px;
-}
-#testPage p, #resultPage p {
-  background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px;
-}
-#testPage h3 { margin: 15px 0 5px; }
-#timer { font-weight: bold; margin-bottom: 10px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Flow Pvt. Ltd. Comprehension Test</title>
+  <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #e6f4ff;
+      color: #333;
+    }
+    .header {
+      padding: 20px 40px; background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 15px;
+    }
+    .header img {
+      height: 100px;
+      filter: brightness(1.2) contrast(1.3);
+    }
+    .header h2 {
+      color: #003366; font-weight: 600; font-size: 36px;
+    }
+
+    .container {
+      display: flex; justify-content: center; align-items: center;
+      padding: 30px; min-height: 80vh;
+    }
+
+    .left {
+      flex: 0 0 40%;
+      background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
+      height: 400px;
+      border-radius: 20px;   /* Rounds the image */
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional soft shadow */
+    }
+
+    .right {
+      flex: 0 0 300px;
+      background: #fff; margin-left: 30px;
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .right h3 { text-align: center; margin-bottom: 15px; font-weight: 600; }
+    input[type="text"], input[type="email"] {
+      width: 100%; padding: 12px 15px; margin: 8px 0;
+      border: 1px solid #ddd; border-radius: 25px; outline: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+      text-align: center;
+    }
+
+    button {
+      width: 100%; padding: 12px; border: none; border-radius: 25px;
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      color: white; font-size: 16px; cursor: pointer; margin-top: 10px; transition: opacity 0.3s;
+    }
+
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #testPage, #questionPage, #finalPage, #successPage {
+      display: none; max-width: 800px; margin: 30px auto; text-align: left; padding: 20px;
+    }
+
+    #testPage p, #questionPage p, #finalPage p {
+      background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 10px;
+    }
+
+    #testPage h3 { margin: 15px 0 5px; }
+    #timer { font-weight: bold; margin-bottom: 10px; }
+    .emoji {
+      font-size: 2em;
+      margin-top: 10px;
+    }
+    .correct { color: green; font-weight: bold; }
+    .incorrect { color: red; font-weight: bold; }
+    canvas { max-width: 400px; margin: 20px auto; display: block; }
+
+    #paragraph, #mcqs {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      pointer-events: auto;
+    }
+  </style>
 </head>
 <body>
+
 <div class="header">
-  <h2>Air Flow Pvt. Ltd.</h2>
+  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo">
+  <h2>Air Flow Pvt. Ltd. Comprehension Test</h2>
 </div>
 
+<!-- Login Page -->
 <div class="container" id="loginPage">
   <div class="left"></div>
   <div class="right">
     <h3>Login</h3>
     <input type="text" id="name" placeholder="Your Name" required>
     <input type="email" id="email" placeholder="Your Email" required>
+    <div class="error" id="errorMsg">Please enter your name and email before proceeding.</div>
     <button onclick="startTest()">Submit</button>
   </div>
 </div>
 
+<!-- Test Page -->
 <div id="testPage">
-  <div id="timer">Reading time left: <span id="time">60</span> sec</div>
+  <div id="timer">Reading time left: <span id="time">120</span> sec</div>
+  <h3 style="color: red;">Please Read Carefully</h3>
   <p id="paragraph"></p>
-  <div id="mcqs"></div>
-  <button id="nextBtn" onclick="submitTest()" disabled>Submit Test</button>
+  <button id="proceedToQuestions" onclick="loadQuestions()" disabled>I have read it. Now attempt the test</button>
 </div>
 
-<div id="resultPage">
-  <h3>Test Result</h3>
-  <p id="resultText"></p>
+<!-- Question Page -->
+<div id="questionPage">
+  <div id="mcqs"></div>
+  <button onclick="submitAnswers()">Submit Test</button>
+</div>
+
+<!-- Final Page -->
+<div id="finalPage">
+  <h3>Your Result</h3>
+  <p><strong>Name:</strong> <span id="userName"></span></p>
+  <p><strong>Email:</strong> <span id="userEmail"></span></p>
+  <canvas id="resultChart"></canvas>
+  <div id="answersReview"></div>
+  <button onclick="showSuccess()" style="margin-top: 20px;">Final Submit</button>
+</div>
+
+<!-- Success Page -->
+<div id="successPage" style="
+  display: none;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 30px;
+">
+  <h2>Thank you! Your result has been successfully submitted. <span class="emoji">😊</span></h2>
 </div>
 
 <script>
-let passages = [
+const passages = [
  {
       "title": "Artificial Intelligence (AI)",
       "text": "Artificial Intelligence, also called AI, is a smart technology that helps machines think and act like humans. AI can learn from data and improve over time. For example, when you use your phone, AI helps in face unlock, voice assistants like Siri or Google Assistant, and even in typing suggestions. AI is not magic, but a way to teach computers to do tasks that need human intelligence.\nToday, AI is used almost everywhere. On social media, AI suggests posts and friends you may like. In shopping apps, AI shows products based on your interest. AI helps doctors find diseases faster by looking at medical images. It is also used in self-driving cars that can sense traffic and decide where to go. Many chatbots on websites are powered by AI to answer our questions quickly.\nAI saves time and makes life easy. It can do boring and repeated work quickly. AI can read large data and give useful results which humans may miss. In factories, AI robots help in making products faster and safer. AI also helps farmers to know when to water crops and protect them from pests. AI is becoming part of our daily life slowly but strongly.\nIn the future, AI will bring even more changes. Some people worry AI may take away some jobs, but it can also create new jobs. It is important to learn how AI works so we can use it properly. AI is a tool, and humans must use it wisely to help society.",
@@ -214,46 +293,180 @@ let passages = [
     }
   ];
 
-let countdown;
+let currentPassage = null;
+let userAnswers = [];
 
 function startTest() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (!name || !email) {
+    errorMsg.style.display = 'block';
+    return;
+  } else {
+    errorMsg.style.display = 'none';
+  }
+
   document.getElementById('loginPage').style.display = 'none';
   document.getElementById('testPage').style.display = 'block';
 
-  const passage = passages[0]; // only one passage here
+  const randomIndex = Math.floor(Math.random() * passages.length);
+  currentPassage = passages[randomIndex];
 
-  document.getElementById('paragraph').innerText = passage.text;
+  document.getElementById('paragraph').innerText = currentPassage.text;
 
-  let mcqsHtml = "";
-  passage.questions.forEach((q, i) => {
-    mcqsHtml += `<h3>${i+1}. ${q.q}</h3>`;
-    q.o.forEach(option => {
-      mcqsHtml += `
-        <label>
-          <input type="radio" name="q${i}" value="${option}"> ${option}
-        </label><br>`;
-    });
-  });
-  document.getElementById('mcqs').innerHTML = mcqsHtml;
-
-  let timeLeft = 60;
+  let timeLeft = 120;
   document.getElementById('time').innerText = timeLeft;
-  document.getElementById('nextBtn').disabled = true;
-
-  countdown = setInterval(() => {
+  const timer = setInterval(() => {
     timeLeft--;
     document.getElementById('time').innerText = timeLeft;
     if (timeLeft <= 0) {
-      clearInterval(countdown);
-      document.getElementById('nextBtn').disabled = false;
+      clearInterval(timer);
+      document.getElementById('proceedToQuestions').disabled = false;
     }
   }, 1000);
 }
 
-function submitTest() {
-  alert("✅ Your test has been submitted successfully!");
-  location.reload();
+function loadQuestions() {
+  document.getElementById('testPage').style.display = 'none';
+  document.getElementById('questionPage').style.display = 'block';
+
+  let mcqsHtml = "";
+  currentPassage.questions.forEach((q, i) => {
+    mcqsHtml += `<p><strong>${i + 1}. ${q.q} <span style="color:red">*</span></strong><br>`;
+    q.o.forEach(opt => {
+      mcqsHtml += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
+    });
+    mcqsHtml += `</p>`;
+  });
+  document.getElementById('mcqs').innerHTML = mcqsHtml;
 }
+
+function submitAnswers() {
+  let allAnswered = true;
+  userAnswers = [];
+  currentPassage.questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!selected) allAnswered = false;
+    userAnswers.push(selected ? selected.value : null)
+  if (!allAnswered) {
+    alert("Please answer all questions before submitting.");
+    return;
+  }
+
+  let score = 0;
+  currentPassage.questions.forEach((q, i) => {
+    if (userAnswers[i] === q.c) score++;
+  });
+
+  document.getElementById('questionPage').style.display = 'none';
+  document.getElementById('finalPage').style.display = 'block';
+  document.getElementById('userName').innerText = document.getElementById('name').value.trim();
+  document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
+
+// ✅ Score text added here
+const totalQuestions = currentPassage.questions.length;
+const correctAnswers = score;
+const wrongAnswers = totalQuestions - correctAnswers;
+
+const scoreText = `
+  Total Questions: ${totalQuestions}<br>
+  Correct Answers: ${correctAnswers}<br>
+  Wrong Answers: ${wrongAnswers}
+`;
+
+const scoreElement = document.createElement("p");
+scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
+scoreElement.style.textAlign = "center";
+scoreElement.style.margin = "15px 0";
+
+document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
+
+  const ctx = document.getElementById('resultChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Correct', 'Incorrect'],
+      datasets: [{
+        data: [score, currentPassage.questions.length - score],
+        backgroundColor: ['#28a745', '#dc3545']
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+  let reviewHtml = "<h4>Review Your Answers:</h4>";
+  currentPassage.questions.forEach((q, i) => {
+    const isCorrect = userAnswers[i] === q.c;
+    reviewHtml += `<p><strong>${i + 1}. ${q.q}</strong><br>`;
+    q.o.forEach(opt => {
+      const selected = userAnswers[i] === opt;
+      const isAnswer = q.c === opt;
+      const cls = selected ? (isAnswer ? 'correct' : 'incorrect') : (isAnswer ? 'correct' : '');
+      reviewHtml += `<span class="${cls}">${selected ? '➤' : ''} ${opt}</span><br>`;
+    });
+    reviewHtml += `</p>`;
+  });
+
+  document.getElementById('answersReview').innerHTML = reviewHtml;
+}
+
+function showSuccess() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const total = currentPassage.questions.length;
+  const right = userAnswers.filter((ans, i) => ans === currentPassage.questions[i].c).length;
+  const wrong = total - right;
+
+  const formData = new FormData();
+  formData.append('entry.1640574701', name);      // Name
+  formData.append('entry.2044946124', email);     // Email
+  formData.append('entry.645538404', total);     // Total Questions
+  formData.append('entry.895886336', right);     // Correct
+  formData.append('entry.115296724', wrong);     // Wrong
+
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+  
+  document.getElementById('finalPage').style.display = 'none';
+  document.getElementById('successPage').style.display = 'block';
+}
+
+
+// 🛡️ Disable right-click on passage and MCQs
+document.addEventListener('contextmenu', event => {
+  const protectedAreas = ['paragraph', 'mcqs'];
+  if (protectedAreas.includes(event.target.id) || event.target.closest('#mcqs')) {
+    event.preventDefault();
+  }
+});
+
+// 🛡️ Disable copy, cut, paste on paragraph and mcqs
+['copy', 'cut', 'paste'].forEach(evt => {
+  const paragraph = document.getElementById('paragraph');
+  const mcqs = document.getElementById('mcqs');
+  if (paragraph) paragraph.addEventListener(evt, e => e.preventDefault());
+  if (mcqs) mcqs.addEventListener(evt, e => e.preventDefault());
+});
+
+// 🔒 Disable text selection on full page
+document.addEventListener('selectstart', function (e) {
+  e.preventDefault();
+});
+
+// 🔒 Disable dev tools shortcuts (F12, Ctrl+U, Ctrl+Shift+I/J/C)
+document.addEventListener('keydown', function (e) {
+  if (e.key === "F12") e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) e.preventDefault();
+  if (e.ctrlKey && e.key.toLowerCase() === 'u') e.preventDefault();
+});
 </script>
+
 </body>
 </html>
