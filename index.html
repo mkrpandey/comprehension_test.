@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Air Flow Pvt. Ltd. Comprehension Test</title>
+  <title>Air Flow Pvt. Ltd. Comprehension Reading Test</title>
   <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
@@ -15,19 +16,19 @@
       color: #333;
       padding-top: 140px; /* Adjusted to account for fixed header height */
     }
-    .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  padding: 20px 40px;
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+     .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 20px 40px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
     .header img {
       height: 100px;
       filter: brightness(1.2) contrast(1.3);
@@ -37,20 +38,28 @@
       font-weight: 600;
       font-size: 36px;
     }
-    .container {
+    .container, #test-area, #results, #finalSubmitBtn {
+      display: none;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .login-container {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 30px;
       min-height: 80vh;
     }
-    .left {
+       .left {
       flex: 0 0 40%;
-      background: url('https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg') center/cover no-repeat;
-      height: 400px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: auto;
     }
     .right {
       flex: 0 0 300px;
@@ -89,6 +98,7 @@
       transition: opacity 0.3s;
     }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
+
     #testPage, #questionPage, #finalPage, #successPage {
       display: none;
       max-width: 800px;
@@ -150,22 +160,27 @@
 
 <div class="header">
   <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo" />
-  <h2>Air Flow Pvt. Ltd. Comprehension Test</h2>
+  <h2>Air Flow Pvt. Ltd. Comprehension Reading Test</h2>
 </div>
 
 <!-- Login Page -->
-<div class="container" id="loginPage">
-  <div class="left"></div>
+<div class="login-container" id="loginPage">
+  <div class="left">
+    <img 
+      src="https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg" 
+      alt="Illustration"
+      style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </div>
   <div class="right">
-    <h3>Login</h3>
+    <h3>👤Login</h3>
     <input type="text" id="name" placeholder="Your Name" required />
-    <div class="error" id="nameError">Please enter a valid Name.</div>
+    <div class="error" id="nameError">Please enter a valid name.</div>
     <input type="email" id="email" placeholder="Your Email" required />
-    <div class="error" id="emailError">Please enter a valid Email.</div>
-    <button type="button" onclick="startTest()">Submit</button>
+    <div class="error" id="emailError">Please enter a valid email.</div>
+    <button onclick="startTest()">Submit</button>
   </div>
 </div>
-
+  
 <!-- Test Page -->
 <div id="testPage">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
@@ -218,7 +233,7 @@ const passages = [
       //   // {"q":"In the future, AI may also:", "o":["Create new jobs","Sleep","Swim","Shout"], "c":"Create new jobs"},
       //   // {"q":"AI is a tool, so humans must:", "o":["Use it wisely","Break it","Sell it","Hide it"], "c":"Use it wisely"}   
     ]},
-    
+
     {"title": "Cloud Computing",
       "text": "Cloud Computing is a technology where we can store and use data and software on the internet instead of our computer’s hard disk. It is called “cloud” because we can access it from anywhere, just like seeing clouds in the sky. For example, when you save photos on Google Drive or watch movies on Netflix, you are using cloud computing.\nCloud computing saves space on our phones and computers. It also keeps data safe even if your device breaks. People can share documents easily using cloud apps like Google Docs. Big companies use cloud to keep their data and to run websites faster. The cloud can also give more storage and power when needed, which saves money.\nStudents use the cloud to do projects together, store notes, and submit homework online. Teachers use it to share study materials with students anytime. Apps like YouTube, Gmail, Facebook, and Instagram all run on cloud. Even banks use cloud to store customer details safely.\nIn the future, more people and companies will use the cloud because it is fast, cheap, and flexible. But it is important to protect cloud data from hackers. Learning about cloud computing is useful for students because it is part of almost every business today.",
       "questions": [
@@ -233,7 +248,7 @@ const passages = [
         // {"q":"Future of cloud computing is:", "o":["Bright","Dark","Slow","Useless"], "c":"Bright"},
         // {"q":"We must protect cloud data from:", "o":["Hackers","Farmers","Doctors","Animals"], "c":"Hackers"}
       ]},
-    
+
     {"title": "Internet of Things (IoT)",
       "text": "The Internet of Things (IoT) is a new technology where normal things like lights, fans, watches, and cars can connect to the internet. This helps them work smarter. For example, a smartwatch counts your steps and shows health tips on your phone. A smart bulb can be turned on or off by your phone even if you are not at home.\nIoT saves time and makes life easy. Smart fridges can tell when milk is over. Smart cars show traffic on screen so you can avoid busy roads. In cities, IoT helps control street lights and traffic signals automatically. Farmers use IoT to check soil and water plants only when needed. IoT helps in hospitals to watch patient’s health all the time.\nMany people use fitness bands to check heart rate. Homes have smart door locks that can be opened with phones. In offices, smart ACs turn off when no one is inside to save power. Even schools can use IoT to send messages to parents when students enter or leave school.\nIn the future, IoT will connect even more devices. It will help save energy, water, and time. But it is important to keep data safe. Learning IoT basics will help students get good jobs in the future.",
       "questions": [
@@ -263,7 +278,7 @@ const passages = [
         // {"q":"Future will need:", "o":["Cybersecurity experts","Only singers","Only painters","Only farmers"], "c":"Cybersecurity experts"},
         // {"q":"Learning cybersecurity helps us:", "o":["Stay safe","Sleep longer","Spend money","Jump higher"], "c":"Stay safe"}
       ]},
-    
+
     {"title": "Robotics",
       "text": "Robotics is the study and making of robots. Robots are smart machines that help humans do different tasks. Some robots look like humans, but many look like arms, wheels, or even small boxes. Robotics combines engineering, computer science, and electronics to build robots.\nRobots work in factories to build cars, pack food, or paint walls. In hospitals, robots help doctors do surgeries more safely. At home, we have small robots that clean floors. Robots are also used in space to explore planets where humans cannot go.\nRobots can do boring, dangerous, or heavy work. They work 24 hours without getting tired. Robots also help disabled people by making special hands or legs that move using signals from the brain. In shops and airports, robots give information and help people find places.\nIn the future, robots may teach in schools, help old people, and even cook food. Students who learn robotics today can create new robots tomorrow. Robotics is growing fast and brings exciting new jobs.",
       "questions": [
@@ -278,7 +293,7 @@ const passages = [
         // {"q":"In shops, robots:", "o":["Give information","Jump","Sleep","Eat"], "c":"Give information"},
         // {"q":"Learning robotics can help students:", "o":["Make new robots","Fly","Swim faster","Become taller"], "c":"Make new robots"}
       ]},
-    
+
     {"title": "Virtual Reality (VR)",
       "text": "Virtual Reality (VR) is a special technology that creates a computer-made world where we can feel we are inside. We use VR headsets that cover our eyes and show 3D images. When we move our head, the view changes like in real life. It feels like visiting a new place while staying at home.\nVR is used in games where players feel they are inside the game world. In schools, VR helps students see historical places, science labs, or planets closely. Doctors use VR to practice surgeries safely. In the army, VR helps soldiers train without danger.\nWith VR, students can watch the inside of the human body, walk on the moon, or visit famous monuments. It makes lessons interesting and easy to remember. People can also travel virtually to places they cannot visit in real life.\nIn the future, VR may be used in online shopping to try clothes, in meetings to feel everyone is together, or to watch sports as if sitting in the stadium. Learning VR today will help students work in new fields tomorrow.",
       "questions": [
@@ -293,7 +308,7 @@ const passages = [
         // {"q":"VR may help in shopping to:", "o":["Try clothes","Make clothes","Wash clothes","Sell clothes only"], "c":"Try clothes"},
         // {"q":"Learning VR helps students:", "o":["Work in new fields","Climb trees","Sleep","Read faster only"], "c":"Work in new fields"}
       ]},
- 
+
    {"title": "Blockchain",
       "text": "Blockchain is a new way to store data safely. It keeps data in small blocks, and these blocks are linked like a chain. Once data is saved in a block, it cannot be changed easily. This makes blockchain very secure. Blockchain does not need one central place; many computers keep the same copy of data. This is why it is called 'decentralized.'\nBlockchain is famous because of cryptocurrencies like Bitcoin, which use it to keep records of buying and selling safely. But blockchain can do more. It can be used in banks to keep safe records of money. Hospitals can use it to save patient data. Even supply chains use blockchain to track where goods come from.\nBlockchain makes data safe, transparent, and quick to check. Because data is shared on many computers, hackers cannot easily change it. This helps stop fraud and makes business trusted. It also removes middlemen, so work becomes faster and cheaper.\nIn the future, blockchain may be used for voting, ID cards, online education certificates, and even in music and movies to protect creators. Students who learn blockchain can get jobs in IT, banking, health, and many more fields.",
       "questions": [
@@ -308,7 +323,7 @@ const passages = [
         // {"q":"Future use of blockchain may include:", "o":["Voting","Cooking","Painting","Sleeping"], "c":"Voting"},
         // {"q":"Learning blockchain can help get jobs in:", "o":["IT and banking","Singing only","Driving only","Jumping only"], "c":"IT and banking"}
       ]},
-    
+
   {"title": "Augmented Reality (AR)",
       "text": "Augmented Reality (AR) is a technology that adds computer images or data to the real world. Unlike Virtual Reality (VR), which fully covers what we see, AR shows real things with extra information or pictures. For example, when you play Pokémon Go on your phone, the game shows Pokémon in real places using AR.\nAR is used in education to show 3D models of science diagrams or historical places. In shopping, AR lets you see how furniture looks in your room before buying. Doctors use AR to see bones or organs on the body while treating patients. AR is also used in sports to show scores on TV during live matches.\nAR makes learning fun and easy. It helps people see things that are hard to imagine. In shopping, AR saves time and money by letting you try products virtually. In factories, AR guides workers to fix machines by showing step-by-step help.\nIn the future, AR may be in glasses we wear every day to show maps, messages, or health data. Students who learn AR can work in gaming, design, education, and health sectors.",
       "questions": [
@@ -323,7 +338,7 @@ const passages = [
         // {"q":"In future, AR may come in:", "o":["Glasses","Shoes","Books only","Pens only"], "c":"Glasses"},
         // {"q":"Learning AR helps get jobs in:", "o":["Gaming and design","Cooking only","Farming only","Sleeping only"], "c":"Gaming and design"}
       ]},
-    
+
 {"title": "5G Technology",
       "text": "5G means the fifth generation of mobile networks. It is much faster than 4G. With 5G, we can download movies in seconds and enjoy video calls without breaks. 5G uses new technology and more towers to send data quickly.\n5G is not only for phones. Self-driving cars use 5G to talk to each other and avoid accidents. In hospitals, doctors can do surgeries from far away with robots using 5G. In smart cities, 5G helps control traffic and save energy.\n5G makes internet speed super fast and connects many devices at once. It helps students watch live classes without buffering. Factories use 5G to run smart machines. Gamers enjoy online games with no delay.\nIn the future, 5G will help in virtual reality, smart homes, and even flying taxis. Students who learn about 5G today can work in telecom, robotics, and smart city projects.",
       "questions": [
@@ -354,39 +369,46 @@ function formatDuration(seconds) {
 }
 
 function startTest() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const nameError = document.getElementById('nameError');
-  const emailError = document.getElementById('emailError');
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let nameError = document.getElementById("nameError");
+    let emailError = document.getElementById("emailError");
 
-  let valid = true;
+    let nameRegex = /^[A-Za-z\s]+$/;
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!name) {
-    nameError.style.display = 'block';
-    valid = false;
-  } else {
-    nameError.style.display = 'none';
-  }
+    // Reset errors
+    nameError.style.display = "none";
+    emailError.style.display = "none";
 
-  if (!email || !email.includes('@')) {
-    emailError.style.display = 'block';
-    valid = false;
-  } else {
-    emailError.style.display = 'none';
-  }
+    let valid = true;
 
-  if (!valid) return;
+    if (!nameRegex.test(name)) {
+        nameError.style.display = "inline";
+        valid = false;
+    } 
+    if (!emailRegex.test(email)) {
+        emailError.style.display = "inline";
+        valid = false;
+    }
 
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('testPage').style.display = 'block';
+    if (!valid) return;
 
-  const randomIndex = Math.floor(Math.random() * passages.length);
-  currentPassage = passages[randomIndex];
-  document.getElementById('paragraph').innerText = currentPassage.text;
+    currentPassage = passages[Math.floor(Math.random() * passages.length)];
+    document.getElementById("paragraph").innerText = currentPassage.text;
 
-  document.getElementById('paragraph').classList.add('blurred');
-  document.getElementById('startReadBtn').style.display = 'inline-block';
-  document.getElementById('time').innerText = '';
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("testPage").style.display = "block";
+}
+
+function endTest() {
+    document.getElementById("testPage").style.display = "none";
+    document.getElementById("resultPage").style.display = "block";
+}
+
+function restartTest() {
+    document.getElementById("resultPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
 }
 
 function startReading() {
@@ -397,7 +419,7 @@ function startReading() {
   const proceedBtn = document.getElementById('proceedToQuestions');
   proceedBtn.disabled = false; // Allow user to proceed anytime
 
-  let secondsLeft = 180; // 3 minutes
+  let secondsLeft = 300; // 5 minutes
   document.getElementById('time').innerText = formatDuration(secondsLeft);
 
   readingTimerInterval = setInterval(() => {
