@@ -206,6 +206,7 @@
   <h3>Your Result</h3>
   <p><strong>Name:</strong> <span id="userName"></span></p>
   <p><strong>Email:</strong> <span id="userEmail"></span></p>
+  <p><strong>Topic:</strong> <span id="userTopic"></span></p>
   <canvas id="resultChart"></canvas>
   <div id="answersReview"></div>
   <button onclick="showSuccess()" style="margin-top: 20px;">Final Submit</button>
@@ -766,7 +767,6 @@ const passages = [
     }
   ];
 
-
 let currentPassage = null;
 let userAnswers = [];
 let readingStartTime, readingEndTime, testStartTime, testEndTime;
@@ -888,6 +888,8 @@ function submitAnswers() {
   document.getElementById('finalPage').style.display = 'block';
   document.getElementById('userName').innerText = document.getElementById('name').value.trim();
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
+  document.getElementById('userTopic').innerText = currentPassage.title;
+
 
   const total = currentPassage.questions.length;
   const correct = score;
@@ -933,21 +935,22 @@ function submitAnswers() {
   const readingTime = formatDuration(Math.round((readingEndTime - readingStartTime) / 1000));
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
-  // Auto send to Google Sheet
-  const formData = new FormData();
-  formData.append('entry.1640574701', document.getElementById('name').value.trim());
-  formData.append('entry.2044946124', document.getElementById('email').value.trim());
-  formData.append('entry.645538404', total);
-  formData.append('entry.895886336', correct);
-  formData.append('entry.115296724', wrong);
-  formData.append('entry.2140657840', readingTime);
-  formData.append('entry.1238249296', testTime);
+// Auto send to Google Sheet
+const formData = new FormData();
+formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
+formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
+formData.append('entry.1911046396', currentPassage.title); // 🔹 Reading Topic (NEW FIELD)
+formData.append('entry.645538404', total); // Total Questions
+formData.append('entry.895886336', correct); // Correct
+formData.append('entry.115296724', wrong); // Wrong
+formData.append('entry.2140657840', readingTime); // Reading Time
+formData.append('entry.1238249296', testTime);   // Test Time
 
-  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: formData
-  });
+fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
+  method: 'POST',
+  mode: 'no-cors',
+  body: formData
+});
 }
 
 function showSuccess() {
