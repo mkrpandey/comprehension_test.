@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"content="width=device-width, initial-scale=1.0"/>
   <title>Air Flow Pvt. Ltd. Comprehension Reading Test</title>
-  <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" />
+  <link rel="icon"type="image/png"href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -133,9 +133,10 @@
     .correct { color: green; font-weight: bold; }
     .incorrect { color: red; font-weight: bold; }
     canvas { max-width: 400px; margin: 20px auto; display: block; }
-    #paragraph, #mcqs {
+   #paragraph, #mcqs {
       user-select: none;
       pointer-events: auto;
+      text-align: justify;
     }
     .blurred {
       filter: blur(4px);
@@ -158,24 +159,24 @@
 <body>
 
 <div class="header">
-  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo" />
+  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png"alt="Logo"/>
   <h2>Air Flow Pvt. Ltd. Comprehension Reading Test</h2>
 </div>
 
 <!-- Login Page -->
-<div class="login-container" id="loginPage">
+<div class="login-container"id="loginPage">
   <div class="left">
     <img 
-      src="https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg" 
+      src="https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg"
       alt="Illustration"
       style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
   </div>
   <div class="right">
     <h3>👤Login</h3>
-    <input type="text" id="name" placeholder="Your Name" required />
-    <div class="error" id="nameError">Please enter a valid name.</div>
-    <input type="email" id="email" placeholder="Your Email" required />
-    <div class="error" id="emailError">Please enter a valid email.</div>
+    <input type="text"id="name"placeholder="Your Name"required />
+    <div class="error"id="nameError">Please enter a valid name.</div>
+    <input type="email"id="email"placeholder="Your Email"required />
+    <div class="error"id="emailError">Please enter a valid email.</div>
     <button onclick="startTest()">Submit</button>
   </div>
 </div>
@@ -184,15 +185,16 @@
 <div id="testPage">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
   <div style="font-weight: bold;">
-    Reading time left: <span id="time">05:00</span>
-    <span style="color:red; font-weight:bold; white-space: nowrap;"> Please Read Carefully</span>
+    Reading time left: <span id="time">10:00</span>
+    <span style="color:red; font-weight:bold; white-space: nowrap;"> ---📚Please Read Carefully!!</span>
+    <!-- <span style="color:red; font-weight:bold; white-space: nowrap;"> [Note: The "I have read it"button will be enabled only after 2 minutes of reading time.]</span> -->
   </div>
-  <button id="startReadBtn" onclick="startReading()" style="padding: 6px 14px; font-size: 13px; font-weight: bold; border: none; background: linear-gradient(to right, #36d1dc, #5b86e5); color: white; border-radius: 20px; cursor: pointer;">
+  <button id="startReadBtn"onclick="startReading()"style="padding: 6px 14px; font-size: 13px; font-weight: bold; border: none; background: linear-gradient(to right, #36d1dc, #5b86e5); color: white; border-radius: 20px; cursor: pointer;">
     Start Read
   </button>
 </div>
-  <p id="paragraph" class="blurred"></p>
-  <button id="proceedToQuestions" onclick="loadQuestions()" disabled>I have read it. Now attempt the test</button>
+  <p id="paragraph"class="blurred"></p>
+  <button id="proceedToQuestions"onclick="loadQuestions()"disabled>I have read it. Now attempt the test</button>
 </div>
 
 <!-- Question Page -->
@@ -209,563 +211,788 @@
   <p><strong>Topic:</strong> <span id="userTopic"></span></p>
   <canvas id="resultChart"></canvas>
   <div id="answersReview"></div>
-  <button onclick="showSuccess()" style="margin-top: 20px;">Final Submit</button>
+  <button onclick="showSuccess()"style="margin-top: 20px;">Final Submit</button>
 </div>
 
 <!-- Success Page -->
-<div id="successPage" style="display: none; justify-content: center; align-items: center; min-height: 60vh; text-align: center; padding: 30px;">
+<div id="successPage"style="display: none; justify-content: center; align-items: center; min-height: 60vh; text-align: center; padding: 30px;">
   <h2>Thank you! Your result has been successfully submitted. <span class="emoji">😊</span></h2>
 </div>
 
 <script>
 const passages = [
-  
- { "title":"Artificial Intelligence (AI)",
-    "text":"Artificial Intelligence, or AI, is a branch of computer science that focuses on creating systems that can perform tasks that usually need human intelligence. These tasks include understanding language, recognizing patterns, solving problems, and making decisions. AI systems can process large amounts of data much faster than humans, and they can keep learning and improving without being told exactly what to do every time.\nOne common use of AI is in recommendation systems, such as those used by video streaming platforms. These systems study what you watch and suggest other videos you might enjoy. AI is also used in customer service through virtual assistants and chatbots that can answer questions instantly. In industries like healthcare, AI helps in predicting diseases and recommending treatments.\nAI can be divided into two types: narrow AI, which is designed to do a specific job like translating languages, and general AI, which aims to do any intellectual task that a human can do. While general AI is still in research, narrow AI is already widely used in daily life.\nAlthough AI can improve productivity and accuracy, it also raises concerns about privacy, bias, and job displacement. This is why experts emphasize the need for responsible and ethical AI development. When used wisely, AI can be a powerful tool to solve real-world problems and make life better for everyone.",
-    "questions": [
-    {
-      "q":"Which type of AI is still mainly in research stage?",
-      "o": ["Narrow AI", "Applied AI", "Reactive AI", "General AI"],
-      "c":"General AI"
-    },
-    {
-      "q":"What is a common example of AI use in entertainment platforms?",
-      "o": ["Video recommendation systems", "Making the screen brighter", "Slowing down videos", "Changing video sizes"],
-      "c":"Video recommendation systems"
-    },
-    {
-      "q":"Why can AI process information faster than humans?",
-      "o": ["Because it uses the internet", "Because it can handle large amounts of data quickly", "Because it has emotions", "Because it sleeps less"],
-      "c":"Because it can handle large amounts of data quickly"
-    },
-    {
-      "q":"Which of these is a type of AI used for specific tasks like translation?",
-      "o": ["Strong AI", "Creative AI", "Narrow AI", "General AI"],
-      "c":"Narrow AI"
-    },
-    {
-      "q":"Why do experts stress responsible AI development?",
-      "o": ["To prevent misuse and solve problems ethically", "To make AI sleep more", "To help AI become a person", "To stop AI from learning"],
-      "c":"To prevent misuse and solve problems ethically"
-    }
-    ]},
-
-  { "title":"Cyber Fraud",
-    "text":"Cyber fraud refers to illegal activities carried out using computers, networks, or the internet to deceive individuals, organizations, or systems for financial or personal gain. It encompasses a wide range of malicious actions, including phishing attacks, identity theft, online scams, ransomware attacks, and unauthorized access to sensitive data.\nCyber fraudsters exploit technological vulnerabilities, social engineering techniques, and human errors to manipulate victims. They often use sophisticated tools to bypass security measures, disguise their identity, and transfer illicit funds. The consequences of cyber fraud can include financial losses, reputational damage, legal penalties, and compromise of confidential information.\nOrganizations implement cybersecurity measures such as encryption, multi-factor authentication, intrusion detection systems, and regular employee training to mitigate the risk of cyber fraud. Legal frameworks and regulatory compliance also play a crucial role in deterring cybercriminals. Despite these efforts, cyber fraud continues to evolve with emerging technologies, requiring continuous vigilance and adaptive defense strategies.\nUnderstanding patterns of cyber fraud, recognizing warning signs, and maintaining ethical cyber practices are critical for individuals and businesses. Proactive prevention, timely detection, and rapid response are essential components of a robust cybersecurity strategy to minimize the impact of cyber fraud.",
-    "questions": [
-    {
-      "q":"Which method is commonly used in cyber fraud to manipulate individuals into revealing sensitive information?",
-      "o": ["Social engineering", "Data encryption", "Cloud computing", "Algorithm optimization"],
-      "c":"Social engineering"
-    },
-    {
-      "q":"Ransomware attacks are primarily designed to:",
-      "o": ["Encrypt victims’ data and demand payment", "Steal internet bandwidth", "Delete software licenses", "Enhance system performance"],
-      "c":"Encrypt victims’ data and demand payment"
-    },
-    {
-      "q":"Why is multi-factor authentication (MFA) effective against cyber fraud?",
-      "o": ["It combines multiple verification methods, making unauthorized access harder", "It speeds up login times", "It removes the need for passwords", "It increases network bandwidth"],
-      "c":"It combines multiple verification methods, making unauthorized access harder"
-    },
-    {
-      "q":"Which of the following represents a key challenge in combating cyber fraud?",
-      "o": ["Rapid evolution of attack techniques and anonymity of attackers", "Availability of high-speed internet", "Use of open-source software", "Low energy consumption of devices"],
-      "c":"Rapid evolution of attack techniques and anonymity of attackers"
-    },
-    {
-      "q":"What role does regulatory compliance play in mitigating cyber fraud?",
-      "o": ["It establishes legal obligations and standards to deter fraud", "It allows unrestricted data sharing", "It increases employee workload unnecessarily", "It replaces cybersecurity technology"],
-      "c":"It establishes legal obligations and standards to deter fraud"
-    }
-  ]},
-
-  { "title":"Microsoft Excel",
-    "text":"Microsoft Excel is a spreadsheet software developed by Microsoft that allows users to organize, analyze, and visualize data. It provides rows and columns where users can enter numbers, text, or formulas to perform calculations. Excel is widely used for tasks such as budgeting, data analysis, reporting, and creating charts.\nOne of the most powerful features of Excel is the use of formulas and functions. Functions like SUM, AVERAGE, and IF help automate calculations, saving time and reducing errors. Excel also allows conditional formatting to highlight important data, and pivot tables to summarize large datasets quickly.\nIn businesses, Excel is commonly used for financial modeling, tracking expenses, and managing projects. In education, it is used for data analysis and creating grade sheets. Excel can handle both simple calculations and complex data analysis, making it a versatile tool.\nWhile Excel is powerful, it also requires careful use to avoid mistakes in formulas and data entry. Learning shortcuts, formulas, and best practices helps users become more efficient. Excel continues to be one of the most essential tools for professionals in almost every field.",
-    "questions": [
-    {
-      "q":"What is Microsoft Excel primarily used for?",
-      "o": ["Playing games", "Organizing and analyzing data", "Watching videos", "Drawing pictures"],
-      "c":"Organizing and analyzing data"
-    },
-    {
-      "q":"Which feature of Excel helps summarize large datasets quickly?",
-      "o": ["Conditional formatting", "Pivot tables", "Cell borders", "Zoom tool"],
-      "c":"Pivot tables"
-    },
-    {
-      "q":"Which of these is NOT an Excel function?",
-      "o": ["SUM", "IF", "AVERAGE", "PRINTSCREEN"],
-      "c":"PRINTSCREEN"
-    },
-    {
-      "q":"What does conditional formatting in Excel do?",
-      "o": ["Formats only numbers", "Highlights data based on rules", "Deletes empty cells", "Protects worksheets"],
-      "c":"Highlights data based on rules"
-    },
-    {
-      "q":"Why is learning Excel shortcuts and best practices important?",
-      "o": ["To make spreadsheets look colorful", "To avoid mistakes and work faster", "To turn Excel into Word", "To prevent the computer from shutting down"],
-      "c":"To avoid mistakes and work faster"
-     }     
-  ]},
- 
-  { "title":"Compliance and Safety",
-    "text":"Compliance and Safety refers to following rules, laws, and best practices to ensure that workplaces, industries, and communities remain safe and ethical. Compliance means obeying legal requirements, company policies, and industry standards, while safety focuses on protecting people from accidents, injuries, or health risks.\nIn workplaces, compliance includes following labor laws, data protection rules, and industry-specific regulations. Safety practices may include wearing protective equipment, conducting safety drills, and ensuring machines and tools are used correctly. Both compliance and safety are important for preventing harm and avoiding penalties.\nOrganizations often have compliance officers and safety managers who make sure employees are trained, risks are reduced, and proper records are kept. For example, in a factory, compliance might involve following environmental regulations, while safety includes using helmets, gloves, and emergency exits properly.\nStrong compliance and safety programs build trust with employees, customers, and regulators. They also reduce accidents, legal risks, and financial losses. When everyone follows rules and prioritizes safety, workplaces become more productive, ethical, and secure for all.",
-    "questions": [
-    {
-      "q":"What does 'compliance' mainly refer to in the workplace?",
-      "o": ["Wearing uniforms", "Following rules and regulations", "Taking frequent breaks", "Decorating offices"],
-      "c":"Following rules and regulations"
-    },
-    {
-      "q":"Which of these is an example of workplace safety practice?",
-      "o": ["Using protective equipment", "Skipping training", "Ignoring rules", "Disabling alarms"],
-      "c":"Using protective equipment"
-    },
-    {
-      "q":"Why are compliance and safety programs important?",
-      "o": ["To reduce accidents and risks", "To make offices colorful", "To increase internet speed", "To replace managers"],
-      "c":"To reduce accidents and risks"
-    },
-    {
-      "q":"Who is often responsible for ensuring compliance and safety in organizations?",
-      "o": ["Visitors", "Compliance officers and safety managers", "Competitors", "Customers"],
-      "c":"Compliance officers and safety managers"
-    },
-    {
-      "q":"What is one benefit of strong compliance and safety programs?",
-      "o": ["They build trust and prevent legal issues", "They allow ignoring rules", "They make work optional", "They stop training programs"],
-      "c":"They build trust and prevent legal issues"
-   }     
-  ]},
-
-  { "title":"Communication Skills",
-    "text":"Communication skills are the abilities that help people share information, ideas, and emotions effectively with others. Good communication involves both expressing oneself clearly and listening carefully to understand others. These skills are important in personal life, education, and workplaces, as they improve teamwork, reduce misunderstandings, and build stronger relationships.\nCommunication can be verbal, such as speaking and writing, or non-verbal, such as body language, facial expressions, and tone of voice. Active listening, empathy, and clarity are key elements of effective communication. For example, in a workplace, good communication helps managers explain tasks clearly and allows employees to share feedback.\nStrong communication skills are essential in job interviews, presentations, and teamwork. They help in conflict resolution, decision-making, and leadership. People who communicate well are often more confident and successful in achieving their goals.\nImproving communication requires practice, patience, and awareness. Common methods include reading, writing, practicing public speaking, and actively listening to others. With continuous effort, communication skills can be developed by anyone and can greatly improve both personal and professional life.",
-    "questions": [
-    {
-      "q":"What do communication skills mainly help with?",
-      "o": ["Sharing information and understanding others", "Sleeping better", "Working without teams", "Using technology faster"],
-      "c":"Sharing information and understanding others"
-    },
-    {
-      "q":"Which of these is an example of non-verbal communication?",
-      "o": ["Writing an email", "Speaking on the phone", "Body language", "Reading a book"],
-      "c":"Body language"
-    },
-    {
-      "q":"Why are communication skills important in the workplace?",
-      "o": ["They make offices more colorful", "They improve teamwork and reduce misunderstandings", "They increase internet speed", "They replace training programs"],
-      "c":"They improve teamwork and reduce misunderstandings"
-    },
-    {
-      "q":"Which of these is a key element of effective communication?",
-      "o": ["Active listening", "Ignoring others", "Talking continuously", "Avoiding eye contact"],
-      "c":"Active listening"
-    },
-    {
-      "q":"How can a person improve their communication skills?",
-      "o": ["By avoiding practice", "By practicing public speaking and listening", "By never reading or writing", "By speaking faster only"],
-      "c":"By practicing public speaking and listening"
-  }     
-  ]},
-
-
-   { "title":"Cloud Computing",
-      "text":"Cloud Computing is a technology where data and applications are stored and used over the internet instead of on a local device. The term 'cloud' comes from the idea that data can be accessed from anywhere, much like clouds are visible from many places. For example, saving files on Google Drive, watching videos on YouTube, or streaming movies on Netflix all use cloud computing.\nOne major benefit of cloud computing is that it saves space on devices and keeps data safe even if the device gets damaged. It also allows people to share files and work on the same project from different locations using apps like Google Docs. Businesses use the cloud to store large amounts of data, run websites, and quickly scale their services without buying expensive hardware.\nCloud computing offers flexibility, faster performance, and lower costs compared to traditional methods. Students use it to store assignments, collaborate on projects, and submit homework online. Teachers share study materials easily, and banks use it to secure customer records.\nAs more industries move to the cloud, security remains an important concern to protect data from hackers. Learning about cloud computing is becoming essential for future careers, as it is now a key part of many everyday services and businesses.",
-      "questions": [
-    {
-      "q":"Which of these is an example of cloud computing?",
-      "o": ["Saving files on a USB drive", "Installing apps from a CD", "Keeping documents in a local folder", "Storing files on Google Drive"],
-      "c":"Storing files on Google Drive"
-    },
-    {
-      "q":"What is a major benefit of cloud computing for businesses?",
-      "o": ["It allows quick scaling without expensive hardware", "It makes devices heavier", "It requires more electricity", "It slows down websites"],
-      "c":"It allows quick scaling without expensive hardware"
-    },
-    {
-      "q":"Why does cloud computing save space on devices?",
-      "o": ["Because it deletes old files", "Because data is stored on the internet instead of the device", "Because it compresses all files automatically", "Because it replaces hard drives with clouds"],
-      "c":"Because data is stored on the internet instead of the device"
-    },
-   {
-    "q":"Which of these groups most commonly uses cloud platforms for distributing and collaborating on learning resources?",
-    "o": ["Professional chefs designing new menus", "Educators preparing lessons", "Taxi drivers planning routes", "Gardeners tracking plant growth"],
-    "c":"Educators preparing lessons"
+ { "title": "01- Artificial Intelligence (AI)",
+  "text": "Artificial Intelligence, or AI, is a major branch of computer science that focuses on building machines capable of performing tasks that typically require human intelligence. These tasks can include understanding spoken or written language, identifying patterns in images or data, solving complex problems, and making informed decisions. What makes AI especially powerful is its ability to learn from experience and improve over time, even without being explicitly told how to handle every situation. Unlike traditional programs that follow strict rules, AI systems adapt and become more accurate as they process more data. One of the most visible applications of AI in everyday life is in recommendation systems. These are the systems behind platforms like YouTube, Netflix, and Amazon that suggest videos, shows, or products based on your past behavior. AI analyzes your viewing or shopping history to predict what you might like next, helping personalize your experience. Similarly, AI is widely used in customer service through virtual assistants and chatbots. These tools can handle common questions instantly and around the clock, reducing wait times and improving user satisfaction. AI is also embedded in smart home devices, voice assistants like Siri and Alexa, and navigation apps like Google Maps. In industries like healthcare, AI is helping transform how patients are diagnosed and treated. For example, AI can examine thousands of medical images, like X-rays or MRIs, and detect early signs of diseases such as cancer more accurately and quickly than the human eye. It can also analyze a patient's medical history and symptoms to suggest personalized treatments or flag high-risk conditions before they worsen. Hospitals and research centers are using AI to streamline workflows, predict patient outcomes, and even assist in drug discovery. This makes healthcare not only more efficient but potentially more accessible and affordable. AI can be divided into two main categories: narrow AI and general AI. Narrow AI, sometimes called weak AI, is designed to perform a specific task. Examples include facial recognition software, language translation apps, and voice-to-text tools. These systems are limited to the roles they were designed for, and they perform exceptionally well within those boundaries.",
+  "questions":[
+  {
+    "q": "Which characteristic primarily distinguishes AI systems from traditional rule-based programs?",
+    "o": ["AI systems operate strictly based on hard-coded logic", "AI systems adapt through learning and evolve over time", "AI systems struggle with processing extensive data", "AI systems need a set of exact steps for every operation", "Don't Know"],
+    "c": "AI systems adapt through learning and evolve over time"
   },
   {
-    "q":"Why is maintaining strong cloud security practices critical for organizations and individuals?",
-    "o": [ "To safeguard sensitive information from unauthorized access", "To make the appearance of online cloud icons more attractive", "To prevent natural weather changes", "To reduce the brightness of device screens"],
-    "c":"To safeguard sensitive information from unauthorized access"
+    "q": "What is a key function of recommendation systems powered by AI in platforms like Netflix and Amazon?",
+    "o": ["To offer suggestions at random", "To interpret user habits and forecast interests", "To speed up how fast videos play", "To cut down on how much data is used", "Don't Know"],
+    "c": "To interpret user habits and forecast interests"
+  },
+  {
+    "q": "In healthcare, how does AI improve the diagnosis of diseases such as cancer?",
+    "o": ["By completely replacing medical professionals", "By scanning and analyzing images faster and more precisely than people", "By having doctors review records manually", "By increasing the frequency of imaging procedures", "Don't Know"],
+    "c": "By scanning and analyzing images faster and more precisely than people"
+  },
+  {
+    "q": "Which of the following best describes 'narrow AI'?",
+    "o": ["AI capable of multitasking across broad domains", "AI with human-like consciousness and emotions", "AI built to efficiently perform specific functions", "AI that only exists in theory, not practice", "Don't Know"],
+    "c": "AI built to efficiently perform specific functions"
+  },
+  {
+    "q": "Why is AI considered potentially more accessible and affordable in healthcare?",
+    "o": ["Because it removes the need for doctors", "Because it automates processes and helps find new treatments", "Because it leads to higher costs for facilities", "Because it does away with traditional healthcare methods", "Don't Know"],
+    "c": "Because it automates processes and helps find new treatments"
+  },
+  {
+    "q": "What role do virtual assistants and chatbots play in AI applications?",
+    "o": ["They make customer service less efficient", "They instantly respond to frequent queries and boost user experience", "They fully replace all human interaction", "They are limited to working only during office times", "Don't Know"],
+    "c": "They instantly respond to frequent queries and boost user experience"
+  },
+  {
+    "q": "Which of the following is NOT an example of narrow AI mentioned in the paragraph?",
+    "o": ["Face detection systems", "Apps that translate languages", "Speech recognition utilities", "Broad AI with reasoning like a human brain", "Don't Know"],
+    "c": "Broad AI with reasoning like a human brain"
+  },
+  {
+    "q": "How does AI contribute to personalized treatment in healthcare?",
+    "o": ["By assigning medications randomly", "By studying patient backgrounds and symptoms to recommend care", "By disregarding individual data", "By giving every patient the same treatment plan", "Don't Know"],
+    "c": "By studying patient backgrounds and symptoms to recommend care"
+  },
+  {
+    "q": "What is the significance of AI systems adapting as they process more data?",
+    "o": ["It gradually slows down the system", "It improves accuracy without needing manual updates", "It leads to loss of previously learned information", "It prevents the AI from handling varied tasks", "Don't Know"],
+    "c": "It improves accuracy without needing manual updates"
+  },
+  {
+    "q": "Which statement best reflects the current state of general AI according to the paragraph?",
+    "o": ["General AI is common in daily tech use", "General AI is mostly in experimental phases", "General AI is weaker than specific AI systems", "General AI performs limited roles only", "Don't Know"],
+    "c": "General AI is mostly in experimental phases"
+    }     
+  ]},
+
+  { "title":"02- Cyber Fraud",
+    "text": "Cyber fraud refers to illegal activities carried out using computers, networks, or the internet, with the intention of deceiving individuals, businesses, or systems to steal money or personal information. In today’s digital age, cyber fraud has become a serious and rapidly growing problem. It includes various harmful actions such as phishing emails, identity theft, online scams, ransomware attacks, and unauthorized access to data. Cyber fraudsters exploit weaknesses in technology or manipulate people to extract important information — this technique is called social engineering. For example, they may call or email someone to ask for passwords or bank details. These attackers use advanced tools, hide their identities, and illegally transfer money or data without getting caught. Often, simply clicking on a wrong link or sharing confidential information can lead to a major security breach. The impact of cyber fraud can be very serious. People can lose their money, their reputation can be damaged, and sometimes they face legal problems. For companies, it is even more dangerous — their customer trust may be broken, and sensitive business data can be leaked. This is why governments and private companies have made cybersecurity a top priority. To protect themselves from cyber fraud, companies use various protective measures such as encryption (to secure data), multi-factor authentication, firewalls, and intrusion detection systems. Additionally, employees and people are trained to recognize fraud. Governments are also making new laws to punish cybercriminals and promote safe internet behavior. However, as technology advances, cyber fraud also evolves in new ways. Therefore, individuals and businesses must stay alert. Everyone should understand cyber fraud patterns, recognize warning signs, and follow safe online practices. Prevention, quick detection, and fast response together create a strong defense. Nowadays, fraudsters are also targeting social media platforms — they create fake profiles or fake brand pages to steal login details or money from users. Misusing deepfake technology, they create fake audio or video to deceive people. Small businesses are often targeted because they may lack strong security. That’s why regular software updates, strong passwords, and safe internet habits are essential. When using public Wi-Fi, one should always stay alert and verify the source before clicking any link in emails or messages. Regularly backing up important data also helps reduce damage from ransomware attacks. Deleting suspicious messages and avoiding oversharing information online are good cyber hygiene habits. Collaborating with cybersecurity experts and law enforcement makes fraud response more effective. In today’s digital world, staying informed is just as important as staying protected. Moreover, cyber fraud prevention requires continuous investment in advanced technologies like artificial intelligence and machine learning, which can detect unusual activities faster than traditional methods. Awareness campaigns and training programs must be regularly updated to reflect the latest threats. Businesses should conduct frequent security audits and penetration testing to identify vulnerabilities before attackers do. Governments worldwide are working on international cooperation to track and apprehend cybercriminals operating across borders. As the Internet of Things (IoT) devices become more common, securing these connected devices is critical to prevent new entry points for fraudsters. Users should also be cautious about the apps and software they download, ensuring they come from trusted sources. Encouraging a culture of cybersecurity within organizations helps employees take personal responsibility for protecting data. Finally, the rise of cryptocurrency has introduced new challenges in cyber fraud, such as scams involving digital wallets and exchanges, requiring specialized security measures. Overall, combating cyber fraud is a shared responsibility that demands vigilance, education, and innovation at every level.",
+    "questions": [
+  {
+    "q": "How does social engineering exploit human psychology to facilitate cyber fraud, and why is it often more effective than technical hacking methods?",
+    "o": ["It uses complex algorithms to break encryption", "It manipulates trust and human error, which are often easier to exploit than technical vulnerabilities", "It relies solely on malware infections", "It requires physical access to devices", "Don't Know"],
+    "c": "It manipulates trust and human error, which are often easier to exploit than technical vulnerabilities"
+  },
+  {
+    "q": "Why is multi-factor authentication considered a critical defense against unauthorized access despite advances in hacking tools?",
+    "o": ["It requires only a password", "It adds multiple layers of verification, making unauthorized access significantly harder", "It slows down legitimate users", "It is easy to bypass with phishing", "Don't Know"],
+    "c": "It adds multiple layers of verification, making unauthorized access significantly harder"
+  },
+  {
+    "q": "Explain how ransomware attacks leverage both technological vulnerabilities and human behavior to maximize their impact.",
+    "o": ["They only exploit software bugs", "They encrypt data after tricking users into clicking malicious links or attachments, combining technical and social engineering tactics", "They require physical theft of devices", "They are harmless and easily reversible", "Don't Know"],
+    "c": "They encrypt data after tricking users into clicking malicious links or attachments, combining technical and social engineering tactics"
+  },
+  {
+    "q": "In what ways do governments’ international cooperation efforts enhance the effectiveness of combating cyber fraud?",
+    "o": ["By sharing intelligence and coordinating cross-border investigations to apprehend cybercriminals operating globally", "By restricting internet access worldwide", "By ignoring cybercrime in other countries", "By focusing only on local cyber threats", "Don't Know"],
+    "c": "By sharing intelligence and coordinating cross-border investigations to apprehend cybercriminals operating globally"
+  },
+  {
+    "q": "Discuss the challenges small businesses face in cyber fraud prevention compared to larger organizations.",
+    "o": ["Small businesses have unlimited resources for cybersecurity", "Small businesses often lack strong security infrastructure and awareness, making them easier targets", "Small businesses are never targeted by fraudsters", "Small businesses have better cybersecurity than large firms", "Don't Know"],
+    "c": "Small businesses often lack strong security infrastructure and awareness, making them easier targets"
+  },
+  {
+    "q": "How does the misuse of deepfake technology complicate the detection and prevention of cyber fraud?",
+    "o": ["Deepfakes are easy to detect and harmless", "Deepfakes create convincing fake audio or video, making it difficult to verify authenticity and increasing deception risks", "Deepfakes improve cybersecurity", "Deepfakes only affect offline communications", "Don't Know"],
+    "c": "Deepfakes create convincing fake audio or video, making it difficult to verify authenticity and increasing deception risks"
+  },
+  {
+    "q": "Why is continuous investment in AI and machine learning essential for modern cybersecurity strategies?",
+    "o": ["Because traditional methods cannot detect evolving and sophisticated cyber fraud patterns quickly enough", "Because AI replaces all human cybersecurity jobs", "Because AI slows down detection processes", "Because machine learning is irrelevant to cybersecurity", "Don't Know"],
+    "c": "Because traditional methods cannot detect evolving and sophisticated cyber fraud patterns quickly enough"
+  },
+  {
+    "q": "What role does employee training play in strengthening an organization’s defense against cyber fraud?",
+    "o": ["It is unnecessary if technical defenses are strong", "It equips employees to recognize fraud attempts and avoid risky behaviors, reducing human error vulnerabilities", "It only focuses on software updates", "It replaces the need for firewalls", "Don't Know"],
+    "c": "It equips employees to recognize fraud attempts and avoid risky behaviors, reducing human error vulnerabilities"
+  },
+  {
+    "q": "How do encryption and intrusion detection systems complement each other in protecting sensitive data?",
+    "o": ["Encryption secures data by making it unreadable without keys, while intrusion detection monitors and alerts on unauthorized access attempts", "Both slow down network traffic", "Both are outdated technologies", "Both only work offline", "Don't Know"],
+    "c": "Encryption secures data by making it unreadable without keys, while intrusion detection monitors and alerts on unauthorized access attempts"
+  },
+  {
+    "q": "Why is verifying the source of public Wi-Fi networks critical before accessing sensitive information?",
+    "o": ["Because public Wi-Fi is always secure", "Because fake or unsecured Wi-Fi can be used by fraudsters to intercept data or launch attacks", "Because Wi-Fi never affects cybersecurity", "Because all Wi-Fi networks are equally safe", "Don't Know"],
+    "c": "Because fake or unsecured Wi-Fi can be used by fraudsters to intercept data or launch attacks"
+    }
+    ]},
+
+  { "title":"03- Microsoft Excel",
+    "text": "Microsoft Excel is a widely used spreadsheet software developed by Microsoft. It offers a digital grid made up of rows and columns, where users can enter and organize different types of data such as numbers, text, and dates. Since its introduction, Excel has become an essential tool for individuals, businesses, and educators who need to handle data in an efficient and organized manner. At its core, Excel is designed around cells, which are the intersection points of rows and columns. Each cell can hold data or formulas, making it easy to create tables, lists, and databases. The software also allows users to customize the layout by adjusting column widths, row heights, and applying formatting styles such as font changes, colors, and borders to improve readability. One of Excel’s most powerful capabilities lies in its use of formulas and functions. Formulas enable users to perform calculations dynamically by referencing other cells. Functions like SUM, AVERAGE, MIN, MAX, and IF simplify complex calculations and logical tests, automating data processing tasks. These tools significantly reduce the time and effort needed to manipulate numbers manually. Excel’s conditional formatting allows users to apply specific styles to cells that meet certain criteria. For example, highlighting cells that contain values above a threshold or using color scales to represent data ranges. This makes important information stand out and helps users quickly identify trends or outliers. Additionally, Excel provides an extensive range of chart options—such as bar, line, pie, and scatter charts—that transform raw data into visual insights. For analyzing large datasets, Excel offers pivot tables, which allow users to quickly summarize, sort, and filter data without altering the original table. Pivot tables enable powerful, interactive data exploration and can generate insightful reports that support decision-making processes. They are especially valuable in business settings where summarizing financial or sales data is crucial. Excel is a staple in the business world for tasks such as budgeting, financial forecasting, expense tracking, and project management. Businesses use Excel spreadsheets to plan resources, track performance metrics, and create detailed financial reports. Its versatility means it can support everything from small business operations to complex corporate finance functions. Beyond business, Excel plays a vital role in education and research. Teachers use it to create grade books, track student progress, and analyze educational outcomes. Researchers utilize Excel to organize experimental data, perform statistical analysis, and prepare data visualizations for academic papers or presentations. Despite its power, Excel requires users to be careful with data entry and formula accuracy. Common mistakes include referencing incorrect cells, circular references, or data inconsistencies that can lead to incorrect results. Learning best practices such as using named ranges, error checking tools, and validating data input are essential to maintaining data integrity. To improve productivity, Excel offers numerous shortcuts, templates, and add-ins that streamline workflows. Users can automate repetitive tasks with macros or use Excel’s integration with Power Query and Power BI for advanced data manipulation and business intelligence. Continuous learning and practice help users leverage these advanced features effectively. In today’s data-driven world, Microsoft Excel remains a cornerstone tool for data management and analysis. Its ongoing development and integration with cloud services like Microsoft 365 ensure it stays relevant and powerful. Whether for everyday tasks or complex analytics, Excel’s flexibility and robustness make it indispensable across industries worldwide. Additionally, Microsoft regularly updates Excel with new features like dynamic arrays and XLOOKUP, enhancing its functionality further. The collaborative features in Microsoft 365 allow multiple users to work simultaneously on the same spreadsheet, improving teamwork and productivity. Excel’s ability to connect with external data sources such as SQL databases and online APIs empowers users to analyze real-time data seamlessly. The platform also supports customization through Visual Basic for Applications (VBA), enabling developers to create tailored solutions. As businesses increasingly rely on data analytics, Excel’s role is evolving from a simple spreadsheet tool to a comprehensive data platform. Training and certifications in Excel are now common in professional development, reflecting its importance in the job market.",
+    "questions": [
+  {
+    "q": "What fundamental element forms the basis of Excel’s data organization?",
+    "o": ["Charts", "Cells (intersection of rows and columns)", "Macros", "Templates", "Don't Know"],
+    "c": "Cells (intersection of rows and columns)"
+  },
+  {
+    "q": "How do formulas in Excel enhance data processing compared to manual calculations?",
+    "o": ["By allowing static data entry only", "By performing dynamic calculations referencing other cells", "By limiting calculations to one cell at a time", "By disabling logical tests", "Don't Know"],
+    "c": "By performing dynamic calculations referencing other cells"
+  },
+  {
+    "q": "Which Excel feature allows users to apply styles based on specific data conditions?",
+    "o": ["Pivot tables", "Conditional formatting", "Macros", "Power Query", "Don't Know"],
+    "c": "Conditional formatting"
+  },
+  {
+    "q": "What is the primary advantage of using pivot tables in Excel?",
+    "o": ["To permanently alter the original data table", "To quickly summarize, sort, and filter data interactively without changing the original data", "To create charts automatically", "To write VBA code", "Don't Know"],
+    "c": "To quickly summarize, sort, and filter data interactively without changing the original data"
+  },
+  {
+    "q": "Which of the following is NOT a common function mentioned in the paragraph?",
+    "o": ["SUM", "AVERAGE", "CONCATENATE", "IF", "Don't Know"],
+    "c": "CONCATENATE"
+  },
+  {
+    "q": "Why is data entry accuracy critical when working with Excel formulas?",
+    "o": ["Because Excel automatically corrects errors", "Because incorrect references or circular references can lead to wrong results", "Because formulas do not depend on data accuracy", "Because Excel ignores data inconsistencies", "Don't Know"],
+    "c": "Because incorrect references or circular references can lead to wrong results"
+  },
+  {
+    "q": "How do Excel’s chart options contribute to data analysis?",
+    "o": ["By converting raw data into visual insights like bar, line, pie, and scatter charts", "By deleting unnecessary data", "By encrypting data", "By automating data entry", "Don't Know"],
+    "c": "By converting raw data into visual insights like bar, line, pie, and scatter charts"
+  },
+  {
+    "q": "What role do macros play in Excel productivity?",
+    "o": ["They slow down data processing", "They automate repetitive tasks to streamline workflows", "They create charts automatically", "They replace pivot tables", "Don't Know"],
+    "c": "They automate repetitive tasks to streamline workflows"
+  },
+  {
+    "q": "Why are named ranges and error checking tools important in Excel?",
+    "o": ["They help maintain data integrity by reducing errors and improving formula clarity", "They slow down spreadsheet performance", "They are only useful for charts", "They replace conditional formatting", "Don't Know"],
+    "c": "They help maintain data integrity by reducing errors and improving formula clarity"
+  },
+  {
+    "q": "How do dynamic arrays and XLOOKUP improve Excel’s functionality?",
+    "o": ["By providing more flexible and powerful data lookup and array handling capabilities", "By removing pivot tables", "By disabling macros", "By limiting data entry options", "Don't Know"],
+    "c": "By providing more flexible and powerful data lookup and array handling capabilities"
+  } 
+  ]},
+ 
+  { "title":"04- Compliance and Safety",
+    "text":"Compliance and safety mean following rules, laws, and good habits to keep places safe and fair. Compliance means obeying laws, company rules, and industry standards. Safety means protecting people from getting hurt or sick. Compliance helps companies follow the law so they don’t get into trouble or pay fines. Safety means using safety gear like helmets and gloves, following safety steps, and keeping work areas clean and safe. This protects workers, visitors, and everyone around. For example, companies must follow rules about working hours and keeping data private. Safety also means practicing safety drills and using machines properly. Many companies hire people to make sure rules are followed and workers are safe. These people train workers, check for dangers, and keep records. Good compliance stops companies from facing legal problems and helps keep a good reputation. Good safety stops accidents and helps workers feel happy and healthy. When workers feel safe, they work better and are less likely to get hurt. Safety also helps stop big money losses from injuries. Rules and safety together make workplaces fair, safe, and a good place to work. This builds trust between workers, bosses, and customers. Everyone feels safer and happier when compliance and safety are important. Simple habits like cleaning up, wearing safety gear, and listening to safety talks can save lives. Always follow the rules and keep safety in mind every day. When we all work together, workplaces become safe and successful for everyone. It is important to report unsafe things right away. Taking breaks and not rushing work helps avoid mistakes. Workers should ask questions if they don’t understand safety rules. Companies should fix problems quickly when they find them. Safety signs help remind people what to do. Using the right tools makes work easier and safer. Being careful and paying attention keeps everyone safe. Families also feel better when workers come home safe. Teaching children about safety helps them grow up safe too. When everyone cares about safety and rules, it makes a better place for all. Training workers properly is very important because when people know how to do their jobs safely, fewer accidents happen. This is especially true for new workers who need to learn all the safety rules before they start working. Taking regular breaks during work helps keep workers alert and focused since being tired can cause mistakes that lead to accidents. Every workplace should have a clear emergency plan so that everyone knows what to do if there is a fire or another danger. Practicing this plan with drills helps people stay calm and safe in real emergencies. Good lighting and a clean, organized workspace also help prevent accidents by making it easier to see and move safely. Wearing protective equipment like gloves, helmets, and goggles is very important, and companies must make sure workers have the right gear and use it properly. Safety is also about caring for each other. When workers watch out for one another and remind each other about safety rules, the whole workplace becomes safer. It’s important to report even small accidents or close calls because these warnings help prevent bigger problems later on. Some jobs have extra dangers, like working with chemicals or heavy machines, so these require special care and training to stay safe. Talking openly about safety is very helpful—workers should feel comfortable asking questions and sharing ideas to improve safety. When safety is seen as a team effort, problems get solved faster, and everyone feels involved. Compliance and safety are ongoing efforts since rules can change and new risks can appear, so it’s important that everyone keeps learning and working together to maintain a safe workplace all the time.",
+    "questions": [
+  {
+    "q": "What is the primary purpose of compliance in a workplace?",
+    "o": ["To increase production speed", "To obey laws, company rules, and industry standards to avoid legal trouble and fines", "To reduce employee wages", "To eliminate safety gear", "Don't Know"],
+    "c": "To obey laws, company rules, and industry standards to avoid legal trouble and fines"
+  },
+  {
+    "q": "How does safety contribute to worker productivity and well-being?",
+    "o": ["By making workers feel safe and healthy, which improves their work performance and reduces injuries", "By increasing work hours without breaks", "By ignoring safety drills", "By removing protective equipment", "Don't Know"],
+    "c": "By making workers feel safe and healthy, which improves their work performance and reduces injuries"
+  },
+  {
+    "q": "Why is training especially important for new workers regarding safety?",
+    "o": ["Because new workers do not need to follow safety rules", "Because proper training reduces accidents by ensuring new workers understand safety rules before starting work", "Because new workers work faster without training", "Because training replaces safety gear", "Don't Know"],
+    "c": "Because proper training reduces accidents by ensuring new workers understand safety rules before starting work"
+  },
+  {
+    "q": "What role do safety drills and emergency plans play in workplace safety?",
+    "o": ["They are optional and rarely practiced", "They prepare workers to stay calm and safe during real emergencies like fires or other dangers", "They slow down work processes", "They only apply to office environments", "Don't Know"],
+    "c": "They prepare workers to stay calm and safe during real emergencies like fires or other dangers"
+  },
+  {
+    "q": "How does reporting small accidents or close calls help improve workplace safety?",
+    "o": ["It wastes time and resources", "It provides warnings that help prevent bigger problems and accidents later on", "It is unnecessary if no one is hurt", "It only benefits management", "Don't Know"],
+    "c": "It provides warnings that help prevent bigger problems and accidents later on"
+  },
+  {
+    "q": "Why is wearing protective equipment like gloves, helmets, and goggles critical?",
+    "o": ["It is only for appearance", "It protects workers from injuries and companies must ensure proper use of this gear", "It slows down work", "It is optional in most workplaces", "Don't Know"],
+    "c": "It protects workers from injuries and companies must ensure proper use of this gear"
+  },
+  {
+    "q": "What is the importance of good lighting and a clean, organized workspace?",
+    "o": ["It only improves aesthetics", "It helps prevent accidents by making it easier to see and move safely", "It is irrelevant to safety", "It increases the risk of injury", "Don't Know"],
+    "c": "It helps prevent accidents by making it easier to see and move safely"
+  },
+  {
+    "q": "How does compliance help maintain a company’s reputation?",
+    "o": ["By avoiding legal problems and fines, companies build trust with workers, bosses, and customers", "By ignoring safety rules", "By reducing employee benefits", "By increasing workplace accidents", "Don't Know"],
+    "c": "By avoiding legal problems and fines, companies build trust with workers, bosses, and customers"
+  },
+  {
+    "q": "Why is teamwork important in maintaining workplace safety?",
+    "o": ["Because workers remind and watch out for each other, making the workplace safer as a whole", "Because safety is an individual responsibility only", "Because it reduces communication", "Because it delays work completion", "Don't Know"],
+    "c": "Because workers remind and watch out for each other, making the workplace safer as a whole"
+  },
+  {
+    "q": "What ongoing efforts are necessary to maintain compliance and safety in the workplace?",
+    "o": ["One-time training and ignoring new risks", "Continuous learning, adapting to changing rules, and working together to address new risks", "Avoiding safety discussions", "Only focusing on production speed", "Don't Know"],
+    "c": "Continuous learning, adapting to changing rules, and working together to address new risks"
+  }  
+  ]},
+
+  { "title":"05- Communication Skills",
+    "text":"Communication skills refer to the abilities that enable individuals to share information, ideas, and emotions effectively with others. These skills are fundamental to human interaction and help bridge gaps between people by ensuring that messages are delivered and received as intended. Without strong communication, misunderstandings can arise, leading to conflicts and inefficiencies in both personal and professional environments. A key component of communication skills is the ability to express oneself clearly and precisely, choosing the right words, tone, and style to convey a message that others can easily understand. Clear expression reduces confusion, saves time, and helps create meaningful conversations that lead to productive outcomes. Whether speaking or writing, clarity is essential for successful communication. Effective communication is not just about speaking well; it also requires active listening, which involves paying close attention to what the other person is saying, understanding their message, and responding thoughtfully. It shows respect, builds trust, and ensures that both parties are on the same page. Without good listening skills, communication breaks down and misunderstandings become more frequent. Communication happens in many forms—verbal and non-verbal. Verbal communication includes spoken and written language, where words are the primary medium. Non-verbal communication, on the other hand, includes body language, facial expressions, gestures, eye contact, and tone of voice. Often, non-verbal cues convey more meaning than words themselves, so being aware of these signals is crucial for effective interaction. Empathy is a powerful element of communication that allows individuals to understand and share the feelings of others. When people communicate with empathy, they are more likely to build rapport and connect on a deeper level. Empathetic communication fosters a supportive environment where people feel heard and valued, which can improve relationships both at home and at work. In professional settings, strong communication skills are vital. They help managers provide clear instructions, encourage collaboration among team members, and enable employees to share feedback and ideas openly. Effective communication improves problem-solving, streamlines workflows, and creates a positive organizational culture where everyone feels involved and motivated. Good communication skills also play a critical role in resolving conflicts. When disagreements arise, the ability to listen without interrupting, express thoughts calmly, and find common ground can de-escalate tensions and lead to mutually agreeable solutions. Conflict resolution through communication strengthens teamwork and prevents issues from escalating. Leaders with excellent communication skills inspire confidence and guide their teams toward shared goals. They clearly articulate vision, provide constructive feedback, and motivate others by connecting on a personal level. Leadership communication requires a combination of clarity, persuasion, and emotional intelligence to effectively influence and empower others. Improving communication skills takes conscious effort and continuous practice. Techniques such as reading extensively, writing regularly, participating in public speaking, and engaging in active listening exercises can enhance one’s abilities. Being aware of body language and practicing empathy also contribute to more effective and meaningful interactions. Ultimately, strong communication skills open doors in both personal and professional life. They help individuals build stronger relationships, advance their careers, and navigate social situations with ease. As a lifelong skill, effective communication fosters understanding, cooperation, and success in nearly every area of life, making it an invaluable asset worth developing.",
+    "questions": [
+  {
+    "q": "Why are communication skills fundamental to human interaction?",
+    "o": ["They help people avoid talking", "They ensure messages are delivered and received as intended, bridging gaps between people", "They increase misunderstandings", "They replace the need for listening", "Don't Know"],
+    "c": "They ensure messages are delivered and received as intended, bridging gaps between people"
+  },
+  {
+    "q": "What is a key component of expressing oneself clearly in communication?",
+    "o": ["Using complicated words", "Choosing the right words, tone, and style to convey a message easily understood by others", "Speaking as fast as possible", "Ignoring the audience’s needs", "Don't Know"],
+    "c": "Choosing the right words, tone, and style to convey a message easily understood by others"
+  },
+  {
+    "q": "How can communication skills aid in conflict resolution?",
+    "o": ["By listening without interrupting, expressing thoughts calmly, and finding common ground", "By escalating tensions", "By avoiding discussions", "By ignoring others’ opinions", "Don't Know"],
+    "c": "By listening without interrupting, expressing thoughts calmly, and finding common ground"
+  },
+  {
+    "q": "What combination of qualities is essential for leadership communication?",
+    "o": ["Clarity, persuasion, and emotional intelligence", "Silence and avoidance", "Aggressiveness and dominance", "Confusion and ambiguity", "Don't Know"],
+    "c": "Clarity, persuasion, and emotional intelligence"
+  },
+  {
+    "q": "Why is continuous practice important for improving communication skills?",
+    "o": ["Because communication skills are innate and cannot be improved", "Because conscious effort and practice enhance abilities like active listening and empathy", "Because practice reduces communication effectiveness", "Because only speaking matters, not listening", "Don't Know"],
+    "c": "Because conscious effort and practice enhance abilities like active listening and empathy"
+  },
+  {
+    "q": "Which of the following techniques can help enhance communication skills?",
+    "o": ["Reading extensively and participating in public speaking", "Avoiding writing and listening exercises", "Ignoring body language", "Speaking without preparation", "Don't Know"],
+    "c": "Reading extensively and participating in public speaking"
+  },
+  {
+    "q": "How do strong communication skills impact personal and professional life?",
+    "o": ["They create misunderstandings", "They help build stronger relationships and advance careers", "They limit social interactions", "They reduce cooperation", "Don't Know"],
+    "c": "They help build stronger relationships and advance careers"
+  },
+  {
+    "q": "What is the relationship between clear expression and productive outcomes?",
+    "o": ["Clear expression reduces confusion and saves time, leading to meaningful conversations and productive results", "Clear expression causes delays", "Clear expression is irrelevant to productivity", "Clear expression increases misunderstandings", "Don't Know"],
+    "c": "Clear expression reduces confusion and saves time, leading to meaningful conversations and productive results"
+  },
+  {
+    "q": "Why is it important to respond thoughtfully during communication?",
+    "o": ["To show respect and build trust, ensuring both parties understand each other", "To dominate the conversation", "To ignore the speaker’s message", "To rush the discussion", "Don't Know"],
+    "c": "To show respect and build trust, ensuring both parties understand each other"
+  },
+  {
+    "q": "How does empathetic communication foster a supportive environment?",
+    "o": ["By making people feel heard and valued, improving relationships at home and work", "By ignoring others’ feelings", "By focusing only on tasks", "By avoiding emotional connection", "Don't Know"],
+    "c": "By making people feel heard and valued, improving relationships at home and work"
   }     
   ]},
 
-   { "title":"Internet of Things (IoT)",
-      "text":"The Internet of Things (IoT) is a technology where everyday objects like TVs, fans, door locks, and watches are connected to the internet. This makes them work in smart ways. For example, a smartwatch can track your heart rate and send updates to your phone. A smart light can be switched on or off using your phone, even if you are far away from home.\nIoT makes daily tasks faster and easier. Smart washing machines can send alerts when clothes are washed. Smart cars can display maps and live traffic updates to help avoid busy roads. Farmers use IoT to monitor crops and water plants only when needed. In hospitals, IoT helps doctors keep track of patient health in real-time.\nPeople also use smart door locks that work with passwords or phones. Offices install smart air conditioners that turn off when no one is present to save electricity. Schools can use IoT to notify parents when children arrive or leave.\nIn the coming years, IoT will connect more devices to improve efficiency and save resources. But safety is important, as connected devices must be protected from hackers. Learning IoT will be a valuable skill for future careers.",
+
+   { "title":"06- Cloud Computing",
+      "text":"Cloud computing is a modern technology that allows data and applications to be stored and accessed over the internet rather than being saved locally on a computer or device, enabling users to rely on online servers instead of their own device’s storage or software. The term “cloud” comes from diagrams that represent the internet as cloud shapes, symbolizing that data stored in the cloud can be accessed from anywhere in the world, offering users flexibility and mobility. Everyday examples of cloud computing include saving documents on Google Drive, watching videos on YouTube, and streaming movies on Netflix, where content is hosted on remote servers and delivered online. One major benefit is saving device storage space and ensuring data safety, as files remain accessible even if the device is lost, stolen, or damaged. Cloud computing also simplifies collaboration through apps like Google Docs, allowing multiple users to work on the same document simultaneously from different locations, enhancing teamwork and remote work efficiency. Businesses leverage cloud computing to store vast amounts of data, manage websites, and run applications without expensive hardware, enabling quick scalability based on demand and saving time and money. Compared to traditional computing, cloud technology offers greater flexibility, faster performance through powerful servers, and cost savings by charging users only for the resources they use, avoiding large upfront costs. In education, cloud computing helps students store and submit assignments online, collaborate on projects, and allows teachers to share study materials, grade digitally, and communicate effectively, improving the learning experience. As reliance on cloud services grows, data security becomes critical, with providers investing heavily in protection against cyberattacks and unauthorized access, while users must practice safe habits to keep data secure. Understanding cloud computing is increasingly essential for careers across many industries, including IT, education, finance, and creative fields, as it is a key technology driving modern operations and opening new opportunities in the digital age. Moreover, cloud computing supports the rapid deployment of new software and applications, allowing companies to innovate faster without lengthy setup times. It also enables disaster recovery solutions that help organizations restore data quickly after unexpected events like system failures or natural disasters. Cloud platforms often offer various service models such as Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS), providing different levels of control and customization to users based on their needs. Another advantage is global accessibility; employees and customers around the world can access services seamlessly, promoting international business growth. Environmental benefits also come with cloud computing, as centralized data centers often operate more efficiently than numerous individual servers, reducing overall energy consumption. Cloud technology is also driving the growth of emerging technologies like Artificial Intelligence (AI), Machine Learning (ML), and the Internet of Things (IoT), as these often rely on cloud infrastructure to process large data sets. Many cloud providers offer easy integration with other services, creating a flexible ecosystem that adapts to evolving business needs. Additionally, cloud computing allows startups and small businesses to compete with larger companies by providing access to high-end technology at affordable prices. The pay-as-you-go pricing model removes the barrier of heavy upfront investments, democratizing access to powerful computing resources. Furthermore, cloud services offer regular updates and maintenance handled by providers, relieving users from managing complex IT tasks. However, challenges such as data privacy laws and compliance with regional regulations require careful management when using cloud services globally. Multi-cloud strategies, where businesses use multiple cloud providers, are becoming popular to avoid vendor lock-in and increase resilience. Cloud-based analytics and big data tools enable companies to gain valuable insights and make data-driven decisions in real-time. The rise of mobile computing is also fueled by cloud technology, allowing users to access applications and data on smartphones and tablets anywhere. Cloud gaming and virtual reality (VR) experiences are emerging fields that depend heavily on the cloud’s power and low latency. Overall, cloud computing is transforming how people live, work, and connect, making it a foundational technology for the digital future.",
       "questions": [
-    {
-      "q":"Which of these is an example of IoT?",
-      "o": ["Using a normal wall clock", "Writing in a notebook", "Switching on a fan manually", "Controlling a light through a phone app"],
-      "c":"Controlling a light through a phone app"
-    },
-    {
-      "q":"What can a smartwatch connected to IoT do?",
-      "o": ["Track heart rate and send updates", "Wash clothes automatically", "Open car doors", "Boil water"],
-      "c":"Track heart rate and send updates"
-    },
-    {
-      "q":"Why do farmers use IoT devices?",
-      "o": ["To listen to music", "To monitor crops and water them when needed", "To drive faster", "To clean barns automatically"],
-      "c":"To monitor crops and water them when needed"
-    },
-    {
-      "q":"Which place uses IoT to save electricity by turning off devices when unused?",
-      "o": ["Parks", "Factories", "Offices", "Shops"],
-      "c":"Offices"
-    },
-    {
-      "q":"Why is IoT security important?",
-      "o": ["To protect devices from hackers", "To make devices look better", "To make internet faster", "To keep batteries full"],
-      "c":"To protect devices from hackers"
-    }
+  {
+    "q": "What is the fundamental difference between cloud computing and traditional local storage?",
+    "o": ["Cloud computing stores data on local devices only", "Cloud computing stores and accesses data over the internet using remote servers instead of local devices", "Traditional storage uses the internet exclusively", "Cloud computing requires physical hardware on-site", "Don't Know"],
+    "c": "Cloud computing stores and accesses data over the internet using remote servers instead of local devices"
+  },
+  {
+    "q": "Why is the internet often symbolized as a “cloud” in diagrams related to cloud computing?",
+    "o": ["Because clouds store data physically", "Because it represents data stored remotely and accessible from anywhere", "Because it is a weather-related term", "Because it limits data access to one location", "Don't Know"],
+    "c": "Because it represents data stored remotely and accessible from anywhere"
+  },
+  {
+    "q": "Which of the following is NOT an example of everyday cloud computing use?",
+    "o": ["Saving documents on Google Drive", "Watching videos on YouTube", "Streaming movies on Netflix", "Saving files only on a personal hard drive without internet access", "Don't Know"],
+    "c": "Saving files only on a personal hard drive without internet access"
+  },
+  {
+    "q": "How does cloud computing enhance collaboration among users?",
+    "o": ["By allowing multiple users to work on the same document simultaneously from different locations", "By restricting document access to one user at a time", "By requiring physical meetings for collaboration", "By disabling real-time editing", "Don't Know"],
+    "c": "By allowing multiple users to work on the same document simultaneously from different locations"
+  },
+  {
+    "q": "What is a major financial advantage of cloud computing for businesses?",
+    "o": ["High upfront hardware costs", "Paying only for the resources used, avoiding large upfront investments", "Unlimited free resources", "Fixed monthly fees regardless of usage", "Don't Know"],
+    "c": "Paying only for the resources used, avoiding large upfront investments"
+  },
+  {
+    "q": "Which cloud service model provides users with the most control over hardware and software?",
+    "o": ["Software as a Service (SaaS)", "Platform as a Service (PaaS)", "Infrastructure as a Service (IaaS)", "None of the above", "Don't Know"],
+    "c": "Infrastructure as a Service (IaaS)"
+  },
+  {
+    "q": "What role does cloud computing play in the growth of emerging technologies like AI, ML, and IoT?",
+    "o": ["It limits data processing capabilities", "It provides the infrastructure to process large data sets required by these technologies", "It replaces these technologies", "It is unrelated to these technologies", "Don't Know"],
+    "c": "It provides the infrastructure to process large data sets required by these technologies"
+  },
+  {
+    "q": "How do multi-cloud strategies benefit businesses?",
+    "o": ["By locking them into a single vendor", "By avoiding vendor lock-in and increasing resilience through using multiple cloud providers", "By reducing flexibility", "By increasing dependency on one provider", "Don't Know"],
+    "c": "By avoiding vendor lock-in and increasing resilience through using multiple cloud providers"
+  },
+  {
+    "q": "How does cloud computing contribute to environmental sustainability?",
+    "o": ["By increasing energy consumption through multiple individual servers", "By centralizing data centers that operate more efficiently, reducing overall energy use", "By requiring more physical hardware per user", "By increasing carbon footprint due to data transfer", "Don't Know"],
+    "c": "By centralizing data centers that operate more efficiently, reducing overall energy use"
+  },
+  {
+    "q": "Why is data security a critical concern in cloud computing?",
+    "o": ["Because data is stored locally only", "Because data is stored remotely and accessible over the internet, making it vulnerable to cyberattacks and unauthorized access", "Because cloud providers do not invest in security", "Because users do not need to practice safe habits", "Don't Know"],
+    "c": "Because data is stored remotely and accessible over the internet, making it vulnerable to cyberattacks and unauthorized access"
+  }     
+  ]},
+
+   {"title":"07- Internet of Things (IoT)",
+    "text":"The Internet of Things (IoT) is a technology that connects everyday objects like TVs, fans, door locks, and watches to the internet, enabling them to work in smart ways—for example, a smartwatch can track your heart rate and send updates to your phone, and a smart light can be controlled remotely using your phone. IoT makes daily tasks faster and easier, with smart washing machines sending alerts when clothes are done, smart cars providing live traffic updates, farmers monitoring crops to water only when needed, and hospitals tracking patient health in real-time. People use smart door locks with passwords or phones, offices install smart air conditioners to save electricity, and schools can notify parents when children arrive or leave. As IoT grows, more devices will be connected to improve efficiency and save resources, but security against hackers is vital. IoT devices rely on sensors that collect data such as temperature, motion, and humidity, which is analyzed online to allow devices to respond automatically without human help. Smart homes benefit from IoT by letting homeowners control lighting, heating, security cameras, and kitchen appliances through phones or voice assistants, enhancing convenience and energy savings. In industries, IoT helps monitor machines remotely to predict failures and save money, while smart cities use sensors to manage traffic, air quality, and street lighting, reducing waste and improving safety. Wearable IoT devices like fitness trackers and medical monitors give individuals more control over their health by reminding them to take medicine, monitoring sleep, and sharing data securely with doctors. However, IoT raises privacy concerns since it collects personal information, so manufacturers and users must protect data by following strict rules. In education, IoT creates interactive learning environments with smart boards and connected devices that help teachers engage students better. Finally, as IoT advances, it will generate many new job opportunities in programming, cybersecurity, data analysis, and network management, making learning about IoT an important step for future careers. As IoT technology continues to develop, its impact on energy management is becoming increasingly significant. Smart grids use IoT devices to monitor and manage electricity usage across entire cities, helping reduce energy waste and lower costs. By analyzing real-time data, these systems can balance electricity demand and supply more efficiently, which supports the integration of renewable energy sources like solar and wind power. This not only benefits the environment but also helps create more reliable and sustainable energy networks. Transportation is another area where IoT is making a big difference. Connected vehicles communicate with each other and traffic infrastructure to improve road safety and reduce traffic jams. For instance, traffic lights can adjust their timing based on the flow of vehicles, and cars can warn drivers of accidents or hazards ahead. In public transport, IoT helps track buses and trains, providing accurate arrival times and improving service for passengers. These innovations lead to smoother, safer, and more efficient travel for everyone. In agriculture, IoT goes beyond monitoring crops and watering systems. Smart sensors can measure soil quality, detect pests early, and track livestock health. This data allows farmers to make better decisions about planting, fertilizing, and harvesting, which increases crop yields and reduces the use of harmful chemicals. Additionally, drones equipped with IoT technology can survey large areas quickly, helping farmers manage their land more effectively and sustainably. The rise of IoT also brings challenges related to data management and connectivity. With billions of devices generating vast amounts of information, storing, processing, and securing this data becomes complex. Cloud computing and edge computing are often used together to handle this data efficiently, with cloud systems storing large volumes of information and edge devices processing data close to where it is collected. Ensuring reliable internet connections, especially in rural or remote areas, is crucial to fully realize the benefits of IoT. Lastly, the future of IoT looks promising as emerging technologies like artificial intelligence (AI) and 5G networks enhance its capabilities. AI can analyze IoT data to provide smarter automation and predictive insights, while 5G offers faster and more reliable connectivity for countless devices. Together, these advances will enable even more innovative applications, from personalized healthcare to fully automated smart cities, making IoT an integral part of daily life and business in the years to come.",
+    "questions": [
+  {
+    "q": "What is the primary function of IoT technology?",
+    "o": ["To connect everyday objects to the internet, enabling smart functionality and remote control", "To replace the internet with local networks", "To disconnect devices from the internet", "To limit device functionality", "Don't Know"],
+    "c": "To connect everyday objects to the internet, enabling smart functionality and remote control"
+  },
+  {
+    "q": "How do IoT devices typically collect data to operate smartly?",
+    "o": ["Through manual input only", "Using sensors that measure temperature, motion, humidity, and other factors", "By guessing user preferences", "By relying solely on user commands", "Don't Know"],
+    "c": "Using sensors that measure temperature, motion, humidity, and other factors"
+  },
+  {
+    "q": "Why is security a critical concern for IoT devices?",
+    "o": ["Because IoT devices do not collect personal data", "Because IoT devices are vulnerable to hackers due to their internet connectivity and data collection", "Because IoT devices do not connect to the internet", "Because IoT devices are always offline", "Don't Know"],
+    "c": "Because IoT devices are vulnerable to hackers due to their internet connectivity and data collection"
+  },
+  {
+    "q": "How does IoT improve energy management in smart grids?",
+    "o": ["By increasing energy waste", "By monitoring and managing electricity usage in real-time, balancing demand and supply efficiently", "By disconnecting renewable energy sources", "By ignoring electricity consumption patterns", "Don't Know"],
+    "c": "By monitoring and managing electricity usage in real-time, balancing demand and supply efficiently"
+  },
+  {
+    "q": "What role does IoT play in transportation systems?",
+    "o": ["It disconnects vehicles from traffic infrastructure", "It enables connected vehicles to communicate with each other and traffic systems to improve safety and reduce traffic jams", "It increases traffic congestion", "It disables public transport tracking", "Don't Know"],
+    "c": "It enables connected vehicles to communicate with each other and traffic systems to improve safety and reduce traffic jams"
+  },
+  {
+    "q": "What challenge does IoT face due to the vast amount of data generated?",
+    "o": ["Data management, storage, processing, and security become complex", "Data is always small and easy to handle", "IoT devices do not generate data", "Data is irrelevant to IoT functionality", "Don't Know"],
+    "c": "Data management, storage, processing, and security become complex"
+  },
+  {
+    "q": "How do cloud computing and edge computing work together in IoT?",
+    "o": ["Cloud stores large volumes of data, while edge devices process data near its source for efficiency", "Both store data only locally", "Edge computing replaces cloud computing entirely", "Cloud computing processes data only on devices", "Don't Know"],
+    "c": "Cloud stores large volumes of data, while edge devices process data near its source for efficiency"
+  },
+  {
+    "q": "Why is reliable internet connectivity crucial for IoT, especially in rural areas?",
+    "o": ["Because IoT devices do not need internet", "Because IoT benefits depend on continuous data transmission and device communication", "Because rural areas do not use IoT", "Because IoT works offline only", "Don't Know"],
+    "c": "Because IoT benefits depend on continuous data transmission and device communication"
+  },
+  {
+    "q": "How do AI and 5G networks enhance IoT capabilities?",
+    "o": ["AI analyzes data for smarter automation and insights; 5G provides faster, more reliable connectivity for many devices", "AI slows down data processing; 5G reduces connectivity", "AI replaces IoT devices; 5G is unrelated", "AI and 5G limit IoT applications", "Don't Know"],
+    "c": "AI analyzes data for smarter automation and insights; 5G provides faster, more reliable connectivity for many devices"
+  },
+  {
+    "q": "How does IoT contribute to healthcare through wearable devices?",
+    "o": ["By monitoring health metrics, reminding medicine intake, tracking sleep, and securely sharing data with doctors", "By replacing doctors entirely", "By ignoring patient data", "By limiting health monitoring to hospitals only", "Don't Know"],
+    "c": "By monitoring health metrics, reminding medicine intake, tracking sleep, and securely sharing data with doctors"
+  }
+  ]},
+
+    {"title":"08- Cybersecurity",
+      "text":"Cybersecurity is the way to protect computers, phones, and data on the internet from attacks by hackers. Just like we lock our homes to keep them safe, cybersecurity keeps our online life safe. Hackers try to steal passwords, money, or personal information. Cybersecurity uses tools and rules to stop them. Today, we use the internet for banking, shopping, studying, and even talking with friends. Without cybersecurity, hackers could steal money from bank accounts or share private photos. It is very important to keep data safe, especially for students and young people who use phones and social media daily. Simple steps help a lot: like using strong passwords, not sharing passwords with anyone, and not clicking unknown links. Keeping phones and computers updated is also important because updates fix old security problems. Using antivirus software keeps harmful files away. In the future, as technology grows, hackers may also get smarter. More jobs will need cybersecurity experts to protect data. Learning about cybersecurity helps everyone stay safe and helps students get jobs too. Cybersecurity is not just about individuals; companies and governments also need to protect their data from cyber attacks that can cause huge damage. When hackers break into systems, they might steal secrets, damage systems, or even shut down services like hospitals or power grids, which can harm many people. To prevent this, organizations use firewalls, encryption, and other tools that create strong defenses against attackers. One common threat is phishing, where hackers send fake emails or messages to trick people into giving passwords or clicking harmful links. Being able to recognize phishing attempts is a vital part of staying safe online. Another important area is protecting mobile devices because many people use smartphones and tablets for work and fun. Cybersecurity experts develop special protections for mobile apps and networks to keep these devices secure. The rise of cloud computing, where data and software are stored online instead of on personal computers, also needs careful protection because large amounts of information are stored on remote servers. Cybersecurity involves monitoring systems all the time to find unusual activity early, so threats can be stopped before causing harm. Companies often have teams that watch network traffic and respond quickly to any attacks or weaknesses. Cybersecurity also means teaching people good habits, like avoiding public Wi-Fi for banking or not downloading apps from untrusted sources. Schools and workplaces often hold training sessions to help people understand these important safety rules. As artificial intelligence (AI) becomes more common, it is also used in cybersecurity to detect threats faster and more accurately, but hackers may also use AI to create more advanced attacks. This means cybersecurity must constantly evolve to keep up with new challenges. Privacy is another big concern; cybersecurity helps protect personal information from being stolen or misused by criminals or companies without permission. Laws and regulations are being created worldwide to ensure data privacy and cybersecurity standards are met by organizations. For young people, understanding cybersecurity from an early age can help them become responsible digital citizens and prepare them for future careers in a growing field. Cybersecurity jobs include roles like ethical hackers who test systems to find weaknesses, security analysts who monitor threats, and engineers who design secure software and networks. Everyone plays a part in cybersecurity by staying informed, practicing safe habits, and supporting efforts to protect our digital world. With more devices connected to the internet every day, such as smart home devices and wearables, the need for strong cybersecurity becomes even more urgent. Protecting critical infrastructure like water supplies, transportation, and communication networks also depends on advanced cybersecurity measures. By investing in cybersecurity education and technology, societies can better defend against cybercrime and build trust in the digital economy. The future of cybersecurity promises new tools and strategies to make the internet a safer place for all users.",
+      "questions":[
+  {
+    "q": "What is the primary goal of cybersecurity?",
+    "o": ["To increase internet speed", "To protect computers, phones, and data from attacks by hackers", "To promote social media use", "To disable antivirus software", "Don't Know"],
+    "c": "To protect computers, phones, and data from attacks by hackers"
+  },
+  {
+    "q": "Why is it important to keep software and devices updated in cybersecurity?",
+    "o": ["Updates fix old security problems and protect against new threats", "Updates slow down devices", "Updates remove antivirus software", "Updates are unnecessary for security", "Don't Know"],
+    "c": "Updates fix old security problems and protect against new threats"
+  },
+  {
+    "q": "What is phishing in the context of cybersecurity?",
+    "o": ["A method of fishing online", "Fake emails or messages sent to trick people into giving passwords or clicking harmful links", "A type of antivirus software", "A secure way to share passwords", "Don't Know"],
+    "c": "Fake emails or messages sent to trick people into giving passwords or clicking harmful links"
+  },
+  {
+    "q": "How is artificial intelligence (AI) used in cybersecurity?",
+    "o": ["To detect threats faster and more accurately", "To create viruses only", "To replace all cybersecurity experts", "To slow down threat detection", "Don't Know"],
+    "c": "To detect threats faster and more accurately"
+  },
+  {
+    "q": "What is a major privacy concern related to cybersecurity?",
+    "o": ["Protecting personal information from being stolen or misused by criminals or unauthorized companies", "Sharing passwords publicly", "Ignoring data protection laws", "Allowing unrestricted data access", "Don't Know"],
+    "c": "Protecting personal information from being stolen or misused by criminals or unauthorized companies"
+  },
+  {
+    "q": "Why should people avoid using public Wi-Fi for sensitive activities like banking?",
+    "o": ["Because public Wi-Fi is always secure", "Because public Wi-Fi can be insecure, allowing hackers to intercept data", "Because public Wi-Fi is faster", "Because public Wi-Fi blocks banking sites", "Don't Know"],
+    "c": "Because public Wi-Fi can be insecure, allowing hackers to intercept data"
+  },
+  {
+    "q": "How do firewalls and encryption help organizations protect their data?",
+    "o": ["By creating strong defenses against attackers and securing data transmission", "By slowing down network traffic", "By deleting all data automatically", "By allowing hackers easier access", "Don't Know"],
+    "c": "By creating strong defenses against attackers and securing data transmission"
+  },
+  {
+    "q": "What role does continuous system monitoring play in cybersecurity?",
+    "o": ["It is unnecessary once security tools are installed", "It helps detect unusual activity early to stop threats before damage occurs", "It slows down network performance", "It only applies to personal computers", "Don't Know"],
+    "c": "It helps detect unusual activity early to stop threats before damage occurs"
+  },
+  {
+    "q": "What is the significance of protecting critical infrastructure with cybersecurity?",
+    "o": ["To prevent hackers from causing harm to essential services like water, transportation, and communication networks", "To increase downtime", "To allow easy access to hackers", "To reduce service quality", "Don't Know"],
+    "c": "To prevent hackers from causing harm to essential services like water, transportation, and communication networks"
+  },
+  {
+    "q": "What is the future outlook for cybersecurity according to the paragraph?",
+    "o": ["Cybersecurity will become less important", "New tools and strategies will continue to evolve to make the internet safer for all users", "Cyber attacks will stop completely", "Cybersecurity jobs will disappear", "Don't Know"],
+    "c": "New tools and strategies will continue to evolve to make the internet safer for all users"
+  }
     ]},
 
-    {"title":"Cybersecurity",
-      "text":"Cybersecurity is the way to protect computers, phones, and data on the internet from attacks by hackers. Just like we lock our homes to keep them safe, cybersecurity keeps our online life safe. Hackers try to steal passwords, money, or personal information. Cybersecurity uses tools and rules to stop them.\nToday, we use the internet for banking, shopping, studying, and even talking with friends. Without cybersecurity, hackers could steal money from bank accounts or share private photos. It is very important to keep data safe, especially for students and young people who use phones and social media daily.\nSimple steps help a lot: like using strong passwords, not sharing passwords with anyone, and not clicking unknown links. Keeping phones and computers updated is also important because updates fix old security problems. Using antivirus software keeps harmful files away.\nIn the future, as technology grows, hackers may also get smarter. More jobs will need cybersecurity experts to protect data. Learning about cybersecurity helps everyone stay safe and helps students get jobs too.",
-      "questions": [
-          {
-      "q":"In the context of the passage, what is the core focus of cybersecurity?",
-      "o":["Safeguarding digital infrastructure and confidential data", "Maintaining traffic control systems", "Preserving natural habitats", "Managing supply chains for food items"],
-      "c":"Safeguarding digital infrastructure and confidential data"
-    },
-    {
-      "q":"According to the text, what do hackers most frequently try to gain through cyberattacks?",
-      "o": ["Access to personal login credentials", "Large quantities of fresh air", "Published novels or e-books", "Clean drinking water resources"],
-      "c":"Access to personal login credentials"
-    },
-    {
-      "q":"Why does the author compare locking a home to implementing cybersecurity measures?",
-      "o": ["Because both are preventive actions to ensure safety", "Because both require a cool environment", "Because both need to maintain a warm temperature", "Because both result in an empty space"],
-      "c":"Because both are preventive actions to ensure safety"
-    },
-    {
-      "q":"If cybersecurity measures are weak or missing, what significant risk does the passage highlight?",
-      "o": ["Theft of sensitive financial resources", "Loss of decorative flowers", "Collection of excess rainwater", "Accumulation of small stones"],
-      "c":"Theft of sensitive financial resources"
-    },
-    {
-      "q":"What is the main benefit of using strong, unique passwords mentioned in the passage?",
-      "o": ["Enhancing protection of online accounts", "Improving walking endurance", "Increasing food consumption", "Helping people fall asleep quickly"],
-      "c":"Enhancing protection of online accounts"
-    }
-    ]},
-
-   { "title":"Robotics",
-     "text":"Robotics is the study and creation of robots, which are intelligent machines designed to assist humans with a wide range of tasks. While some robots are built to resemble humans, many take on forms such as mechanical arms, wheeled platforms, or compact automated units. This field merges engineering, computer science, and electronics to design, program, and operate robotic systems.\nIn industries, robots assemble vehicles, package goods, and apply precise coatings. In healthcare, robotic systems enable surgeons to perform complex operations with enhanced safety. Domestic robots handle chores like cleaning floors, while space robots explore distant planets that humans cannot easily reach.\nRobots excel at tasks that are repetitive, hazardous, or physically demanding. They operate continuously without fatigue and can be adapted for specialized purposes, such as prosthetic limbs that respond to brain signals, helping people with disabilities. In public spaces like airports or malls, robots provide directions and information to visitors.\nLooking ahead, robotics may expand into teaching, elder care, and cooking. Students who learn robotics today could design the next generation of innovative machines. The field is rapidly advancing and offers exciting career opportunities.",
+   { "title":"09- Robotics",
+     "text": "Robotics is the study and creation of robots, which are intelligent machines designed to assist humans with a wide range of tasks. While some robots are built to resemble humans, many take on forms such as mechanical arms, wheeled platforms, or compact automated units. This field merges engineering, computer science, and electronics to design, program, and operate robotic systems. In industries, robots assemble vehicles, package goods, and apply precise coatings. In healthcare, robotic systems enable surgeons to perform complex operations with enhanced safety. Domestic robots handle chores like cleaning floors, while space robots explore distant planets that humans cannot easily reach. Robots excel at tasks that are repetitive, hazardous, or physically demanding. They operate continuously without fatigue and can be adapted for specialized purposes, such as prosthetic limbs that respond to brain signals, helping people with disabilities. In public spaces like airports or malls, robots provide directions and information to visitors. Looking ahead, robotics may expand into teaching, elder care, and cooking. Students who learn robotics today could design the next generation of innovative machines. The field is rapidly advancing and offers exciting career opportunities. Robotics also plays a key role in manufacturing automation, improving efficiency and precision while reducing costs. Collaborative robots, or cobots, work alongside humans safely, assisting with tasks that require both human judgment and robotic strength. In agriculture, robots help by planting seeds, harvesting crops, and monitoring soil conditions to increase food production sustainably. Advances in artificial intelligence allow robots to learn from their environment, adapt to new tasks, and improve performance over time. Autonomous vehicles, a branch of robotics, are transforming transportation by offering safer, more efficient travel options. Military applications of robotics include bomb disposal and surveillance, minimizing risks to soldiers. Ethical questions arise as robots become more autonomous, prompting discussions on how to ensure responsible use. Robotics competitions and clubs inspire young learners to explore STEM fields and innovate. Research in soft robotics creates machines made from flexible materials, enabling safer interactions with humans. The integration of sensors and machine learning empowers robots to navigate complex environments, from underwater exploration to disaster response. Governments and companies invest heavily in robotics to maintain competitiveness and drive technological progress worldwide. As robots become more common in everyday life, understanding their design and impact helps society adapt to new possibilities and challenges. Moreover, robots equipped with advanced vision systems use cameras and sensors to identify objects, recognize faces, and perform quality control in factories with high accuracy. In the entertainment industry, robots are being used to create interactive experiences, including animatronics in theme parks and robotic actors in films. The environmental sector benefits from robots designed to monitor pollution, clean oceans, and manage waste, contributing to conservation efforts. The rise of humanoid robots that can express emotions and communicate naturally is opening new paths in customer service and companionship for the elderly. Finally, international collaboration in robotics research promotes sharing knowledge and setting standards to ensure that this technology develops safely and ethically for the benefit of all humanity. In addition to these applications, robotics is increasingly being used in disaster relief efforts. Robots can enter dangerous areas, such as collapsed buildings or toxic environments, to search for survivors or assess damage without risking human lives. This capability has been vital in earthquakes, floods, and industrial accidents, helping emergency teams respond more effectively. Education is another area where robotics is making a significant impact. Beyond competitions and clubs, robots are being used as teaching assistants and interactive learning tools that engage students in science, technology, engineering, and math (STEM). They make learning more hands-on and accessible, encouraging creativity and problem-solving skills from an early age. The development of bio-inspired robots, which mimic animals or insects, is a fascinating trend. These robots often use natural movement techniques to navigate difficult terrains, such as rough outdoor environments or underwater locations. Examples include robotic fish that monitor coral reefs or robotic insects that can crawl through tight spaces for inspection or surveillance. In space exploration, robotics will continue to play a critical role as missions aim for Mars and beyond. Robots can conduct scientific research on distant planets, prepare landing sites, and maintain equipment where sending humans is too risky or expensive. This advances humanity’s knowledge of the universe and prepares the way for future human colonization. The combination of robotics and the Internet of Things (IoT) is creating smart robotic systems that communicate with other devices and networks. This connectivity allows robots to coordinate complex tasks, share data in real-time, and be controlled remotely, which enhances efficiency and flexibility across many sectors. With the rise of wearable robotics, or exoskeletons, people with mobility impairments or injuries gain improved movement and strength. These devices are not only helping individuals regain independence but are also used in industries to reduce worker fatigue and prevent injuries by assisting with heavy lifting or repetitive motions. Robotics also influences art and design. Artists and designers use robotic arms and machines to create intricate sculptures, paintings, and installations that would be difficult or impossible to achieve by hand. This blend of technology and creativity opens new frontiers for artistic expression. As robots become more integrated into daily life, issues of human-robot interaction become crucial. Researchers are studying how people perceive and work alongside robots to ensure positive and effective relationships. Understanding social cues, emotional responses, and trust is essential for robots designed to interact with humans regularly.",
      "questions": [
-    {
-      "q":"According to the passage, which of the following best illustrates the field of robotics?",
-      "o": [
-        "Growing plants using automated irrigation",
-        "Designing mechanical systems that perform human tasks",
-        "Flying airplanes manually",
-        "Painting landscapes by hand"
-      ],
-      "c":"Designing mechanical systems that perform human tasks"
-    },
-    {
-      "q":"In the text, robots are primarily described as:",
-      "o": [
-        "Intelligent machines created to assist in various activities",
-        "Decorative gadgets with no functional purpose",
-        "Randomly moving mechanical toys",
-        "Natural objects that imitate human behavior"
-      ],
-      "c":"Intelligent machines created to assist in various activities"
-    },
-    {
-      "q":"Which form can a robot take based on the passage?",
-      "o": [
-        "Only large humanoid figures",
-        "Floating structures shaped like clouds",
-        "Mechanical arms or wheeled devices",
-        "Small glass containers"
-      ],
-      "c":"Mechanical arms or wheeled devices"
-    },
-    {
-      "q":"In manufacturing industries, one significant use of robots is:",
-      "o": [
-        "Playing live music for employees",
-        "Replacing internet networks",
-        "Assembling products such as cars",
-        "Broadcasting television programs"
-      ],
-      "c":"Assembling products such as cars"
-    },
-    {
-      "q":"As mentioned in the passage, a common function of domestic robots is to:",
-      "o": [
-        "Monitor energy usage in power plants",
-        "Automate household cleaning tasks",
-        "Teach programming languages",
-        "Play sports with family members"
-      ],
-      "c":"Automate household cleaning tasks"
-    }
-      ]},
-  { "title":"Air Flow Pvt. Ltd",
-    "text":"Air Flow Pvt. Ltd., established in 1973, is a renowned Indian manufacturer known for its high-quality ventilation and HVAC (Heating, Ventilation, and Air Conditioning) solutions. Over five decades of experience, the company has delivered customized and energy-efficient ventilation systems across diverse sectors including commercial, industrial, residential, healthcare, education, hospitality, airports, and infrastructure.\nOperating from its facility in Greater Noida, Uttar Pradesh, Air Flow produces a wide range of products such as axial fans, jet and inline fans, centrifugal fans, duct accessories, grilles, diffusers, louvers, dampers (including smoke & fire dampers and volume control dampers), as well as sound attenuators.\nThe company emphasizes engineering excellence, reliability, and timely project delivery. Its solutions are praised for performance, durability, and energy efficiency, and it provides strong after-sales support to its clients.\nAir Flow Pvt. Ltd. is certified by recognized bodies and is listed with AMCA International for certified ventilation products, including various models of axial and inline fans.\nLegally known as Air Flow Private Limited, the business was incorporated in July 1973 under Delhi's Registrar of Companies. As of mid-2024, it remains active, with a registered office in Janak Puri, New Delhi, and a paid-up capital of approximately ₹1.21 crore.",
-    "questions": [
-    {
-      "q":"In which Indian city is Air Flow Pvt. Ltd.’s primary manufacturing facility located?",
-      "o": ["Noida Sector 63", "Ghaziabad Industrial Zone", "Faridabad Industrial Estate", "Greater Noida, Uttar Pradesh"],
-      "c":"Greater Noida, Uttar Pradesh"
-    },
-    {
-      "q":"Which year marks the founding of Air Flow Pvt. Ltd.?",
-      "o": ["1973", "1983", "1963", "1978"],
-      "c":"1973"
-    },
-    {
-      "q":"Among the listed products, which is specifically designed to reduce noise in ventilation systems?",
-      "o": ["Axial fans", "Volume control dampers", "Sound attenuators", "Jet fans"],
-      "c":"Sound attenuators"
-    },
-    {
-      "q":"Which international organization certifies certain Air Flow Pvt. Ltd. products?",
-      "o": ["ISO Standards Council", "Indian Standards Bureau", "National Ventilation Authority", "AMCA International"],
-      "c":"AMCA International"
-    },
-    {
-      "q":"What is the approximate paid-up capital of Air Flow Pvt. Ltd. as of mid-2024?",
-      "o": ["₹2.5 crore", "₹1.21 crore", "₹3.75 crore", "₹90 lakh"],
-      "c":"₹1.21 crore"
-    }
-     ]},
+  {
+    "q": "How does the integration of machine learning and sensor technology empower robots to navigate complex and dynamic environments?",
+    "o": ["By limiting robots to static environments", "By enabling real-time data processing and adaptive decision-making based on environmental feedback", "By pre-programming fixed routes only", "By removing the need for sensors altogether", "Don't Know"],
+    "c": "By enabling real-time data processing and adaptive decision-making based on environmental feedback"
+  },
+  {
+    "q": "What are the potential societal impacts of widespread adoption of autonomous vehicles as a branch of robotics?",
+    "o": ["Increased traffic accidents and congestion", "Safer roads, reduced traffic congestion, and transformation of transportation infrastructure and labor markets", "Elimination of public transportation systems", "No significant changes to current transportation models", "Don't Know"],
+    "c": "Safer roads, reduced traffic congestion, and transformation of transportation infrastructure and labor markets"
+  },
+  {
+    "q": "In what ways do robotic prosthetics that respond to brain signals exemplify the convergence of robotics and neuroscience?",
+    "o": ["By functioning independently of the nervous system", "By requiring manual control exclusively", "By translating neural activity into mechanical movement, restoring mobility and autonomy to users", "By only providing cosmetic enhancements", "Don't Know"],
+    "c": "By translating neural activity into mechanical movement, restoring mobility and autonomy to users"
+  },
+  {
+    "q": "Discuss the challenges and opportunities presented by the ethical governance of increasingly autonomous robotic systems.",
+    "o": ["Ignoring ethical concerns to accelerate development", "Balancing innovation with accountability, ensuring transparency, and addressing moral responsibility for robot actions", "Restricting robotics research to avoid ethical dilemmas", "Delegating all decisions to robots without human oversight", "Don't Know"],
+    "c": "Balancing innovation with accountability, ensuring transparency, and addressing moral responsibility for robot actions"
+  },
+  {
+    "q": "How do robotics competitions and clubs contribute to the development of future STEM professionals and innovators?",
+    "o": ["By focusing solely on theoretical knowledge", "By providing hands-on experience, fostering creativity, teamwork, and problem-solving skills in real-world contexts", "By discouraging collaboration", "By limiting access to advanced technology", "Don't Know"],
+    "c": "By providing hands-on experience, fostering creativity, teamwork, and problem-solving skills in real-world contexts"
+  },
+  {
+    "q": "Analyze the role of robotics in enhancing manufacturing precision and efficiency while reducing operational costs.",
+    "o": ["Robots increase production errors and costs", "Robots perform repetitive and precise tasks consistently, minimizing errors and increasing throughput", "Robots replace all human labor indiscriminately", "Robots slow down manufacturing processes", "Don't Know"],
+    "c": "Robots perform repetitive and precise tasks consistently, minimizing errors and increasing throughput"
+  },
+  {
+    "q": "What technological advancements enable robots to perform quality control with high accuracy in factories?",
+    "o": ["Random sampling without automation", "Advanced vision systems combining cameras, sensors, and AI-based image recognition", "Manual inspection by human operators only", "Basic cameras without processing capabilities", "Don't Know"],
+    "c": "Advanced vision systems combining cameras, sensors, and AI-based image recognition"
+  },
+  {
+    "q": "Evaluate the significance of international collaboration in robotics research for global technological progress and ethical standards.",
+    "o": ["It restricts technology to certain countries", "It facilitates knowledge exchange, harmonizes regulations, and promotes responsible innovation worldwide", "It creates competitive secrecy and isolation", "It delays technological advancement", "Don't Know"],
+    "c": "It facilitates knowledge exchange, harmonizes regulations, and promotes responsible innovation worldwide"
+  },
+  {
+    "q": "How do bio-inspired robots contribute to environmental monitoring and conservation efforts?",
+    "o": ["By mimicking natural organisms to access sensitive ecosystems and collect data with minimal disturbance", "By causing environmental damage", "By replacing natural organisms entirely", "By operating only in controlled laboratory settings", "Don't Know"],
+    "c": "By mimicking natural organisms to access sensitive ecosystems and collect data with minimal disturbance"
+  },
+  {
+    "q": "What are the implications of robotics in space exploration for future human colonization of other planets?",
+    "o": ["Robots replace human astronauts completely", "Robots limit exploration to Earth orbit only", "Robots prepare landing sites, conduct scientific research, and maintain equipment, reducing risks and costs for human missions", "Robots only provide communication support", "Don't Know"],
+    "c": "Robots prepare landing sites, conduct scientific research, and maintain equipment, reducing risks and costs for human missions"
+   }
+   ]},
   
-   { "title":"Virtual Reality (VR)",
-      "text":"Virtual Reality (VR) is a special technology that creates a computer-made world where we can feel we are inside. We use VR headsets that cover our eyes and show 3D images. When we move our head, the view changes like in real life. It feels like visiting a new place while staying at home.\nVR is used in games where players feel they are inside the game world. In schools, VR helps students see historical places, science labs, or planets closely. Doctors use VR to practice surgeries safely. In the army, VR helps soldiers train without danger.\nWith VR, students can watch the inside of the human body, walk on the moon, or visit famous monuments. It makes lessons interesting and easy to remember. People can also travel virtually to places they cannot visit in real life.\nIn the future, VR may be used in online shopping to try clothes, in meetings to feel everyone is together, or to watch sports as if sitting in the stadium. Learning VR today will help students work in new fields tomorrow.",
+  { "title":"10- Air Flow Pvt. Ltd",
+    "text":"Air Flow Pvt. Ltd., established in 1973, is a pioneering Indian manufacturer and solutions provider in the HVAC (Heating, Ventilation, and Air Conditioning) industry, with a legacy spanning over five decades. Headquartered in Greater Noida, Uttar Pradesh, and legally registered in Janakpuri, New Delhi, the company has emerged as a trusted leader in designing, manufacturing, and delivering high-performance HVAC systems tailored for a broad spectrum of applications. With a strong focus on engineering excellence, Air Flow specializes in a comprehensive range of ventilation products, including axial flow fans, centrifugal fans, jet fans, inline fans, sound attenuators, dampers (such as fire dampers, volume control dampers, and smoke dampers), air handling units, duct accessories, diffusers, grilles, and louvers. These HVAC components are engineered to meet the demanding requirements of sectors such as industrial manufacturing, commercial buildings, residential complexes, healthcare facilities, educational institutions, hospitality chains, airports, data centers, and infrastructure projects. Air Flow’s products are known for their energy efficiency, durability, low noise levels, and compliance with global standards, including ISO 9001:2015 and AMCA (Air Movement and Control Association) certifications, which reflect the company’s commitment to quality and performance. With a strong in-house R&D team and collaborations with international technology partners, Air Flow continuously integrates advanced HVAC innovations into its systems, such as smart airflow control, low-emission designs, and eco-friendly materials that align with green building certifications like LEED and IGBC. The company emphasizes sustainability at every stage—from design and material sourcing to manufacturing and after-sales service—ensuring its HVAC solutions support clients in reducing their carbon footprint while maintaining indoor air quality and thermal comfort. In the healthcare sector, Air Flow provides HVAC solutions that ensure sterile, temperature-controlled, and contaminant-free environments critical for hospitals, laboratories, and operating rooms. In commercial applications, such as malls, airports, offices, and hotels, the company offers aesthetically integrated HVAC systems that balance airflow, energy efficiency, and noise reduction, enhancing comfort for occupants. In industrial settings, its robust ventilation systems manage heat, fumes, and particulates, safeguarding both equipment and personnel. Air Flow also leads in the design and implementation of HVAC systems for large infrastructure projects, offering services such as airflow modeling, site surveys, system customization, installation guidance, and ongoing maintenance. The company actively engages in HVAC industry forums, trade exhibitions, and technical workshops, staying ahead of market trends and regulatory developments while fostering client relationships and innovation. Air Flow has gained recognition through prestigious installations at Chennai Airport, the Statue of Unity, IKEA Hyderabad, and numerous premium projects across India. The company has also introduced MAPRO—its premium line of architecturally integrated grilles and diffusers. Its leadership, comprising Managing Director Mr. Anil Kumar Jain and directors Mr. Ashwani Jain, Mr. Abhishek Jain, and Mr. Paryushan Jain, drives innovation, quality, and strategic growth. In 2023, Air Flow marked its 50th anniversary with a landmark event in New Delhi, where Mr. Anil Jain launched his book How Goals Could Change Your Life, and pledged carbon neutrality by 2032 and a turnover of ₹555 crore by 2028. The company holds advanced certifications such as AMCA, CE (EN 12101-3:2015), and UL listings, reinforcing its commitment to quality, fire safety, and global compliance. Beyond core fans and dampers, Air Flow also offers cabinet fans, plenum fans, flexible duct connectors, low-leakage dampers, and constant volume regulators. Its systems are installed in critical areas like basement carparks, stairwell pressurization zones, kitchen exhaust ducts, and fire control systems. Active on professional platforms like LinkedIn, Air Flow showcases specializations in smoke exhaust fans, air terminal products, and smart HVAC innovations. The company continues to target export markets in the Middle East, Europe, and other regions, scaling its domestic manufacturing with global ambitions. Looking forward, Air Flow is focused on integrating IoT-enabled systems, AI-based optimization, and predictive maintenance into its offerings. Its ongoing mission remains rooted in sustainability, digital transformation, customer satisfaction, and building smarter, greener buildings through cutting-edge HVAC solutions. With its legacy of trust and innovation, Air Flow Pvt. Ltd. stands as a formidable force in shaping the future of HVAC in India and across the globe.",
+    "questions": [
+  {
+    "q": "In which year was Air Flow Pvt. Ltd. established, and what significance does this have in the HVAC industry?",
+    "o": ["2000; it specializes in small-scale HVAC systems", "1983; it is a new entrant", "1990; it focuses only on residential HVAC", "1973; it is a pioneering company with over five decades of legacy", "Don't Know"],
+    "c": "1973; it is a pioneering company with over five decades of legacy"
+  },
+  {
+    "q": "What are the two primary locations associated with Air Flow Pvt. Ltd.’s headquarters and legal registration?",
+    "o": ["Mumbai and Pune", "Greater Noida (Headquarters) and Janakpuri, New Delhi (Legal Registration)", "Bangalore and Hyderabad", "Chennai and Kolkata", "Don't Know"],
+    "c": "Greater Noida (Headquarters) and Janakpuri, New Delhi (Legal Registration)"
+  },
+  {
+    "q": "Which certifications reflect Air Flow’s commitment to quality and global standards?",
+    "o": ["ISO 14001 only", "LEED certification only", "ISO 9001:2015, AMCA, CE (EN 12101-3:2015), and UL listings", "No certifications mentioned", "Don't Know"],
+    "c": "ISO 9001:2015, AMCA, CE (EN 12101-3:2015), and UL listings"
+  },
+  {
+    "q": "Identify the range of ventilation products Air Flow specializes in.",
+    "o": ["Only axial flow fans and dampers", "Only residential HVAC products", "Axial flow fans, centrifugal fans, jet fans, inline fans, sound attenuators, dampers, air handling units, duct accessories, diffusers, grilles, and louvers", "Only air handling units and diffusers", "Don't Know"],
+    "c": "Axial flow fans, centrifugal fans, jet fans, inline fans, sound attenuators, dampers, air handling units, duct accessories, diffusers, grilles, and louvers"
+  },
+  {
+    "q": "Which sectors does Air Flow cater to with its HVAC solutions?",
+    "o": ["Only residential and commercial buildings", "Industrial manufacturing, commercial buildings, residential complexes, healthcare, education, hospitality, airports, data centers, and infrastructure projects", "Only infrastructure projects", "Only healthcare and education", "Don't Know"],
+    "c": "Industrial manufacturing, commercial buildings, residential complexes, healthcare, education, hospitality, airports, data centers, and infrastructure projects"
+  },
+        {
+    "q": "Which advanced HVAC components beyond core fans and dampers does Air Flow offer?",
+    "o": ["Only axial fans", "Cabinet fans, plenum fans, flexible duct connectors, low-leakage dampers, and constant volume regulators", "Only residential air conditioners", "No additional components", "Don't Know"],
+    "c": "Cabinet fans, plenum fans, flexible duct connectors, low-leakage dampers, and constant volume regulators"
+  },
+  {
+    "q": "In which critical building areas are Air Flow’s HVAC systems commonly installed?",
+    "o": ["Only office spaces", "Basement carparks, stairwell pressurization zones, kitchen exhaust ducts, and fire control systems", "Only residential rooms", "No specific areas mentioned", "Don't Know"],
+    "c": "Basement carparks, stairwell pressurization zones, kitchen exhaust ducts, and fire control systems"
+  },
+  {
+    "q": "How is Air Flow leveraging digital transformation and emerging technologies in its HVAC solutions?",
+    "o": ["By integrating IoT-enabled systems, AI-based optimization, and predictive maintenance", "By avoiding new technologies", "By focusing only on manual controls", "By ignoring digital trends", "Don't Know"],
+    "c": "By integrating IoT-enabled systems, AI-based optimization, and predictive maintenance"
+  },
+  {
+    "q": "What are some prestigious projects where Air Flow’s HVAC systems have been installed?",
+    "o": ["Only small residential projects", "No major projects mentioned", "Chennai Airport, Statue of Unity, IKEA Hyderabad, and numerous premium projects across India", "Only international projects", "Don't Know"],
+    "c": "Chennai Airport, Statue of Unity, IKEA Hyderabad, and numerous premium projects across India"
+  },
+  {
+    "q": "What strategic markets is Air Flow targeting for export and global expansion?",
+    "o": ["Only domestic Indian market", "Middle East, Europe, and other international regions", "Only North America", "No export plans", "Don't Know"],
+    "c": "Middle East, Europe, and other international regions"
+  }
+  ]},
+  
+   { "title":"11- Virtual Reality (VR)",
+      "text": "Virtual Reality (VR) is a special technology that creates a computer-made world where we can feel we are inside. We use VR headsets that cover our eyes and show 3D images. When we move our head, the view changes like in real life. It feels like visiting a new place while staying at home. VR is used in games where players feel they are inside the game world. In schools, VR helps students see historical places, science labs, or planets closely. Doctors use VR to practice surgeries safely. In the army, VR helps soldiers train without danger. With VR, students can watch the inside of the human body, walk on the moon, or visit famous monuments. It makes lessons interesting and easy to remember. People can also travel virtually to places they cannot visit in real life. In the future, VR may be used in online shopping to try clothes, in meetings to feel everyone is together, or to watch sports as if sitting in the stadium. Learning VR today will help students work in new fields tomorrow. VR is also helping architects and builders by letting them walk inside a house or building before it is even built, which helps find mistakes early and improve design. In museums, VR lets visitors experience history in a new way by walking through ancient cities or being part of historical events. People with physical disabilities can use VR to do things they may not be able to do in real life, like climbing a mountain or swimming in the ocean, giving them a new way to enjoy the world. Artists and designers use VR to create 3D art, animations, and models, allowing more creativity than paper or flat screens. In sports training, VR helps athletes practice different plays and improve performance, while coaches use it to show how to fix movements and techniques. VR is also tested for helping people with stress, anxiety, or fear, such as slowly facing a fear of heights through safe simulations. In job training, VR provides hands-on experience without risk; pilots learn to fly planes in simulators, and factory workers practice using machines safely. Entertainment is growing with VR movies and concerts, where people feel inside the scene instead of just watching a screen. Travel companies use VR to show hotels and tourist spots, helping customers take virtual tours before booking. Scientists use VR to explore planets, oceans, and the human brain, aiding new discoveries and better understanding of difficult topics. VR is not just for fun—it is becoming part of daily life in learning, work, health, and travel. As VR becomes more affordable, more schools and homes will use it. Learning VR prepares students for future jobs in technology, healthcare, design, and education, as companies seek VR-skilled people. Even farmers may use VR to learn better farming methods or monitor fields remotely. As internet speeds improve, VR can be used anywhere—city or village—making it a tool for everyone, not just big companies or cities. To use VR wisely, we must take care of our health since long use can affect eyes, so breaks and balance are important. Overall, VR is changing how we learn, play, work, and explore by bringing imagination to life and offering new ways to see and experience the world. VR technology is also making a significant impact in the field of mental health therapy. Therapists use VR to create controlled environments where patients can confront fears, practice social skills, or relax through guided virtual meditation. This method helps people in ways that traditional therapy sometimes cannot, by immersing them fully in a safe and customizable space. Education is evolving further with VR by enabling collaborative learning. Students from different parts of the world can join virtual classrooms, interact with 3D models together, and participate in experiments that would be too costly or dangerous in real life. This global classroom model breaks geographical barriers and promotes shared knowledge. The entertainment industry is exploring new storytelling techniques using VR. Filmmakers and game developers create immersive narratives where viewers can choose different paths or perspectives, making the experience personal and engaging. This interactive storytelling is changing how stories are told and enjoyed. In retail and marketing, VR is helping businesses understand customer preferences better. Virtual stores and showrooms allow shoppers to explore products in detail, provide feedback, and customize items before buying. This reduces returns and increases satisfaction, benefiting both sellers and buyers. Finally, VR is encouraging physical activity in creative ways. Fitness programs use VR games to motivate users to move, dance, or exercise while having fun. This approach helps people stay healthy, especially those who find regular workouts boring or difficult to maintain.",
       "questions": [
-    {
-      "q":"Which of the following best describes the main function of VR?",
-      "o": [
-        "Growing real plants in a digital garden",
-        "Creating actual physical environments instantly",
-        "Photographing real-life locations",
-        "Simulating an interactive computer-generated environment"
-      ],
-      "c":"Simulating an interactive computer-generated environment"
-    },
-    {
-      "q":"According to the passage, what device is essential for experiencing VR?",
-      "o": [
-        "Specialized VR headsets",
-        "Handwritten notes",
-        "Ordinary printed books",
-        "Traditional blackboards"
-      ],
-      "c":"Specialized VR headsets"
-    },
-    {
-      "q":"What kind of experience does VR aim to give users?",
-      "o": [
-        "A faster walking speed",
-        "Improved memory retention",
-        "A sense of being present in a new location",
-        "Increased physical strength"
-      ],
-      "c":"A sense of being present in a new location"
-    },
-    {
-      "q":"In which of these areas is VR already applied, as per the text?",
-      "o": [
-        "Manufacturing furniture",
-        "Cooking large meals",
-        "Teaching robots to walk",
-        "Immersive video gaming"
-      ],
-      "c":"Immersive video gaming"
-    },
-    {
-      "q":"In an educational context, VR can be used to:",
-      "o": [
-        "Order new library books",
-        "Explore historical sites and scientific concepts",
-        "Grow plants in classrooms",
-        "Distribute homework assignments automatically"
-      ],
-      "c":"Explore historical sites and scientific concepts"
-    }
-    ]},
+  {
+    "q": "How does VR technology create the sensation of being inside a computer-generated world?",
+    "o": ["By watching 2D videos on a screen", "By using VR headsets that display 3D images and change the view based on head movement", "By reading text descriptions", "By using audio only", "Don't Know"],
+    "c": "By using VR headsets that display 3D images and change the view based on head movement"
+  },
+  {
+    "q": "In what ways is VR used in education to enhance learning experiences?",
+    "o": ["Only by watching videos", "By limiting interaction to textbooks", "Allowing students to visit historical places, science labs, planets, and see inside the human body virtually", "By replacing teachers entirely", "Don't Know"],
+    "c": "Allowing students to visit historical places, science labs, planets, and see inside the human body virtually"
+  },
+  {
+    "q": "How does VR assist doctors and medical professionals?",
+    "o": ["By limiting patient interaction", "By providing safe practice environments for surgeries and helping with mental health therapy through controlled simulations", "By only providing medical textbooks", "By replacing doctors in surgeries", "Don't Know"],
+    "c": "By providing safe practice environments for surgeries and helping with mental health therapy through controlled simulations"
+  },
+  {
+    "q": "What role does VR play in military training?",
+    "o": ["It is not used in the military", "It allows soldiers to train safely without real danger", "It replaces soldiers in combat", "It only provides physical fitness training", "Don't Know"],
+    "c": "It allows soldiers to train safely without real danger"
+  },
+  {
+    "q": "How can VR benefit people with physical disabilities?",
+    "o": ["By replacing physical therapy", "By isolating them from social interaction", "By enabling them to experience activities like climbing mountains or swimming virtually, which they may not do in real life", "By limiting their activities", "Don't Know"],
+    "c": "By enabling them to experience activities like climbing mountains or swimming virtually, which they may not do in real life"
+  },
+  {
+    "q": "In what ways is VR transforming architecture and building design?",
+    "o": ["By replacing physical models only", "By limiting design creativity", "By only providing 2D blueprints", "By allowing architects and builders to walk inside virtual models of buildings before construction to find mistakes and improve designs", "Don't Know"],
+    "c": "By allowing architects and builders to walk inside virtual models of buildings before construction to find mistakes and improve designs"
+  },
+  {
+    "q": "Describe how VR is used in entertainment beyond traditional screens.",
+    "o": ["By replacing all live events", "By limiting audience interaction", "Through immersive movies, concerts, and interactive storytelling where viewers can choose different paths or perspectives", "Only by watching flat videos", "Don't Know"],
+    "c": "Through immersive movies, concerts, and interactive storytelling where viewers can choose different paths or perspectives"
+  },
+  {
+    "q": "What are some future applications of VR in everyday life mentioned in the paragraph?",
+    "o": ["Only gaming", "Only education", "No future applications mentioned", "Online shopping with virtual try-ons, virtual meetings, and watching sports as if in the stadium", "Don't Know"],
+    "c": "Online shopping with virtual try-ons, virtual meetings, and watching sports as if in the stadium"
+  },
+  {
+    "q": "How does VR support collaborative learning on a global scale?",
+    "o": ["By enabling students worldwide to join virtual classrooms, interact with 3D models, and participate in experiments together", "By isolating students geographically", "By replacing teachers with AI only", "By limiting interaction to local classrooms", "Don't Know"],
+    "c": "By enabling students worldwide to join virtual classrooms, interact with 3D models, and participate in experiments together"
+  },
+  {
+    "q": "In what ways is VR used in retail and marketing to improve customer experience?",
+    "o": ["By replacing physical stores entirely", "By only showing static images", "Virtual stores and showrooms allow detailed product exploration, customization, and feedback, reducing returns and increasing satisfaction", "By limiting customer interaction", "Don't Know"],
+    "c": "Virtual stores and showrooms allow detailed product exploration, customization, and feedback, reducing returns and increasing satisfaction"
+   }
+  ]},
 
-  { "title":"Blockchain",
-    "text":"Blockchain is a new way to store data safely. It keeps data in small blocks, and these blocks are linked like a chain. Once data is saved in a block, it cannot be changed easily. This makes blockchain very secure. Blockchain does not need one central place; many computers keep the same copy of data. This is why it is called 'decentralized.'\nBlockchain is famous because of cryptocurrencies like Bitcoin, which use it to keep records of buying and selling safely. But blockchain can do more. It can be used in banks to keep safe records of money. Hospitals can use it to save patient data. Even supply chains use blockchain to track where goods come from.\nBlockchain makes data safe, transparent, and quick to check. Because data is shared on many computers, hackers cannot easily change it. This helps stop fraud and makes business trusted. It also removes middlemen, so work becomes faster and cheaper.\nIn the future, blockchain may be used for voting, ID cards, online education certificates, and even in music and movies to protect creators. Students who learn blockchain can get jobs in IT, banking, health, and many more fields.",
+  { "title":"12- Blockchain",
+    "text":"Blockchain is a new way to store data safely by keeping information in small blocks linked like a chain, making it very secure since data cannot be easily changed once saved. It is decentralized because many computers keep copies of the data instead of one central place. While blockchain is famous for cryptocurrencies like Bitcoin, which use it to securely record transactions, it has many other uses such as in banks for safe money records, hospitals for patient data, and supply chains for tracking goods. Blockchain ensures data is safe, transparent, and quickly verifiable, reducing fraud and removing middlemen to speed up and lower costs. In the future, blockchain could be used for voting, ID cards, online certificates, and protecting creators in music and movies. Its transparency allows everyone to see transaction history, helping reduce corruption and build trust. Smart contracts—automatic coded agreements—can execute actions like releasing payments once conditions are met, saving time and avoiding disputes. It improves supply chains by verifying product authenticity and ethics, and many governments explore blockchain for land records, welfare, and identity management to reduce paperwork and errors. In energy, blockchain supports peer-to-peer trading of electricity, allowing solar panel owners to sell power directly to neighbors. However, blockchain mining can consume much electricity, though newer, more sustainable technologies are being developed. Education on blockchain is growing rapidly through universities and online courses, preparing people for future jobs in many fields. Despite challenges like regulation, scalability, and user understanding, blockchain’s potential to transform industries and build digital trust makes it a powerful technology worth learning about. Blockchain is also transforming the financial sector by enabling faster and cheaper cross-border payments. Traditional international transfers can take days and involve high fees, but blockchain allows near-instant transactions without intermediaries, making global business easier. Moreover, decentralized finance (DeFi) platforms built on blockchain provide financial services like loans, savings, and trading without banks, giving more people access to money management tools. In healthcare, blockchain can securely store and share medical records with patient consent, ensuring privacy while allowing doctors and specialists quick access to important information. This reduces errors, speeds up treatment, and supports medical research by creating large, trustworthy databases of anonymized health data. Blockchain technology also benefits the agriculture industry by improving food safety and traceability. Farmers, distributors, and retailers can record the journey of crops and livestock on the blockchain, helping to quickly identify and remove contaminated products from the supply chain and ensure compliance with safety standards. In real estate, blockchain simplifies property transactions by securely recording ownership and contracts. This reduces fraud, speeds up sales, and lowers costs by cutting out unnecessary paperwork and intermediaries like brokers or lawyers. Artists and musicians are using blockchain to protect their work and get paid fairly. Through NFTs (non-fungible tokens), creators can sell digital art or music directly to fans with proof of ownership and automatic royalties every time their work is resold. Blockchain also enhances cybersecurity by providing a secure way to verify identities and data integrity. It helps prevent hacking and data breaches by making it extremely difficult to alter or fake information stored on the blockchain. In logistics, blockchain improves tracking and coordination among multiple parties involved in moving goods. It increases efficiency, reduces delays, and helps detect issues like theft or loss faster. Governments are exploring blockchain for secure and transparent public voting systems. This could increase voter participation, reduce election fraud, and make election results more trustworthy by allowing anyone to verify votes without compromising privacy. Blockchain is helping build more inclusive financial systems by enabling micropayments and reducing the need for traditional banking infrastructure, which is especially important in remote or underserved areas around the world. Finally, as blockchain technology continues to evolve, new innovations such as combining blockchain with artificial intelligence (AI) and the Internet of Things (IoT) are emerging. These combinations can create smarter, more efficient systems in everything from smart cities to personalized healthcare, showing that blockchain’s impact will only grow wider and deeper in the future.",
+    "questions":[
+  {
+    "q": "What fundamental structure does blockchain use to store data securely?",
+    "o": ["Flat files on a single server", "Small blocks linked like a chain", "Centralized databases", "Encrypted emails", "Don't Know"],
+    "c": "Small blocks linked like a chain"
+  },
+  {
+    "q": "Why is blockchain considered decentralized?",
+    "o": ["Because data is stored on one central computer", "Because many computers keep copies of the data instead of a single central place", "Because it uses cloud storage only", "Because it relies on a single authority", "Don't Know"],
+    "c": "Because many computers keep copies of the data instead of a single central place"
+  },
+  {
+    "q": "Besides cryptocurrencies, name three sectors where blockchain is applied according to the paragraph.",
+    "o": ["None of the above", "Social media, gaming, and advertising", "Banks, hospitals, and supply chains", "Education, tourism, and fashion", "Don't Know"],
+    "c": "Banks, hospitals, and supply chains"
+  },
+  {
+    "q": "How do smart contracts improve business processes?",
+    "o": ["By requiring manual approval for every transaction", "By automatically executing coded agreements once conditions are met, saving time and avoiding disputes", "By slowing down payments", "By increasing paperwork", "Don't Know"],
+    "c": "By automatically executing coded agreements once conditions are met, saving time and avoiding disputes"
+  },
+  {
+    "q": "What environmental concern is associated with blockchain mining, and how is the industry addressing it?",
+    "o": ["High water usage; switching to solar power", "High electricity consumption; developing newer, more sustainable technologies", "Noise pollution; using quieter machines", "Air pollution; planting trees", "Don't Know"],
+    "c": "High electricity consumption; developing newer, more sustainable technologies"
+  },
+  {
+    "q": "How does blockchain enhance transparency and trust in transactions?",
+    "o": ["By encrypting data so no one can see it", "By allowing everyone to see transaction history, reducing corruption and building trust", "By hiding transaction history", "By centralizing control", "Don't Know"],
+    "c": "By allowing everyone to see transaction history, reducing corruption and building trust"
+  },
+  {
+    "q": "What role does blockchain play in cross-border payments?",
+    "o": ["It requires banks to approve every transfer", "It enables faster, cheaper transactions without intermediaries", "It only works within countries", "It slows down transactions and increases fees", "Don't Know"],
+    "c": "It enables faster, cheaper transactions without intermediaries"
+  },
+  {
+    "q": "Explain how decentralized finance (DeFi) platforms built on blockchain differ from traditional banking.",
+    "o": ["They require banks to operate", "They provide financial services like loans and trading without banks, increasing access to money management tools", "They limit access to financial services", "They only offer savings accounts", "Don't Know"],
+    "c": "They provide financial services like loans and trading without banks, increasing access to money management tools"
+  },
+  {
+    "q": "In what way does blockchain improve healthcare data management?",
+    "o": ["By limiting access to medical data", "By securely storing and sharing medical records with patient consent, ensuring privacy and quick access for doctors", "By making records public without consent", "By storing data only on paper", "Don't Know"],
+    "c": "By securely storing and sharing medical records with patient consent, ensuring privacy and quick access for doctors"
+  },
+  {
+    "q": "How does blockchain contribute to food safety and traceability in agriculture?",
+    "o": ["By limiting farmer access to data", "By recording the journey of crops and livestock, helping identify and remove contaminated products quickly", "By ignoring supply chain data", "By only tracking prices", "Don't Know"],
+    "c": "By recording the journey of crops and livestock, helping identify and remove contaminated products quickly"
+  }
+  ]},
+
+  { "title":"13- Augmented Reality (AR)",
+    "text": "Augmented Reality (AR) is a technology that adds computer images or data to the real world. Unlike Virtual Reality (VR), which fully covers what we see, AR shows real things with extra information or pictures. For example, when you play Pokémon Go on your phone, the game shows Pokémon in real places using AR. AR is used in education to show 3D models of science diagrams or historical places. In shopping, AR lets you see how furniture looks in your room before buying. Doctors use AR to see bones or organs on the body while treating patients. AR is also used in sports to show scores on TV during live matches. AR makes learning fun and easy. It helps people see things that are hard to imagine. In shopping, AR saves time and money by letting you try products virtually. In factories, AR guides workers to fix machines by showing step-by-step help. In the future, AR may be in glasses we wear every day to show maps, messages, or health data. Students who learn AR can work in gaming, design, education, and health sectors. AR is also transforming tourism by allowing visitors to see historical sites with added information and animations, making tours more engaging and informative. In the automotive industry, AR helps drivers with heads-up displays that show navigation, speed, and hazards on the windshield, improving safety and convenience. Architects and builders use AR to visualize building designs on-site, helping clients understand projects better and detect errors early. AR enhances marketing by creating interactive ads and product demos that attract customers and increase engagement. Museums use AR to bring exhibits to life, letting visitors interact with artifacts and see reconstructions of ancient objects or environments. AR supports remote assistance by allowing experts to guide workers through complex tasks using live video and virtual annotations, reducing travel costs and downtime. In sports training, AR provides athletes with real-time feedback on their performance, helping them improve techniques and avoid injuries. AR is becoming popular in social media, with filters and effects that change how users appear or add virtual items to photos and videos. As AR devices become smaller and more affordable, everyday use in navigation, communication, and entertainment will increase. Overall, AR is blending the digital and real worlds to improve how we learn, work, shop, and play, making everyday experiences richer and more connected. AR also supports language learning by overlaying translations onto real-world objects and signs, helping users practice in real contexts. It is being used in emergency response to provide firefighters or rescue teams with maps and hazard information during operations. AR is helping people with disabilities by offering visual or auditory aids, enhancing communication and daily tasks. Retailers use AR for virtual fitting rooms, allowing customers to try on clothes and accessories digitally, reducing returns and improving satisfaction. In farming, AR helps monitor crops and soil by visualizing data from sensors, enabling better decisions and higher yields. AR games and experiences continue to grow, mixing physical movement with digital challenges to promote active and social play. In manufacturing, AR improves quality control by showing workers exact specifications and errors during production. AR can assist in mental health by creating calming virtual environments or exposing patients gradually to fears in therapy. The combination of AR with artificial intelligence (AI) is creating smarter applications that can adapt information based on user behavior or context. As technology advances, AR is expected to become an essential part of daily life, changing how we interact with the world around us. Additionally, AR is being used in interior design, allowing users to visualize paint colors, textures, and décor in their homes before making changes. In retail, AR-powered kiosks provide customers with product information and personalized recommendations in stores. AR is helping improve navigation for visually impaired individuals by overlaying audio cues and visual enhancements. In the entertainment industry, AR is creating immersive theater experiences where virtual elements interact with live actors. Finally, AR is being explored for environmental conservation by visualizing the effects of climate change and helping communities understand and engage with sustainability efforts.",
     "questions": [
-    {
-      "q":"What is the fundamental structure used by blockchain to store information?",
-      "o": [
-        "Rows in a spreadsheet",
-        "Encrypted paper files",
-        "Digital containers",
-        "Linked sequences of data blocks"
-      ],
-      "c":"Linked sequences of data blocks"
-    },
-    {
-      "q":"According to the passage, what links the individual blocks together in blockchain?",
-      "o": [
-        "A chain-like connection",
-        "An adhesive binding",
-        "A fiber-based link",
-        "A threaded rope"
-      ],
-      "c":"A chain-like connection"
-    },
-    {
-      "q":"Which word in the passage best describes the high level of safety provided by blockchain?",
-      "o": [
-        "Transparent",
-        "Decentralized",
-        "Secure",
-        "Flexible"
-      ],
-      "c":"Secure"
-    },
-    {
-      "q":"Why is blockchain referred to as a decentralized system?",
-      "o": [
-        "It is managed by a single authority",
-        "It has no physical storage location",
-        "It stores data in random sequences",
-        "Multiple computers maintain identical copies of data"
-      ],
-      "c":"Multiple computers maintain identical copies of data"
-    },
-    {
-      "q":"Which technology is specifically mentioned in the passage as relying on blockchain for transaction records?",
-      "o": [
-        "Cloud computing",
-        "Bitcoin",
-        "Artificial intelligence",
-        "Data warehousing"
-      ],
-      "c":"Bitcoin"
-    }
-    ]},
+  {
+    "q": "What is a popular example of AR technology used in gaming?",
+    "o": ["Candy Crush", "Pokémon Go", "Minecraft", "Fortnite", "Don't Know"],
+    "c": "Pokémon Go"
+  },
+  {
+    "q": "How is AR transforming architecture and building design?",
+    "o": ["By only providing 2D images", "By limiting design creativity", "By replacing physical blueprints only", "By visualizing building designs on-site, helping clients understand projects better and detect errors early", "Don't Know"],
+    "c": "By visualizing building designs on-site, helping clients understand projects better and detect errors early"
+  },
+  {
+    "q": "What future applications of AR are anticipated in everyday life?",
+    "o": ["Only in gaming", "Only in factories", "No future applications mentioned", "Use in glasses to show maps, messages, or health data, increasing navigation, communication, and entertainment", "Don't Know"],
+    "c": "Use in glasses to show maps, messages, or health data, increasing navigation, communication, and entertainment"
+  },
+  {
+    "q": "How is AR used in social media?",
+    "o": ["Only for text messaging", "By removing images", "Through filters and effects that change user appearance or add virtual items to photos and videos", "By limiting user interaction", "Don't Know"],
+    "c": "Through filters and effects that change user appearance or add virtual items to photos and videos"
+  },
+  {
+    "q": "How does AR assist doctors during patient treatment?",
+    "o": ["By limiting patient interaction", "By replacing doctors in surgeries", "By only providing medical textbooks", "By showing bones or organs on the body in real time", "Don't Know"],
+    "c": "By showing bones or organs on the body in real time"
+  },
+  {
+    "q": "What role does AR play in the automotive industry?",
+    "o": ["Limiting vehicle speed", "Providing heads-up displays on windshields that show navigation, speed, and hazards to improve safety and convenience", "Replacing drivers entirely", "Only used for entertainment inside cars", "Don't Know"],
+    "c": "Providing heads-up displays on windshields that show navigation, speed, and hazards to improve safety and convenience"
+  },
+  {
+    "q": "In what way does AR enhance sports training?",
+    "o": ["By limiting physical activity", "Providing athletes with real-time feedback on performance to improve techniques and avoid injuries", "Only by watching recorded videos", "By replacing coaches entirely", "Don't Know"],
+    "c": "Providing athletes with real-time feedback on performance to improve techniques and avoid injuries"
+  },
+  {
+    "q": "Describe how AR supports remote assistance in industrial or technical fields.",
+    "o": ["By requiring experts to be physically present", "By limiting communication to phone calls", "By sending manuals only", "Experts guide workers through complex tasks using live video and virtual annotations, reducing travel costs and downtime", "Don't Know"],
+    "c": "Experts guide workers through complex tasks using live video and virtual annotations, reducing travel costs and downtime"
+  },
+  {
+    "q": "In what ways is AR used in education according to the paragraph?",
+    "o": ["Replacing teachers entirely", "Limiting interaction to textbooks", "Only by watching videos", "Showing 3D models of science diagrams and historical places to make learning fun and easy", "Don't Know"],
+    "c": "Showing 3D models of science diagrams and historical places to make learning fun and easy"
+  },
+  {
+    "q": "How does AR differ fundamentally from Virtual Reality (VR)?",
+    "o": ["AR uses only audio, while VR uses only visuals", "AR adds computer images or data to the real world, while VR fully covers what we see with a virtual environment", "AR fully replaces the real world with a virtual one, while VR adds digital elements to the real world", "AR is only used in gaming, while VR is used in education", "Don't Know"],
+    "c": "AR adds computer images or data to the real world, while VR fully covers what we see with a virtual environment"
+  }
+  ]},
 
-  { "title":"Augmented Reality (AR)",
-    "text":"Augmented Reality (AR) is a technology that adds computer images or data to the real world. Unlike Virtual Reality (VR), which fully covers what we see, AR shows real things with extra information or pictures. For example, when you play Pokémon Go on your phone, the game shows Pokémon in real places using AR.\nAR is used in education to show 3D models of science diagrams or historical places. In shopping, AR lets you see how furniture looks in your room before buying. Doctors use AR to see bones or organs on the body while treating patients. AR is also used in sports to show scores on TV during live matches.\nAR makes learning fun and easy. It helps people see things that are hard to imagine. In shopping, AR saves time and money by letting you try products virtually. In factories, AR guides workers to fix machines by showing step-by-step help.\nIn the future, AR may be in glasses we wear every day to show maps, messages, or health data. Students who learn AR can work in gaming, design, education, and health sectors.",
-    "questions": [
-    {
-      "q":"Which description best fits the role of AR in combining physical and digital elements?",
-      "o": [
-        "Placing holograms into fictional movies",
-        "Projecting dreams into a headset",
-        "Replacing all physical objects with digital models",
-        "Overlaying digital visuals or data onto real-world environments"
-      ],
-      "c":"Overlaying digital visuals or data onto real-world environments"
-    },
-    {
-      "q":"Pokémon Go demonstrates AR by:",
-      "o": [
-        "Blending game characters with actual surroundings",
-        "Displaying animated maps only indoors",
-        "Replacing the sky with a fantasy world",
-        "Showing virtual objects without any camera view"
-      ],
-      "c":"Blending game characters with actual surroundings"
-    },
-    {
-      "q":"In the passage, AR is said to present the real world combined with:",
-      "o": [
-        "Additional decorative objects",
-        "Layers of virtual reality scenarios",
-        "Supplementary information or imagery",
-        "Recorded sound effects"
-      ],
-      "c":"Supplementary information or imagery"
-    },
-    {
-      "q":"How does AR enhance school learning according to the text?",
-      "o": [
-        "By replacing textbooks entirely",
-        "By offering printed diagrams with labels",
-        "By streaming video lessons only",
-        "By displaying interactive 3D models of concepts"
-      ],
-      "c":"By displaying interactive 3D models of concepts"
-    },
-    {
-      "q":"In the shopping sector, AR allows customers to:",
-      "o": [
-        "Virtually preview furniture placement at home",
-        "Compare store discounts side-by-side",
-        "Replace product images with animations",
-        "Order items without internet access"
-      ],
-      "c":"Virtually preview furniture placement at home"
-    }
-    ]},
-
-{ "title":"5G Technology",
-  "text":"5G means the fifth generation of mobile networks. It is much faster than 4G. With 5G, we can download movies in seconds and enjoy video calls without breaks. 5G uses new technology and more towers to send data quickly.\n5G is not only for phones. Self-driving cars use 5G to talk to each other and avoid accidents. In hospitals, doctors can do surgeries from far away with robots using 5G. In smart cities, 5G helps control traffic and save energy.\n5G makes internet speed super fast and connects many devices at once. It helps students watch live classes without buffering. Factories use 5G to run smart machines. Gamers enjoy online games with no delay.\nIn the future, 5G will help in virtual reality, smart homes, and even flying taxis. Students who learn about 5G today can work in telecom, robotics, and smart city projects.",
+{
+  "title": "14- 5G Technology",
+  "text": "5G means the fifth generation of mobile networks, and it is designed to be much faster and more reliable than 4G. With 5G, movies that once took hours to download can now be completed within seconds, and video calls run smoothly without interruptions. This is possible because 5G uses new spectrum bands, advanced antennas, and more transmission towers to carry data with lower latency and higher efficiency. Importantly, 5G is not limited to smartphones. In transportation, self-driving cars communicate with each other through 5G networks, reducing accidents by synchronizing their movements in real time. In the healthcare sector, doctors can perform remote-controlled surgeries using robotic systems connected through 5G, ensuring precision even from thousands of kilometers away. In smart cities, 5G helps control traffic lights, monitor energy usage, and improve public safety. The benefits of 5G extend further into education, industry, and entertainment. Students can join live online classes without buffering, while factories use 5G-powered smart machines for automation and faster production. Online gamers experience ultra-low latency, allowing real-time play without delays. Beyond this, 5G supports new technologies such as virtual reality, augmented reality, smart homes, and even futuristic flying taxis. In the future, careers linked to 5G will expand across telecom, robotics, artificial intelligence, and smart city development. Students who understand 5G today will be better prepared for opportunities in building tomorrow’s connected world. 5G also enables the Internet of Things (IoT) by connecting billions of devices, from home appliances to industrial sensors, creating smarter and more responsive environments. This means your refrigerator can notify you when groceries run low, and factories can detect machine faults before breakdowns occur. With 5G, rural and remote areas gain better internet access, helping bridge the digital divide and opening up new economic and educational opportunities. In agriculture, 5G-powered drones and sensors monitor crops and soil health in real time, enabling precise farming practices that increase yields and reduce waste. The entertainment industry benefits from 5G by offering high-quality live streaming and immersive experiences like 360-degree video and AR concerts. 5G networks also improve public safety by enabling faster communication for emergency responders and supporting smart surveillance systems that can detect unusual activities. The energy sector uses 5G to manage smart grids more efficiently, balancing energy supply and demand while integrating renewable sources like solar and wind power. Privacy and security with 5G are critical concerns, and new protocols are being developed to protect users from cyber threats while ensuring data integrity. 5G infrastructure requires significant investment and cooperation between governments, companies, and communities to ensure widespread and equitable access. As 5G technology evolves, it will pave the way for 6G and beyond, pushing the boundaries of connectivity and transforming how people live and work worldwide. Furthermore, 5G will revolutionize industrial automation by enabling factories to run fully automated systems with real-time monitoring, increasing productivity and reducing human error. In transportation, 5G connectivity allows better coordination of public transit systems, optimizing routes and reducing congestion. The use of 5G in healthcare extends to wearable devices that continuously monitor vital signs and send alerts to medical professionals instantly. In education, 5G makes it possible to use advanced VR and AR tools for immersive learning experiences, taking education beyond the classroom walls. Retailers benefit from 5G by offering personalized shopping experiences through smart mirrors and instant virtual try-ons, enhancing customer satisfaction. Environmental monitoring improves with 5G by using connected sensors to track air and water quality, helping governments respond faster to pollution. Sports broadcasting takes a leap with 5G by enabling multiple camera angles, instant replays, and interactive features that engage fans like never before. 5G is also key to expanding telecommuting and remote work by providing stable, high-speed internet even in home offices or while traveling. In disaster management, 5G enables faster deployment of communication networks, helping coordinate relief efforts more efficiently. Lastly, as smart cities grow, 5G supports connected infrastructure that improves everything from waste management to energy conservation, making urban life more sustainable and comfortable for residents.",
   "questions": [
-    {
-      "q":"Which statement best identifies the network stage referred to as 5G?",
-      "o": [
-        "The initial rollout of mobile data services",
-        "A phase focusing on third-generation connectivity",
-        "The advanced phase following 4G",
-        "The second upgrade after 2G"
-      ],
-      "c":"The advanced phase following 4G"
-    },
-    {
-      "q":"Compared to earlier networks, 5G primarily offers:",
-      "o": [
-        "Significantly higher data transfer speeds",
-        "An increase in water storage capacity",
-        "Better stone transportation facilities",
-        "Reduced digital communication needs"
-      ],
-      "c":"Significantly higher data transfer speeds"
-    },
-    {
-      "q":"The passage notes that 5G allows downloading movies within:",
-      "o": [
-        "Multiple weeks",
-        "Several hours",
-        "A matter of seconds",
-        "Half a month"
-      ],
-      "c":"A matter of seconds"
-    },
-    {
-      "q":"In the automotive sector, 5G enables vehicles to:",
-      "o": [
-        "Operate cooking functions automatically",
-        "Synchronize movements through intercommunication",
-        "Perform choreographed dance routines",
-        "Convert fuel into digital signals"
-      ],
-      "c":"Synchronize movements through intercommunication"
-    },
-    {
-      "q":"Hospitals benefit from 5G by allowing doctors to conduct:",
-      "o": [
-        "Remote-controlled surgical procedures",
-        "Art exhibitions inside operating rooms",
-        "Live musical performances during treatment",
-        "Virtual shopping for medical equipment"
-      ],
-      "c":"Remote-controlled surgical procedures"
-    }
-    ]
-    }
-  ];
+  {
+    "q": "What role does 5G play in the development of smart cities?",
+    "o": ["Limits urban growth", "Controls traffic lights, monitors energy usage, improves public safety, and supports connected infrastructure", "Replaces city officials", "Only provides Wi-Fi in parks", "Don't Know"],
+    "c": "Controls traffic lights, monitors energy usage, improves public safety, and supports connected infrastructure"
+  },
+  {
+    "q": "How does 5G reduce latency and improve efficiency in data transmission?",
+    "o": ["By reducing bandwidth", "By limiting the number of users", "By increasing the number of connected devices and optimizing network protocols", "By using only wired connections", "Don't Know"],
+    "c": "By increasing the number of connected devices and optimizing network protocols"
+  },
+  {
+    "q": "How does 5G support the Internet of Things (IoT)?",
+    "o": ["By disconnecting devices", "By only supporting smartphones", "By connecting billions of devices, enabling smarter and more responsive environments", "By limiting device connectivity", "Don't Know"],
+    "c": "By connecting billions of devices, enabling smarter and more responsive environments"
+  },
+  {
+    "q": "What benefits does 5G bring to the entertainment industry?",
+    "o": ["No impact on entertainment", "High-quality live streaming, immersive experiences like 360-degree video and AR concerts, and enhanced sports broadcasting", "Only recorded videos", "Limited interactivity", "Don't Know"],
+    "c": "High-quality live streaming, immersive experiences like 360-degree video and AR concerts, and enhanced sports broadcasting"
+  },
+  {
+    "q": "What challenges are associated with 5G deployment, and how are they addressed?",
+    "o": ["Only technical issues without social impact", "No challenges exist", "Deployment is easy and cheap", "Requires significant investment and cooperation among governments, companies, and communities for equitable access", "Don't Know"],
+    "c": "Requires significant investment and cooperation among governments, companies, and communities for equitable access"
+  },
+  {
+    "q": "In what way does 5G impact transportation, specifically self-driving cars?",
+    "o": ["Replaces drivers with robots", "Only used for entertainment in cars", "Limits vehicle speed", "Enables real-time communication between vehicles to synchronize movements and reduce accidents", "Don't Know"],
+    "c": "Enables real-time communication between vehicles to synchronize movements and reduce accidents"
+  },
+  {
+    "q": "Explain how 5G improves agricultural practices.",
+    "o": ["By replacing farmers", "By limiting crop monitoring", "Through drones and sensors that monitor crops and soil health in real time for precise farming", "By ignoring environmental data", "Don't Know"],
+    "c": "Through drones and sensors that monitor crops and soil health in real time for precise farming"
+  },
+  {
+    "q": "How does 5G improve environmental monitoring?",
+    "o": ["By ignoring environmental data", "Using connected sensors to track air and water quality, enabling faster government response to pollution", "By limiting sensor use", "By only monitoring weather", "Don't Know"],
+    "c": "Using connected sensors to track air and water quality, enabling faster government response to pollution"
+  },
+  {
+    "q": "How does 5G contribute to public safety and emergency response?",
+    "o": ["Limits emergency communication", "Reduces response speed", "Only used for traffic updates", "Enables faster communication for responders and supports smart surveillance systems to detect unusual activities", "Don't Know"],
+    "c": "Enables faster communication for responders and supports smart surveillance systems to detect unusual activities"
+  },
+  {
+    "q": "What key technological advancements enable 5G to be faster and more reliable than 4G?",
+    "o": ["Fewer transmission towers", "Slower data compression", "Larger smartphones", "Use of new spectrum bands, advanced antennas, and more transmission towers", "Don't Know"],
+    "c": "Use of new spectrum bands, advanced antennas, and more transmission towers"
+  }
+  ]}
+];
 
 let currentPassage = null;
 let userAnswers = [];
@@ -826,16 +1053,19 @@ function startReading() {
   document.getElementById('paragraph').classList.remove('blurred');
   document.getElementById('startReadBtn').style.display = 'none';
 
+  // ✅ Enable "Proceed to Questions" immediately
   const proceedBtn = document.getElementById('proceedToQuestions');
-  proceedBtn.disabled = false; // Allow user to proceed anytime
+  proceedBtn.disabled = false;
 
-  let secondsLeft = 300; // 5 minutes
+  // Optional: You can still show countdown if needed
+  let secondsLeft = 600; // 10 minutes
   document.getElementById('time').innerText = formatDuration(secondsLeft);
 
   readingTimerInterval = setInterval(() => {
     secondsLeft--;
     document.getElementById('time').innerText = formatDuration(secondsLeft);
 
+    // ✅ Auto proceed after 10 minutes
     if (secondsLeft <= 0) {
       clearInterval(readingTimerInterval);
       readingEndTime = Date.now();
@@ -856,7 +1086,7 @@ function loadQuestions() {
   currentPassage.questions.forEach((q, i) => {
     mcqsHtml += `<p><strong>${i + 1}. ${q.q} <span style="color:red">*</span></strong><br>`;
     q.o.forEach(opt => {
-      mcqsHtml += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
+      mcqsHtml += `<label><input type="radio"name="q${i}"value="${opt}"> ${opt}</label><br>`;
     });
     mcqsHtml += `</p>`;
   });
@@ -875,7 +1105,7 @@ function submitAnswers() {
   });
 
   if (!allAnswered) {
-    alert("Please answer all questions before submitting.");
+    alert("Please answer all questions before submitting (including 'Don't Know' if unsure).");
     return;
   }
 
