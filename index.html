@@ -1244,6 +1244,7 @@ function submitAnswers() {
   formData.append('entry.115296724', wrong); // Wrong
   formData.append('entry.2140657840', readingTime); // Reading Time
   formData.append('entry.1238249296', testTime);   // Test Time
+  formData.append('entry.903011013', wpm); // Reading WPM
 
   fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
     method: 'POST',
