@@ -1124,12 +1124,20 @@ function submitAnswers() {
   const total = currentPassage.questions.length;
   const correct = score;
   const wrong = total - correct;
-
+  
+  // 🧮 Calculate Reading WPM
+  const totalWords = currentPassage.text.trim().split(/\s+/).length;
+  const readingMinutes = (readingEndTime - readingStartTime) / 1000 / 60;
+  const wpm = Math.round(totalWords / readingMinutes);
+  
+  // ✅ Add WPM in the result section
   const scoreText = `
-    Total Questions: ${total}<br>
-    Correct Answers: ${correct}<br>
-    Wrong Answers: ${wrong}
-  `;
+  Total Questions: ${total}<br>
+  Correct Answers: ${correct}<br>
+  Wrong Answers: ${wrong}<br>
+  Reading WPM: ${wpm}
+`;
+
   const scoreElement = document.createElement("p");
   scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
   scoreElement.style.textAlign = "center";
@@ -1166,10 +1174,12 @@ function submitAnswers() {
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
 // Auto send to Google Sheet
+// Auto send to Google Sheet
 const formData = new FormData();
 formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
 formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
-formData.append('entry.1911046396', currentPassage.title); // 🔹 Reading Topic (NEW FIELD)
+formData.append('entry.1911046396', currentPassage.title); // Reading Topic
+  formData.append('entry.903011013', wpm);         // ✅ Reading WPM
 formData.append('entry.645538404', total); // Total Questions
 formData.append('entry.895886336', correct); // Correct
 formData.append('entry.115296724', wrong); // Wrong
@@ -1181,7 +1191,6 @@ fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HE
   mode: 'no-cors',
   body: formData
 });
-}
 
 function showSuccess() {
   document.getElementById('finalPage').style.display = 'none';
