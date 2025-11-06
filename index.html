@@ -1109,50 +1109,46 @@ function submitAnswers() {
     return;
   }
 
+  // ✅ Calculate score
   let score = 0;
   currentPassage.questions.forEach((q, i) => {
     if (userAnswers[i] === q.c) score++;
   });
 
+  // ✅ Calculate Reading WPM based on total words / reading time
+  const totalWords = currentPassage.text.trim().split(/\s+/).length;
+  const readingTimeMs = readingEndTime - readingStartTime;
+  const readingMinutes = readingTimeMs / 1000 / 60;
+
+  let wpm = "N/A";
+  if (readingMinutes > 0) {
+    wpm = Math.round(totalWords / readingMinutes);
+  }
+
+  const total = currentPassage.questions.length;
+  const correct = score;
+  const wrong = total - correct;
+
+  // ✅ Display final page
   document.getElementById('questionPage').style.display = 'none';
   document.getElementById('finalPage').style.display = 'block';
   document.getElementById('userName').innerText = document.getElementById('name').value.trim();
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
   document.getElementById('userTopic').innerText = currentPassage.title;
 
-
-  const total = currentPassage.questions.length;
-  const correct = score;
-  const wrong = total - correct;
-  
-  // 🧮 Calculate Reading WPM
-  const totalWords = currentPassage.text.trim().split(/\s+/).length;
-  const readingTimeMs = readingEndTime - readingStartTime;
-  const readingMinutes = readingTimeMs / 1000 / 60;
-  
-  // Safe WPM calculation with validation
-  let wpm = 0;
-  if (readingMinutes > 0 && totalWords > 0) {
-    const calculatedWpm = Math.round(totalWords / readingMinutes);
-    // Cap at reasonable max (average is 200-300, fast readers ~400-500)
-    wpm = calculatedWpm > 2000 ? ">2000" : calculatedWpm;
-  } else {
-    wpm = "N/A";
-  }
-  
-  // ✅ Add WPM in the result section
   const scoreText = `
     Total Questions: ${total}<br>
     Correct Answers: ${correct}<br>
     Wrong Answers: ${wrong}<br>
     Reading WPM: ${wpm}
-`;
+  `;
   const scoreElement = document.createElement("p");
   scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
   scoreElement.style.textAlign = "center";
   scoreElement.style.margin = "15px 0";
   document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
 
+  // ✅ Chart
   new Chart(document.getElementById('resultChart').getContext('2d'), {
     type: 'pie',
     data: {
@@ -1165,6 +1161,7 @@ function submitAnswers() {
     options: { responsive: true }
   });
 
+  // ✅ Review answers
   let reviewHtml = "<h4>Review Your Answers:</h4>";
   currentPassage.questions.forEach((q, i) => {
     const isCorrect = userAnswers[i] === q.c;
@@ -1179,25 +1176,26 @@ function submitAnswers() {
   });
   document.getElementById('answersReview').innerHTML = reviewHtml;
 
+  // ✅ Format reading and test time
   const readingTime = formatDuration(Math.round((readingEndTime - readingStartTime) / 1000));
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
-// Auto send to Google Sheet
-const formData = new FormData();
-formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
-formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
-formData.append('entry.1911046396', currentPassage.title); // 🔹 Reading Topic (NEW FIELD)
-formData.append('entry.645538404', total); // Total Questions
-formData.append('entry.895886336', correct); // Correct
-formData.append('entry.115296724', wrong); // Wrong
-formData.append('entry.2140657840', readingTime); // Reading Time
-formData.append('entry.1238249296', testTime);   // Test Time
+  // ✅ Auto send to Google Sheet
+  const formData = new FormData();
+  formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
+  formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
+  formData.append('entry.1911046396', currentPassage.title); // Reading Topic
+  formData.append('entry.645538404', total); // Total Questions
+  formData.append('entry.895886336', correct); // Correct
+  formData.append('entry.115296724', wrong); // Wrong
+  formData.append('entry.2140657840', readingTime); // Reading Time
+  formData.append('entry.1238249296', testTime);   // Test Time
 
-fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
-  method: 'POST',
-  mode: 'no-cors',
-  body: formData
-});
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUJDDXqcvb_mz-ceL3yxA6kFF1ds4HEwDZzugyrO0tQVaBiA/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
 }
 
 function showSuccess() {
