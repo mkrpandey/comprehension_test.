@@ -1031,11 +1031,30 @@ function startTest() {
 
     if (!valid) return;
 
+    if (!Array.isArray(passages) || passages.length === 0) {
+      alert("No passages available. Please contact the administrator.");
+      return;
+    }
+
     currentPassage = passages[Math.floor(Math.random() * passages.length)];
+    if (!currentPassage || !currentPassage.text) {
+      alert("Selected passage is invalid.");
+      return;
+    }
+
     document.getElementById("paragraph").innerText = currentPassage.text;
 
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("testPage").style.display = "block";
+
+    // Reset previous UI states
+    document.getElementById('paragraph').classList.add('blurred');
+    document.getElementById('startReadBtn').style.display = 'inline-block';
+    const proceedBtn = document.getElementById('proceedToQuestions');
+    if (proceedBtn) {
+      proceedBtn.disabled = true; // Disable initially until user clicks startRead
+    }
+    document.getElementById('time').innerText = formatDuration(0);
 }
 
 function endTest() {
@@ -1046,6 +1065,12 @@ function endTest() {
 function restartTest() {
     document.getElementById("resultPage").style.display = "none";
     document.getElementById("loginPage").style.display = "block";
+
+    // Clear any previous results or answers
+    userAnswers = [];
+    currentPassage = null;
+    readingStartTime = readingEndTime = testStartTime = testEndTime = null;
+    clearInterval(readingTimerInterval);
 }
 
 function startReading() {
@@ -1053,19 +1078,22 @@ function startReading() {
   document.getElementById('paragraph').classList.remove('blurred');
   document.getElementById('startReadBtn').style.display = 'none';
 
-  // ✅ Enable "Proceed to Questions" immediately
+  // Enable "Proceed to Questions" immediately
   const proceedBtn = document.getElementById('proceedToQuestions');
-  proceedBtn.disabled = false;
+  if (proceedBtn) {
+    proceedBtn.disabled = false;
+  }
 
-  // Optional: You can still show countdown if needed
+  // Optional countdown display
   let secondsLeft = 600; // 10 minutes
   document.getElementById('time').innerText = formatDuration(secondsLeft);
 
   readingTimerInterval = setInterval(() => {
     secondsLeft--;
+    if (secondsLeft < 0) secondsLeft = 0;
     document.getElementById('time').innerText = formatDuration(secondsLeft);
 
-    // ✅ Auto proceed after 10 minutes
+    // Auto proceed after 10 minutes
     if (secondsLeft <= 0) {
       clearInterval(readingTimerInterval);
       readingEndTime = Date.now();
@@ -1082,11 +1110,16 @@ function loadQuestions() {
   document.getElementById('testPage').style.display = 'none';
   document.getElementById('questionPage').style.display = 'block';
 
+  if (!currentPassage.questions || currentPassage.questions.length === 0) {
+    alert("No questions available for this passage.");
+    return;
+  }
+
   let mcqsHtml = "";
   currentPassage.questions.forEach((q, i) => {
     mcqsHtml += `<p><strong>${i + 1}. ${q.q} <span style="color:red">*</span></strong><br>`;
     q.o.forEach(opt => {
-      mcqsHtml += `<label><input type="radio"name="q${i}"value="${opt}"> ${opt}</label><br>`;
+      mcqsHtml += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
     });
     mcqsHtml += `</p>`;
   });
@@ -1109,32 +1142,40 @@ function submitAnswers() {
     return;
   }
 
-  // ✅ Calculate score
   let score = 0;
   currentPassage.questions.forEach((q, i) => {
     if (userAnswers[i] === q.c) score++;
   });
 
-  // ✅ Calculate Reading WPM based on total words / reading time
-  const totalWords = currentPassage.text.trim().split(/\s+/).length;
-  const readingTimeMs = readingEndTime - readingStartTime;
-  const readingMinutes = readingTimeMs / 1000 / 60;
-
-  let wpm = "N/A";
-  if (readingMinutes > 0) {
-    wpm = Math.round(totalWords / readingMinutes);
-  }
-
-  const total = currentPassage.questions.length;
-  const correct = score;
-  const wrong = total - correct;
-
-  // ✅ Display final page
   document.getElementById('questionPage').style.display = 'none';
   document.getElementById('finalPage').style.display = 'block';
   document.getElementById('userName').innerText = document.getElementById('name').value.trim();
   document.getElementById('userEmail').innerText = document.getElementById('email').value.trim();
   document.getElementById('userTopic').innerText = currentPassage.title;
+
+  const total = currentPassage.questions.length;
+  const correct = score;
+  const wrong = total - correct;
+
+  // Calculate Reading WPM safely
+  const totalWords = currentPassage.text.trim().split(/\s+/).length;
+  const readingTimeMs = readingEndTime - readingStartTime;
+  const readingMinutes = readingTimeMs / 1000 / 60;
+
+  let wpm = 0;
+  if (readingMinutes > 0 && totalWords > 0) {
+    const calculatedWpm = Math.round(totalWords / readingMinutes);
+    wpm = calculatedWpm > 2000 ? ">2000" : calculatedWpm;
+  } else {
+    wpm = "N/A";
+  }
+
+  // Remove existing score paragraph if exists to prevent duplicates
+  const finalPage = document.getElementById('finalPage');
+  const existingScoreParagraph = finalPage.querySelector('.score-summary');
+  if (existingScoreParagraph) {
+    existingScoreParagraph.remove();
+  }
 
   const scoreText = `
     Total Questions: ${total}<br>
@@ -1142,26 +1183,36 @@ function submitAnswers() {
     Wrong Answers: ${wrong}<br>
     Reading WPM: ${wpm}
   `;
+
   const scoreElement = document.createElement("p");
+  scoreElement.classList.add('score-summary');
   scoreElement.innerHTML = `<strong>${scoreText}</strong>`;
   scoreElement.style.textAlign = "center";
   scoreElement.style.margin = "15px 0";
-  document.getElementById('finalPage').insertBefore(scoreElement, document.getElementById('resultChart'));
 
-  // ✅ Chart
-  new Chart(document.getElementById('resultChart').getContext('2d'), {
-    type: 'pie',
-    data: {
-      labels: ['Correct', 'Incorrect'],
-      datasets: [{
-        data: [correct, wrong],
-        backgroundColor: ['#28a745', '#dc3545']
-      }]
-    },
-    options: { responsive: true }
-  });
+  const resultChart = document.getElementById('resultChart');
+  if (resultChart) {
+    finalPage.insertBefore(scoreElement, resultChart);
+  } else {
+    finalPage.appendChild(scoreElement);
+  }
 
-  // ✅ Review answers
+  // Render Pie Chart - make sure Chart.js is loaded
+  if (typeof Chart !== 'undefined' && resultChart) {
+    new Chart(resultChart.getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: ['Correct', 'Incorrect'],
+        datasets: [{
+          data: [correct, wrong],
+          backgroundColor: ['#28a745', '#dc3545']
+        }]
+      },
+      options: { responsive: true }
+    });
+  }
+
+  // Review answers
   let reviewHtml = "<h4>Review Your Answers:</h4>";
   currentPassage.questions.forEach((q, i) => {
     const isCorrect = userAnswers[i] === q.c;
@@ -1169,18 +1220,21 @@ function submitAnswers() {
     q.o.forEach(opt => {
       const selected = userAnswers[i] === opt;
       const isAnswer = q.c === opt;
-      const cls = selected ? (isAnswer ? 'correct' : 'incorrect') : (isAnswer ? 'correct' : '');
+      let cls = '';
+      if (selected && isAnswer) cls = 'correct';
+      else if (selected && !isAnswer) cls = 'incorrect';
+      else if (!selected && isAnswer) cls = 'correct';
       reviewHtml += `<span class="${cls}">${selected ? '➤' : ''} ${opt}</span><br>`;
     });
     reviewHtml += `</p>`;
   });
   document.getElementById('answersReview').innerHTML = reviewHtml;
 
-  // ✅ Format reading and test time
-  const readingTime = formatDuration(Math.round((readingEndTime - readingStartTime) / 1000));
+  // Display time durations if needed
+  const readingTime = formatDuration(Math.round(readingTimeMs / 1000));
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
-  // ✅ Auto send to Google Sheet
+  // Auto-send to Google Form
   const formData = new FormData();
   formData.append('entry.1640574701', document.getElementById('name').value.trim()); // Name
   formData.append('entry.2044946124', document.getElementById('email').value.trim()); // Email
@@ -1195,6 +1249,8 @@ function submitAnswers() {
     method: 'POST',
     mode: 'no-cors',
     body: formData
+  }).catch(e => {
+    console.warn("Google Form submission failed (likely due to CORS, which is expected).");
   });
 }
 
@@ -1203,6 +1259,7 @@ function showSuccess() {
   document.getElementById('successPage').style.display = 'flex';
 }
 
+// Disable context menu & copy/cut/paste/select for reading and questions area
 document.addEventListener('contextmenu', e => {
   if (['paragraph', 'mcqs'].includes(e.target.id) || e.target.closest('#mcqs')) e.preventDefault();
 });
@@ -1213,6 +1270,8 @@ document.addEventListener('contextmenu', e => {
   if (mcqs) mcqs.addEventListener(evt, e => e.preventDefault());
 });
 document.addEventListener('selectstart', e => e.preventDefault());
+
+// Disable dev tools shortcuts
 document.addEventListener('keydown', e => {
   if (e.key === "F12") e.preventDefault();
   if (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) e.preventDefault();
