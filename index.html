@@ -1114,6 +1114,14 @@ function onTopicChange() {
   const startBtn = document.getElementById('startReadBtn');
   const paragraph = document.getElementById('paragraph');
 
+  // Agar ek baar lock ho chuka hai to user topic nahi badal sakta
+  if (select.dataset.locked === 'true') {
+    // Optional: user ko message dikhana
+    alert("You cannot change the topic once selected. Please complete the test.");
+    return;
+  }
+
+  // Naya topic na ho (blank ho) to reset
   clearInterval(readingTimerInterval);
 
   if (value === "") {
@@ -1137,16 +1145,22 @@ function onTopicChange() {
     return;
   }
 
+  // Passage set karo (abhi bhi blurred)
   paragraph.innerText = currentPassage.text;
   paragraph.classList.add('blurred');
 
+  // Start Read enable
   if (startBtn) startBtn.disabled = false;
 
-  // Proceed button disable rahega jab tak user Start Read na dabaye
+  // Proceed button disable rahega jab tak Start Read na dabaye
   const proceedBtn = document.getElementById('proceedToQuestions');
   if (proceedBtn) proceedBtn.disabled = true;
 
   document.getElementById('time').innerText = formatDuration(600);
+
+  // YAHAN SE DROPDOWN LOCK KAR RHE HAIN
+  select.dataset.locked = 'true';   // flag
+  select.disabled = true;           // UI se bhi lock
 }
 
 function startReading() {
