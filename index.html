@@ -1365,12 +1365,25 @@ document.addEventListener('contextmenu', e => {
 });
 document.addEventListener('selectstart', e => e.preventDefault());
 
-// Disable dev tools shortcuts
+// Disable dev tools + security restrictions
 document.addEventListener('keydown', e => {
+  
+  // Disable F12 & Inspect shortcuts
   if (e.key === "F12") e.preventDefault();
   if (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) e.preventDefault();
+
+  // Disable View Source
   if (e.ctrlKey && e.key.toLowerCase() === 'u') e.preventDefault();
+
+  // Disable Copy, Paste, Cut, Select-All
+  if (e.ctrlKey && ['c', 'v', 'x', 'a', 's'].includes(e.key.toLowerCase())) e.preventDefault();
 });
+
+// Disable Right Click Entire Website
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+});
+
 </script>
 </body>
 </html>
