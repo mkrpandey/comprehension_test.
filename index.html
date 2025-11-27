@@ -2,11 +2,11 @@
 <html lang="en">
 <head> 
   <meta charset="UTF-8"/>
-  <meta name="viewport"content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Air Flow Pvt. Ltd. Comprehension Reading Test</title>
-  <link rel="icon"type="image/png"href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png"/>
+  <link rel="icon" type="image/png" href="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
       color: #333;
       padding-top: 140px; /* Adjusted to account for fixed header height */
     }
-     .header {
+    .header {
       position: fixed;
       top: 0;
       left: 0;
@@ -53,7 +53,7 @@
       padding: 30px;
       min-height: 80vh;
     }
-       .left {
+    .left {
       flex: 0 0 40%;
       display: flex;
       justify-content: center;
@@ -133,7 +133,7 @@
     .correct { color: green; font-weight: bold; }
     .incorrect { color: red; font-weight: bold; }
     canvas { max-width: 400px; margin: 20px auto; display: block; }
-   #paragraph, #mcqs {
+    #paragraph, #mcqs {
       user-select: none;
       pointer-events: auto;
       text-align: justify;
@@ -153,18 +153,20 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 13px;
+      width: auto;
+      margin-top: 0;
     }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png"alt="Logo"/>
+  <img src="https://airflow.in/wp-content/uploads/2021/12/cropped-AIR-1.png" alt="Logo"/>
   <h2>Air Flow Pvt. Ltd. Comprehension Reading Test</h2>
 </div>
 
 <!-- Login Page -->
-<div class="login-container"id="loginPage">
+<div class="login-container" id="loginPage">
   <div class="left">
     <img 
       src="https://static.vecteezy.com/system/resources/previews/001/883/463/original/young-man-using-desktop-computer-sitting-in-chair-with-desk-free-vector.jpg"
@@ -173,10 +175,10 @@
   </div>
   <div class="right">
     <h3>👤Login</h3>
-    <input type="text"id="name"placeholder="Your Name"required />
-    <div class="error"id="nameError">Please enter a valid name.</div>
-    <input type="email"id="email"placeholder="Your Email"required />
-    <div class="error"id="emailError">Please enter a valid email.</div>
+    <input type="text" id="name" placeholder="Your Name" required />
+    <div class="error" id="nameError">Please enter a valid name.</div>
+    <input type="email" id="email" placeholder="Your Email" required />
+    <div class="error" id="emailError">Please enter a valid email.</div>
     <button onclick="startTest()">Submit</button>
   </div>
 </div>
@@ -184,17 +186,30 @@
 <!-- Test Page -->
 <div id="testPage">
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
-  <div style="font-weight: bold;">
-    Reading time left: <span id="time">10:00</span>
-    <span style="color:red; font-weight:bold; white-space: nowrap;"> ---📚Please Read Carefully!!</span>
-    <!-- <span style="color:red; font-weight:bold; white-space: nowrap;"> [Note: The "I have read it"button will be enabled only after 2 minutes of reading time.]</span> -->
+
+    <div style="font-weight: bold; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+      <span>
+        Reading time left: <span id="time">10:00</span>
+        <span style="color:red; font-weight:bold; white-space: nowrap;"> ---📚Please Read Carefully!!</span>
+      </span>
+
+      <!-- Topic Dropdown -->
+      <select id="topicSelect" onchange="onTopicChange()"
+              style="margin-left: 10px; padding: 4px 8px; border-radius: 6px; border: 1px solid #ccc;">
+        <option value="">-- Select Topic --</option>
+        <!-- options JS se aayenge -->
+      </select>
+    </div>
+
+    <button id="startReadBtn" onclick="startReading()" disabled>
+      Start Read
+    </button>
   </div>
-  <button id="startReadBtn"onclick="startReading()"style="padding: 6px 14px; font-size: 13px; font-weight: bold; border: none; background: linear-gradient(to right, #36d1dc, #5b86e5); color: white; border-radius: 20px; cursor: pointer;">
-    Start Read
+
+  <p id="paragraph" class="blurred"></p>
+  <button id="proceedToQuestions" onclick="loadQuestions()" disabled>
+    I have read it. Now attempt the test
   </button>
-</div>
-  <p id="paragraph"class="blurred"></p>
-  <button id="proceedToQuestions"onclick="loadQuestions()"disabled>I have read it. Now attempt the test</button>
 </div>
 
 <!-- Question Page -->
@@ -211,15 +226,16 @@
   <p><strong>Topic:</strong> <span id="userTopic"></span></p>
   <canvas id="resultChart"></canvas>
   <div id="answersReview"></div>
-  <button onclick="showSuccess()"style="margin-top: 20px;">Final Submit</button>
+  <button onclick="showSuccess()" style="margin-top: 20px;">Final Submit</button>
 </div>
 
 <!-- Success Page -->
-<div id="successPage"style="display: none; justify-content: center; align-items: center; min-height: 60vh; text-align: center; padding: 30px;">
+<div id="successPage" style="display: none; justify-content: center; align-items: center; min-height: 60vh; text-align: center; padding: 30px;">
   <h2>Thank you! Your result has been successfully submitted. <span class="emoji">😊</span></h2>
 </div>
 
 <script>
+  
 const passages = [
  { "title": "01- Artificial Intelligence (AI)",
   "text": "Artificial Intelligence, or AI, is a major branch of computer science that focuses on building machines capable of performing tasks that typically require human intelligence. These tasks can include understanding spoken or written language, identifying patterns in images or data, solving complex problems, and making informed decisions. What makes AI especially powerful is its ability to learn from experience and improve over time, even without being explicitly told how to handle every situation. Unlike traditional programs that follow strict rules, AI systems adapt and become more accurate as they process more data. One of the most visible applications of AI in everyday life is in recommendation systems. These are the systems behind platforms like YouTube, Netflix, and Amazon that suggest videos, shows, or products based on your past behavior. AI analyzes your viewing or shopping history to predict what you might like next, helping personalize your experience. Similarly, AI is widely used in customer service through virtual assistants and chatbots. These tools can handle common questions instantly and around the clock, reducing wait times and improving user satisfaction. AI is also embedded in smart home devices, voice assistants like Siri and Alexa, and navigation apps like Google Maps. In industries like healthcare, AI is helping transform how patients are diagnosed and treated. For example, AI can examine thousands of medical images, like X-rays or MRIs, and detect early signs of diseases such as cancer more accurately and quickly than the human eye. It can also analyze a patient's medical history and symptoms to suggest personalized treatments or flag high-risk conditions before they worsen. Hospitals and research centers are using AI to streamline workflows, predict patient outcomes, and even assist in drug discovery. This makes healthcare not only more efficient but potentially more accessible and affordable. AI can be divided into two main categories: narrow AI and general AI. Narrow AI, sometimes called weak AI, is designed to perform a specific task. Examples include facial recognition software, language translation apps, and voice-to-text tools. These systems are limited to the roles they were designed for, and they perform exceptionally well within those boundaries.",
@@ -1036,64 +1052,127 @@ function startTest() {
       return;
     }
 
-    currentPassage = passages[Math.floor(Math.random() * passages.length)];
-    if (!currentPassage || !currentPassage.text) {
-      alert("Selected passage is invalid.");
-      return;
-    }
-
-    document.getElementById("paragraph").innerText = currentPassage.text;
-
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("testPage").style.display = "block";
 
-    // Reset previous UI states
+    // Reset states
+    currentPassage = null;
+    document.getElementById("paragraph").innerText = "";
     document.getElementById('paragraph').classList.add('blurred');
-    document.getElementById('startReadBtn').style.display = 'inline-block';
+
+    const startBtn = document.getElementById('startReadBtn');
     const proceedBtn = document.getElementById('proceedToQuestions');
-    if (proceedBtn) {
-      proceedBtn.disabled = true; // Disable initially until user clicks startRead
+    if (startBtn) {
+      startBtn.disabled = true;
     }
-    document.getElementById('time').innerText = formatDuration(0);
+    if (proceedBtn) {
+      proceedBtn.disabled = true;
+    }
+
+    document.getElementById('time').innerText = formatDuration(600); // 10:00
+
+    populateTopicDropdown();
 }
 
 function endTest() {
     document.getElementById("testPage").style.display = "none";
-    document.getElementById("resultPage").style.display = "block";
+    const resultPage = document.getElementById("resultPage");
+    if (resultPage) resultPage.style.display = "block";
 }
 
 function restartTest() {
-    document.getElementById("resultPage").style.display = "none";
+    const resultPage = document.getElementById("resultPage");
+    if (resultPage) resultPage.style.display = "none";
     document.getElementById("loginPage").style.display = "block";
 
-    // Clear any previous results or answers
     userAnswers = [];
     currentPassage = null;
     readingStartTime = readingEndTime = testStartTime = testEndTime = null;
     clearInterval(readingTimerInterval);
 }
 
-function startReading() {
-  readingStartTime = Date.now();
-  document.getElementById('paragraph').classList.remove('blurred');
-  document.getElementById('startReadBtn').style.display = 'none';
+// Dropdown ko passages se fill karna
+function populateTopicDropdown() {
+  const select = document.getElementById('topicSelect');
+  if (!select) return;
 
-  // Enable "Proceed to Questions" immediately
-  const proceedBtn = document.getElementById('proceedToQuestions');
-  if (proceedBtn) {
-    proceedBtn.disabled = false;
+  select.innerHTML = '<option value="">-- Select Topic --</option>';
+
+  passages.forEach((p, index) => {
+    const opt = document.createElement('option');
+    opt.value = index;
+    opt.textContent = p.title;
+    select.appendChild(opt);
+  });
+}
+
+// Topic change hone par passage set
+function onTopicChange() {
+  const select = document.getElementById('topicSelect');
+  const value = select.value;
+
+  const startBtn = document.getElementById('startReadBtn');
+  const paragraph = document.getElementById('paragraph');
+
+  clearInterval(readingTimerInterval);
+
+  if (value === "") {
+    currentPassage = null;
+    if (paragraph) {
+      paragraph.innerText = "";
+      paragraph.classList.add('blurred');
+    }
+    if (startBtn) startBtn.disabled = true;
+    document.getElementById('time').innerText = formatDuration(600);
+    return;
   }
 
-  // Optional countdown display
+  const index = parseInt(value, 10);
+  currentPassage = passages[index];
+
+  if (!currentPassage || !currentPassage.text) {
+    alert("Selected topic is invalid.");
+    currentPassage = null;
+    if (startBtn) startBtn.disabled = true;
+    return;
+  }
+
+  paragraph.innerText = currentPassage.text;
+  paragraph.classList.add('blurred');
+
+  if (startBtn) startBtn.disabled = false;
+
+  // Proceed button disable rahega jab tak user Start Read na dabaye
+  const proceedBtn = document.getElementById('proceedToQuestions');
+  if (proceedBtn) proceedBtn.disabled = true;
+
+  document.getElementById('time').innerText = formatDuration(600);
+}
+
+function startReading() {
+  if (!currentPassage) {
+    alert("Please select a topic from the dropdown first.");
+    return;
+  }
+
+  readingStartTime = Date.now();
+  document.getElementById('paragraph').classList.remove('blurred');
+
+  const startBtn = document.getElementById('startReadBtn');
+  if (startBtn) startBtn.disabled = true;
+
+  const proceedBtn = document.getElementById('proceedToQuestions');
+  if (proceedBtn) proceedBtn.disabled = false;
+
   let secondsLeft = 600; // 10 minutes
   document.getElementById('time').innerText = formatDuration(secondsLeft);
 
+  clearInterval(readingTimerInterval);
   readingTimerInterval = setInterval(() => {
     secondsLeft--;
     if (secondsLeft < 0) secondsLeft = 0;
     document.getElementById('time').innerText = formatDuration(secondsLeft);
 
-    // Auto proceed after 10 minutes
     if (secondsLeft <= 0) {
       clearInterval(readingTimerInterval);
       readingEndTime = Date.now();
@@ -1104,7 +1183,7 @@ function startReading() {
 
 function loadQuestions() {
   clearInterval(readingTimerInterval);
-  readingEndTime = Date.now();
+  if (!readingEndTime) readingEndTime = Date.now();
   testStartTime = Date.now();
 
   document.getElementById('testPage').style.display = 'none';
@@ -1197,7 +1276,7 @@ function submitAnswers() {
     finalPage.appendChild(scoreElement);
   }
 
-  // Render Pie Chart - make sure Chart.js is loaded
+  // Render Pie Chart
   if (typeof Chart !== 'undefined' && resultChart) {
     new Chart(resultChart.getContext('2d'), {
       type: 'pie',
@@ -1230,7 +1309,7 @@ function submitAnswers() {
   });
   document.getElementById('answersReview').innerHTML = reviewHtml;
 
-  // Display time durations if needed
+  // time durations
   const readingTime = formatDuration(Math.round(readingTimeMs / 1000));
   const testTime = formatDuration(Math.round((testEndTime - testStartTime) / 1000));
 
