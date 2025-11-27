@@ -186,26 +186,22 @@
 
    <!-- Test Page -->
 <div id="testPage">
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
+  <div style="display: flex; align-items: center; gap: 15px; white-space: nowrap; flex-wrap: nowrap; overflow: hidden;">
+  
+  <span style="font-weight: bold;">
+    Reading time left: <span id="time">10:00</span>
+    <span style="color:red; font-weight:bold;"> ---📚Please Read Carefully!!</span>
+  </span>
 
-    <div style="font-weight: bold; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
-      <span>
-        Reading time left: <span id="time">10:00</span>
-        <span style="color:red; font-weight:bold; white-space: nowrap;"> ---📚Please Read Carefully!!</span>
-      </span>
+  <select id="topicSelect" onchange="onTopicChange()"
+          style="padding:6px 10px; border-radius: 6px; border: 1px solid #ccc;">
+    <option value="">-- Select Topic --</option>
+  </select>
 
-      <!-- Topic Dropdown -->
-      <select id="topicSelect" onchange="onTopicChange()"
-              style="margin-left: 10px; padding: 4px 8px; border-radius: 6px; border: 1px solid #ccc;">
-        <option value="">-- Select Topic --</option>
-        <!-- options JS se aayenge -->
-      </select>
-    </div>
-
-    <button id="startReadBtn" onclick="startReading()" disabled>
-      Start Read
-    </button>
-  </div>
+  <button id="startReadBtn" onclick="startReading()" disabled style="padding:6px 14px;">
+    Start Read
+  </button>
+</div>
 
   <p id="paragraph" class="blurred"></p>
   <button id="proceedToQuestions" onclick="loadQuestions()" disabled>
