@@ -182,9 +182,13 @@
     <button onclick="startTest()">Submit</button>
   </div>
 </div>
+
+
   
-<!-- Test Page -->
+  <!-- Test Page -->
 <div id="testPage">
+  
+  <!-- TOP BAR (single line controls) -->
   <div style="
       display:flex;
       align-items:center;
@@ -192,7 +196,7 @@
       margin-bottom:20px;
       justify-content:center;
       flex-wrap:nowrap;
-    ">
+  ">
 
     <span style="font-weight:bold; white-space:nowrap;">
       Reading time left: <span id="time">10:00</span>
@@ -207,13 +211,45 @@
 
     <!-- Start Button -->
     <button id="startReadBtn" onclick="startReading()" disabled
-      style="padding:8px 16px; font-size:14px; font-weight:bold; border:none;
+      style="padding:6px 14px; font-size:14px; font-weight:bold; border:none;
       background:linear-gradient(to right, #36d1dc, #5b86e5); color:white;
-      border-radius:20px; cursor:not-allowed;">
+      border-radius:20px; cursor:not-allowed; height:34px;">
       Start Read
     </button>
 
   </div>
+
+  <!-- ⬇️ THIS WAS MISSING ⬇️ -->
+
+  <!-- PASSAGE WILL APPEAR HERE -->
+  <p id="paragraph" class="blurred" style="
+      max-width:900px;
+      margin:auto;
+      line-height:1.6;
+      font-size:17px;
+      padding:20px;
+      background:white;
+      border-radius:10px;
+      display:block;">
+  </p>
+
+  <!-- Next Button -->
+  <button id="proceedToQuestions" onclick="loadQuestions()" disabled
+    style="
+      margin-top:20px;
+      padding:10px 18px;
+      background:#222;
+      color:white;
+      border-radius:20px;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+      cursor:not-allowed;">
+    I have read it — Start Test
+  </button>
+
+</div>
+
 
 
 <!-- Question Page -->
